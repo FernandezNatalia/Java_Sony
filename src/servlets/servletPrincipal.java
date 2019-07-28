@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+ 
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +51,13 @@ public class servletPrincipal extends HttpServlet {
 		UsuarioLogico usLog = new UsuarioLogico();		
 		Usuario usActual = usLog.Logear(ndni, contra);
 		if(usActual != null) {
-			response.sendRedirect("menuEspecialista.html");
+			
+			if(usActual.getTipousuario() == 2) {
+				response.sendRedirect("menuEspecialista.html");
+			}
+			if(usActual.getTipousuario() == 1) {
+				response.sendRedirect("menuPaciente.html");
+			}
 		}
 		
 		/*	
