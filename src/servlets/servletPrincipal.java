@@ -44,7 +44,7 @@ public class servletPrincipal extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		
+		try {
 		String dni = request.getParameter("dni");
 		String contra = request.getParameter("pass");
 		int ndni = Integer.parseInt(dni);
@@ -58,7 +58,12 @@ public class servletPrincipal extends HttpServlet {
 			if(usActual.getTipousuario() == 1) {
 				response.sendRedirect("menuPaciente.html");
 			}
+			}
+		
 		}
+		catch(Exception ex) {
+			response.sendRedirect("err.html");}//No logre hacer andar esto :c
+			
 		
 		/*	
 		if(usActual != null)
@@ -97,7 +102,7 @@ public class servletPrincipal extends HttpServlet {
 				//response.sendRedirect("menuPaciente.html");
 				
 			}
-		}*/
+		}
 		else 
 		{		
 			PrintWriter out = response.getWriter();
@@ -133,6 +138,6 @@ public class servletPrincipal extends HttpServlet {
 	
 		
 	}
-		
-
 }
+
+
