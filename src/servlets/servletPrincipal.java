@@ -42,15 +42,18 @@ public class servletPrincipal extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		response.sendRedirect("menuEspecialista.html");
-		/*
-		String user = request.getParameter("user");
-		String contra = request.getParameter("contra");
+		
+		
+		String user = request.getParameter("dni");
+		String contra = request.getParameter("pass");
 				
 		UsuarioLogico usLog = new UsuarioLogico();		
 		Usuario usActual = usLog.Logear(user, contra);
+		if(usActual != null) {
+			response.sendRedirect("menuEspecialista.html");
+		}
 		
-				
+		/*	
 		if(usActual != null)
 		{
 			if(usActual.getTipousuario() == Usuario.especialista) 
@@ -87,14 +90,14 @@ public class servletPrincipal extends HttpServlet {
 				//response.sendRedirect("menuPaciente.html");
 				
 			}
-		}
+		}*/
 		else 
 		{		
 			PrintWriter out = response.getWriter();
-			out.println("<html><body>Usuario y/o contraseña incorrectos</body></html>");
+			out.println("<html><body>Usuario y/o contraseï¿½a incorrectos</body></html>");
 		}
 		
-		
+		/*
 			
 		/*	PrintWriter salida = response.getWriter();
 			salida.println("<html><body>");
