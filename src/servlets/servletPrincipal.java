@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import entidades.*;
 import logica.*;
 
+
 /**
  * Servlet implementation class servletPrincipal
  */
@@ -44,12 +45,15 @@ public class servletPrincipal extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		try {
-		String dni = request.getParameter("dni");
+		//try {
+		int dni = Integer.parseInt(request.getParameter("dni"));
 		String contra = request.getParameter("pass");
-		int ndni = Integer.parseInt(dni);
-		UsuarioLogico usLog = new UsuarioLogico();		
-		Usuario usActual = usLog.Logear(ndni, contra);
+		//int ndni = Integer.parseInt(dni);
+		UsuarioLogico usLog = new UsuarioLogico();	
+		Usuario usActual = new Usuario();
+		usActual.setTipousuario(-1);
+		usActual = usLog.Logear(dni, contra);
+		
 		if(usActual != null) {
 			
 			if(usActual.getTipousuario() == 2) {
@@ -59,10 +63,13 @@ public class servletPrincipal extends HttpServlet {
 				response.sendRedirect("menuPaciente.html");
 			}
 			}
+			if(usActual.getTipousuario() == -1) {
+				response.sendRedirect("err.html");
+			}
 		
-		}
-		catch(Exception ex) {
-			response.sendRedirect("err.html");}//No logre hacer andar esto :c
+		//}
+		//catch(Exception ex) {
+		//	response.sendRedirect("err.html");}//No logre hacer andar esto :c
 			
 		
 		/*	
