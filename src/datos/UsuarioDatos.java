@@ -7,13 +7,13 @@ import java.sql.Statement;
 
 public class UsuarioDatos extends Conexion {
 
-	public Usuario getOne(String user) {
+	public Usuario getOne(int dni) {
 		Usuario us = new Usuario();
 	    getConnection();
 	    try {
 	    	
 	        Statement stmt = miCon.createStatement();
-	        ResultSet rs = stmt.executeQuery("SELECT * FROM Usuarios WHERE nombre_usuario = " + user);
+	        ResultSet rs = stmt.executeQuery("SELECT * FROM Usuarios WHERE dni = " + Integer.toString(dni));
 	        if(rs.next())
 	        {
 	            us.setDni(rs.getInt("dni"));
@@ -21,7 +21,7 @@ public class UsuarioDatos extends Conexion {
 	            us.setApellido(rs.getString("Apellido"));
 	            us.setEmail(rs.getString("email"));
 	            us.setFechanacimiento(rs.getDate("fecha_nacimiento"));
-	            us.setNombre_usuario(rs.getString("nombre_usuario"));
+	            
 	            us.setPassword(rs.getString("password"));
 	            us.setTipousuario(rs.getInt("tipo_usuario"));	            
 	        }
@@ -35,13 +35,13 @@ public class UsuarioDatos extends Conexion {
 	    }
 	    return us;
 	}
-	public Usuario Logear(String user, String pass) {
+	public Usuario Logear(int dni, String pass) {
 		Usuario us = new Usuario();
 	    getConnection();
 	    try {
 	    	
 	        Statement stmt = miCon.createStatement();
-	        ResultSet rs = stmt.executeQuery("SELECT * FROM Usuarios WHERE nombre_usuario = " + user + " AND password = '" + pass + "'");
+	        ResultSet rs = stmt.executeQuery("SELECT * FROM Usuarios WHERE dni = " + Integer.toString(dni) + " AND password = '" + pass + "'");
 	        if(rs.next())
 	        {
 	            us.setDni(rs.getInt("dni"));
@@ -49,7 +49,7 @@ public class UsuarioDatos extends Conexion {
 	            us.setApellido(rs.getString("Apellido"));
 	            us.setEmail(rs.getString("email"));
 	            us.setFechanacimiento(rs.getDate("fecha_nacimiento"));
-	            us.setNombre_usuario(rs.getString("nombre_usuario"));
+	            
 	            us.setPassword(rs.getString("password"));
 	            us.setTipousuario(rs.getInt("tipo_usuario"));
 	            

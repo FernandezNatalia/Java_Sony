@@ -44,11 +44,11 @@ public class servletPrincipal extends HttpServlet {
 		//doGet(request, response);
 		
 		
-		String user = request.getParameter("dni");
+		String dni = request.getParameter("dni");
 		String contra = request.getParameter("pass");
-				
+		int ndni = Integer.parseInt(dni);
 		UsuarioLogico usLog = new UsuarioLogico();		
-		Usuario usActual = usLog.Logear(user, contra);
+		Usuario usActual = usLog.Logear(ndni, contra);
 		if(usActual != null) {
 			response.sendRedirect("menuEspecialista.html");
 		}

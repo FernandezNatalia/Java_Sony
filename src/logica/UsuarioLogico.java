@@ -10,9 +10,9 @@ public class UsuarioLogico {
 		userDat = new UsuarioDatos();
 	}
 
-	public Usuario Logear(String user, String psw)
+	public Usuario Logear(Integer dni, String psw)
 	{
-		return userDat.Logear(user, psw);
+		return userDat.Logear(dni, psw);
 	}
 	
 	

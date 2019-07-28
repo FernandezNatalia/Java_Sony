@@ -35,10 +35,10 @@ public class TurnoDatos extends Conexion {
 	        ResultSet rs = stmt.executeQuery("SELECT * FROM Turnos WHERE idTurnos = " + id);
 	        if(rs.next())
 	        {
-	        	turno.setEspecialista(ud.getOne(rs.getString("nombre_usuario")));
+	        	turno.setEspecialista(ud.getOne(rs.getInt("dni")));
 	        	turno.setFechahora(rs.getTimestamp("fecha"));
 	        	turno.setIdturno(rs.getInt("idTurnos"));
-	            turno.setPaciente(ud.getOne(rs.getString("nombre_usuario")));
+	            turno.setPaciente(ud.getOne(rs.getInt("dni")));
 	            turno.setObservacion(rs.getString("observacion"));
 	            turno.setPlan(pd.getOne(rs.getInt("idPlan")));
 	            //Falta el consultorio?
@@ -68,10 +68,10 @@ public class TurnoDatos extends Conexion {
 				Turno tur = new Turno();
 				UsuarioDatos ud = new UsuarioDatos();
 				PlanDatos pd = new PlanDatos();
-				tur.setEspecialista(ud.getOne(rs.getString("nombre_usuario")));
+				tur.setEspecialista(ud.getOne(rs.getInt("dni")));
 	        	tur.setFechahora(rs.getTimestamp("fecha"));
 	        	tur.setIdturno(rs.getInt("idTurnos"));
-	            tur.setPaciente(ud.getOne(rs.getString("nombre_usuario")));
+	            tur.setPaciente(ud.getOne(rs.getInt("dni")));
 	            tur.setObservacion(rs.getString("observacion"));
 	            tur.setPlan(pd.getOne(rs.getInt("idPlan")));
 	            
