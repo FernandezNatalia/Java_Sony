@@ -19,13 +19,13 @@ import logica.*;
  * Servlet implementation class servletPrincipal
  */
 @WebServlet("/servletPrincipal")
-public class servletPrincipal extends HttpServlet {
+public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public servletPrincipal() {
+    public ServletLogin() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,7 +45,7 @@ public class servletPrincipal extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		//try {
+		try {
 		int dni = Integer.parseInt(request.getParameter("dni"));
 		String contra = request.getParameter("pass");
 		//int ndni = Integer.parseInt(dni);
@@ -54,7 +54,7 @@ public class servletPrincipal extends HttpServlet {
 		usActual.setTipousuario(-1);
 		usActual = usLog.Logear(dni, contra);
 		
-		if(usActual != null) {
+		
 			
 			if(usActual.getTipousuario() == 2) {
 				response.sendRedirect("menuEspecialista.html");
@@ -62,14 +62,14 @@ public class servletPrincipal extends HttpServlet {
 			if(usActual.getTipousuario() == 1) {
 				response.sendRedirect("menuPaciente.html");
 			}
-			}
-			if(usActual.getTipousuario() == -1) {
+			
+			if(usActual.getTipousuario() != 1 && usActual.getTipousuario()!=2) {
 				response.sendRedirect("err.html");
 			}
 		
-		//}
-		//catch(Exception ex) {
-		//	response.sendRedirect("err.html");}//No logre hacer andar esto :c
+		}
+		catch(Exception ex) {
+			response.sendRedirect("err.html");}//No logre hacer andar esto :c
 			
 		
 		/*	
