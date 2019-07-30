@@ -36,6 +36,7 @@ public class UsuarioLogico {
 	public boolean ExisteUsuario(int dni) {
 		
 		Usuario us = userDat.getOne(dni);
+		
 		if (us.getDni()>0) {
 			return true;
 		}
