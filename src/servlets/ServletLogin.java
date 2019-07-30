@@ -3,7 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
- 
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import datos.UsuarioDatos;
 import entidades.*;
 import logica.*;
 
@@ -51,8 +52,10 @@ public class ServletLogin extends HttpServlet {
 		//int ndni = Integer.parseInt(dni);
 		UsuarioLogico usLog = new UsuarioLogico();	
 		Usuario usActual = new Usuario();
+		
 		usActual.setTipousuario(-1);
-		usActual = usLog.Logear(dni, contra);
+		usActual = usLog.Logear(111, "doktorbob");
+		
 		
 		
 			
@@ -69,12 +72,46 @@ public class ServletLogin extends HttpServlet {
 		
 		}
 		catch(Exception ex) {
-			response.sendRedirect("err.html");}//No logre hacer andar esto :c
+			
+			System.out.println("ERRSLoginservlet");
+		}
+		try {
+			
+			UsuarioLogico usLog = new UsuarioLogico();	
+			Usuario nuevo = new Usuario();
+			UsuarioDatos usdat = new UsuarioDatos();
+			nuevo.setApellido("Garcia");
+			nuevo.setNombre("Pepe");
+			nuevo.setDni(15577);
+			//nuevo.setFechanacimiento(new Date("2018-01-01"));
+			nuevo.setEmail("aa@mail.com");
+			nuevo.setPassword("caca");
+			nuevo.setTipousuario(1);
+		
+			usdat.add(nuevo);
+			
+		}
+		catch(Exception ex) {
+			 ex.printStackTrace();
+		}
+		
+			//response.sendRedirect("err.html");}//No logre hacer andar esto :c
 			
 		
 		/*	
 		if(usActual != null)
 		{
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
 			if(usActual.getTipousuario() == Usuario.especialista) 
 			{////////////////////////////////////////////////////////
 				//Menu especialista
@@ -141,6 +178,9 @@ public class ServletLogin extends HttpServlet {
 			
 			salida.println("holaaaa");
 			salida.println("</html></body>");
+			
+			
+		
 	*/
 	
 		
