@@ -43,6 +43,7 @@ public class servletRegistro extends HttpServlet {
 			//Verificar que no exista usuario
 			int dni = Integer.parseInt(request.getParameter("dni"));
 			UsuarioLogico ul = new UsuarioLogico();
+			
 			if(ul.ExisteUsuario(dni)) {
 				 response.setContentType("text/html"); 
 				 PrintWriter out = response.getWriter();

@@ -47,17 +47,29 @@ public class ServletLogin extends HttpServlet {
 		//doGet(request, response);
 		
 		try {
-		int dni = Integer.parseInt(request.getParameter("dni"));
-		String contra = request.getParameter("pass");
+		int dni = 0;
+		dni = Integer.parseInt(request.getParameter("dni"));
+		String pass = request.getParameter("pass");
 		//int ndni = Integer.parseInt(dni);
 		UsuarioLogico usLog = new UsuarioLogico();	
 		Usuario usActual = new Usuario();
 		
 		usActual.setTipousuario(-1);
-		usActual = usLog.Logear(111, "doktorbob");
+		usActual = usLog.Logear(dni, pass);
 		
 		
 		
+			if(dni==0 || pass == "" ) {
+				response.setContentType("text/html"); 
+				 PrintWriter out = response.getWriter();
+				 out.println("<html>");
+				 out.println("<script type=\"text/javascript\">");
+				 
+				 out.println("alert('Ingrese dni y contraseña');");
+				 out.println("window.location.href = \"index.html\";");
+				 out.println("</script>");
+				 out.println("</html>");
+			}
 			
 			if(usActual.getTipousuario() == 2) {
 				response.sendRedirect("menuEspecialista.html");
@@ -67,13 +79,23 @@ public class ServletLogin extends HttpServlet {
 			}
 			
 			if(usActual.getTipousuario() != 1 && usActual.getTipousuario()!=2) {
-				response.sendRedirect("err.html");
+				 response.setContentType("text/html"); 
+				 PrintWriter out = response.getWriter();
+				 out.println("<html>");
+				 out.println("<script type=\"text/javascript\">");
+				 
+				 out.println("alert('Usuario o contraseña incorrectos');");
+				 out.println("window.location.href = \"index.html\";");
+				 out.println("</script>");
+				 out.println("</html>");
+				
 			}
 		
 		}
 		catch(Exception ex) {
 			
-			System.out.println("ERRSLoginservlet");
+			response.sendRedirect("err.html");
+			ex.printStackTrace();
 		}
 		
 			
