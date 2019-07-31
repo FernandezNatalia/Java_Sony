@@ -8,7 +8,7 @@ import entidades.Plan;
 
 public class PlanDatos extends Conexion{
 	
-	public Plan getOne(int id) {
+	public Plan getOne(int id) throws SQLException {
 		Plan pl = new Plan();
 	    getConnection();
 	    

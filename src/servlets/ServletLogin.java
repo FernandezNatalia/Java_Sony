@@ -92,6 +92,13 @@ public class ServletLogin extends HttpServlet {
 			}
 		
 		}
+		catch(SQLException e) {
+			response.setContentType("text/html"); 
+			 PrintWriter out = response.getWriter();
+			out.println("<html>");
+			 out.println("Error, no se puede conectar a la base de datos");
+			 out.println("</html>");
+		}
 		catch(Exception ex) {
 			
 			response.sendRedirect("err.html");

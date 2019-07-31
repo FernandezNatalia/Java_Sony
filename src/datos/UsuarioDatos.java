@@ -11,7 +11,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 public class UsuarioDatos extends Conexion {
 
-	public Usuario getOne(int dni) {
+	public Usuario getOne(int dni) throws SQLException {
 		Usuario us = new Usuario();
 	    getConnection();
 	    try {
@@ -39,7 +39,7 @@ public class UsuarioDatos extends Conexion {
 	    }
 	    return us;
 	}
-	public Usuario Logear(int dni, String pass) {
+	public Usuario Logear(int dni, String pass) throws SQLException {
 		Usuario us = new Usuario();
 	    getConnection();
 	    try {
@@ -68,7 +68,7 @@ public class UsuarioDatos extends Conexion {
 
 	    return us;
 	}
-	public void add(Usuario us) {
+	public void add(Usuario us) throws SQLException {
 		 getConnection();
 		 String datestring = "2018-01-01";
 		 

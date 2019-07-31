@@ -1,7 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,15 +41,7 @@ public class servletEspecialista extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		
-		int opcion = Integer.parseInt(request.getParameter("opcion"));
-		
-		switch(opcion)
-		{
-		case 1: crearTurno(); break;
-		case 2: listarTurnos(); break;
-		case 3: FinalizarTurnos(); break;
-		default: break;
-		}
+	
 		
 		
 	}
@@ -58,12 +50,12 @@ public class servletEspecialista extends HttpServlet {
 	{
 		//Ingresa parametros para crear turno
 	}
-	public static void listarTurnos()
+	public static void listarTurnos() throws SQLException
 	{
 		TurnoLogico turnos = new TurnoLogico();
 		turnos.getAll();
 	}
-	public static void FinalizarTurnos()
+	public static void FinalizarTurnos() throws SQLException
 	{
 		listarTurnos();
 	    //Ingresa turno que desea observar - getOne()

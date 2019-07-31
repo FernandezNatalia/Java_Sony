@@ -1,4 +1,5 @@
 package logica;
+import java.sql.SQLException;
 import java.util.Date;
 
 import datos.*;
@@ -12,7 +13,7 @@ public class UsuarioLogico {
 		userDat = new UsuarioDatos();
 	}
 
-	public Usuario Logear(Integer dni, String psw)
+	public Usuario Logear(Integer dni, String psw) throws SQLException
 	{
 		return userDat.Logear(dni, psw);
 	}
@@ -33,7 +34,7 @@ public class UsuarioLogico {
 		
 		
 	}
-	public boolean ExisteUsuario(int dni) {
+	public boolean ExisteUsuario(int dni) throws SQLException {
 		
 		Usuario us = userDat.getOne(dni);
 		

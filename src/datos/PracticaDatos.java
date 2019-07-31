@@ -8,7 +8,7 @@ import entidades.Practica;
 
 public class PracticaDatos extends Conexion{
 
-	public Practica getOne(int id) {
+	public Practica getOne(int id) throws SQLException {
 		Practica pr = new Practica();
 	    getConnection();
 	    try {

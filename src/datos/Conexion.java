@@ -13,7 +13,7 @@ public class Conexion {
 	private static String psw = "java";	
 	public static Connection miCon;
 	
-	public static void getConnection() {				
+	public static void getConnection() throws SQLException {				
 		try {
 			Class.forName(driver);
 			
@@ -24,6 +24,7 @@ public class Conexion {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw e;
 		}
 		
 		//return miCon;

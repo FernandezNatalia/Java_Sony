@@ -7,7 +7,7 @@ import java.sql.Statement;
 import entidades.Consultorio;
 
 public class ConsultorioDatos extends Conexion{
-	public Consultorio getOne(int id) {
+	public Consultorio getOne(int id) throws SQLException {
 		
 		Consultorio con = new Consultorio();
 	    getConnection();

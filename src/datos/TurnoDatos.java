@@ -10,7 +10,7 @@ import entidades.*;
 
 public class TurnoDatos extends Conexion {
 	
-	public void CancelarTurno(Turno tur) {
+	public void CancelarTurno(Turno tur) throws SQLException {
 		
 	    getConnection();
 	    try {
@@ -24,7 +24,7 @@ public class TurnoDatos extends Conexion {
 	    }
 
 	}
-	public Turno getOne(int id) {
+	public Turno getOne(int id) throws SQLException {
 		Turno turno = new Turno();
 		UsuarioDatos ud = new UsuarioDatos();
 		PlanDatos pd = new PlanDatos();
@@ -54,7 +54,7 @@ public class TurnoDatos extends Conexion {
 	  
 		return turno;
 	}
-	public ArrayList<Turno> getAll(){
+	public ArrayList<Turno> getAll() throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		getConnection();
