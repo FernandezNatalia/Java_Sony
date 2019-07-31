@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,12 +44,38 @@ public class servletRegistro extends HttpServlet {
 			int dni = Integer.parseInt(request.getParameter("dni"));
 			UsuarioLogico ul = new UsuarioLogico();
 			if(ul.ExisteUsuario(dni)) {
-				 System.out.println("<script type=\"text/javascript\">");
-				 System.out.println("alert('Ups ');");
-				 System.out.println("</script>");
-				 response.sendRedirect("registro.html"); 
+				 response.setContentType("text/html"); 
+				 PrintWriter out = response.getWriter();
+				 out.println("<html>");
+				 out.println("<script type=\"text/javascript\">");
+				 
+				 out.println("alert('Ya existe un usuario con ese dni');");
+				 out.println("window.location.href = \"registro.html\";");
+				 out.println("</script>");
+				 out.println("</html>");
+				 //response.sendRedirect("registro.html"); 
 			}
-			
+			else {
+				Usuario usn = new Usuario();
+				usn.setApellido(request.getParameter("apellido"));
+				usn.setEmail(request.getParameter("email"));
+				usn.setDni(dni);
+				usn.setNombre(request.getParameter("nombre"));
+				usn.setPassword(request.getParameter("password"));
+				usn.setTipousuario(1);
+				//usn.setFechanacimiento(fechanacimiento);
+				ul.Registro(usn);
+				response.setContentType("text/html"); 
+				 PrintWriter out = response.getWriter();
+				 out.println("<html>");
+				 out.println("<script type=\"text/javascript\">");
+				 
+				 out.println("alert('Usuario creado correctamente');");
+				 out.println("window.location.href = \"index.html\";");
+				 out.println("</script>");
+				 out.println("</html>");
+				 
+			}
 			
 		}
 		catch(Exception ex) {
