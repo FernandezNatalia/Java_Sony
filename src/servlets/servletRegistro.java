@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,6 +65,9 @@ public class servletRegistro extends HttpServlet {
 				usn.setNombre(request.getParameter("nombre"));
 				usn.setPassword(request.getParameter("password"));
 				usn.setTipousuario(1);
+				String fnacstr = request.getParameter("fechanac");
+				
+				usn.setFechanacimiento(Date.valueOf(fnacstr));
 				//usn.setFechanacimiento(fechanacimiento);
 				ul.Registro(usn);
 				response.setContentType("text/html"); 

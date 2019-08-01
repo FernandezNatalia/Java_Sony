@@ -70,20 +70,21 @@ public class UsuarioDatos extends Conexion {
 	}
 	public void add(Usuario us) throws SQLException {
 		 getConnection();
-		 String datestring = "2018-01-01";
+		 //String datestring = "2018-01-01";
 		 
 		java.sql.PreparedStatement st;
 		try {
+			String datestring = us.getFechanacimiento().toString();
 			String sql = "insert into Turnos.Usuarios(dni, Nombre, Apellido, fecha_nacimiento, password, email, tipo_usuario) VALUES( ?, ?, ?, ? , ?, ? , 1)";
 			st = miCon.prepareStatement(sql);
-			//st = miCon.PreparedStatement("INSERT INTO Usuarios VALUES(?, ?, ?, ?, ?, ?, ?)");
+			
 			st.setInt(1, Integer.valueOf(us.getDni()));
 	         st.setString(2, String.valueOf(us.getNombre()));
 	         st.setString(3, String.valueOf(us.getApellido()));
 	         st.setDate(4, Date.valueOf(datestring)); 
 	         st.setString(5, String.valueOf(us.getPassword()));
 	         st.setString(6, String.valueOf(us.getEmail()));
-	        // st.setInt(7, Integer.valueOf(us.getTipousuario()));
+	        
 	        
 	        
 	        
