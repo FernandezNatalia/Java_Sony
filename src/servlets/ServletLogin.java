@@ -72,6 +72,7 @@ public class ServletLogin extends HttpServlet {
 			}
 			
 			if(usActual.getTipousuario() == 2) {
+				
 				response.sendRedirect("menuEspecialista.html");
 			}
 			if(usActual.getTipousuario() == 1) {
