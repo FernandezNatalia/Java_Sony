@@ -41,46 +41,51 @@ public class servletRegistro extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			//Verificar que no exista usuario
+			//Verificar que no coincidan contraseñas
 			int dni = Integer.parseInt(request.getParameter("dni"));
 			UsuarioLogico ul = new UsuarioLogico();
+			String psw1 = request.getParameter("password");
+			String psw2 = request.getParameter("confirm_password");
 			
-			if(ul.ExisteUsuario(dni)) {
-				 response.setContentType("text/html"); 
-				 PrintWriter out = response.getWriter();
-				 out.println("<html>");
-				 out.println("<script type=\"text/javascript\">");
+			
+				//verificar que no exista usuario
+				if(ul.ExisteUsuario(dni)) {
+					response.setContentType("text/html"); 
+					PrintWriter out = response.getWriter();
+					out.println("<html>");
+					out.println("<script type=\"text/javascript\">");
 				 
-				 out.println("alert('Ya existe un usuario con ese dni');");
-				 out.println("window.location.href = \"registro.html\";");
-				 out.println("</script>");
-				 out.println("</html>");
-				 //response.sendRedirect("registro.html"); 
-			}
-			else {
-				Usuario usn = new Usuario();
-				usn.setApellido(request.getParameter("apellido"));
-				usn.setEmail(request.getParameter("email"));
-				usn.setDni(dni);
-				usn.setNombre(request.getParameter("nombre"));
-				usn.setPassword(request.getParameter("password"));
-				usn.setTipousuario(1);
-				String fnacstr = request.getParameter("fechanac");
+					out.println("alert('Ya existe un usuario con ese dni');");
+					out.println("window.location.href = \"registro.html\";");
+					out.println("</script>");
+					out.println("</html>");
+					//response.sendRedirect("registro.html"); 
+				}
+				else {
+					Usuario usn = new Usuario();
+					usn.setApellido(request.getParameter("apellido"));
+					usn.setEmail(request.getParameter("email"));
+					usn.setDni(dni);
+					usn.setNombre(request.getParameter("nombre"));
+					usn.setPassword(request.getParameter("password"));
+					usn.setTipousuario(1);
+					String fnacstr = request.getParameter("fechanac");
 				
-				usn.setFechanacimiento(Date.valueOf(fnacstr));
-				//usn.setFechanacimiento(fechanacimiento);
-				ul.Registro(usn);
-				response.setContentType("text/html"); 
-				 PrintWriter out = response.getWriter();
-				 out.println("<html>");
-				 out.println("<script type=\"text/javascript\">");
+					usn.setFechanacimiento(Date.valueOf(fnacstr));
+					//usn.setFechanacimiento(fechanacimiento);
+				 	ul.Registro(usn);
+					 response.setContentType("text/html"); 
+					 PrintWriter out = response.getWriter();
+					 out.println("<html>");
+					 out.println("<script type=\"text/javascript\">");
 				 
-				 out.println("alert('Usuario creado correctamente');");
-				 out.println("window.location.href = \"index.html\";");
-				 out.println("</script>");
-				 out.println("</html>");
+					 out.println("alert('Usuario creado correctamente');");
+					 out.println("window.location.href = \"index.html\";");
+					 out.println("</script>");
+					 out.println("</html>");
 				 
-			}
+				}
+			
 			
 		}
 		catch(Exception ex) {

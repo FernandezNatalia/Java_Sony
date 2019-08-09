@@ -100,11 +100,11 @@ public class ServletLogin extends HttpServlet {
 			 out.println("Error, no se puede conectar a la base de datos");
 			 out.println("</html>");
 		}
-		catch(Exception ex) {
+		//catch(Exception ex) {
 			
-			response.sendRedirect("err.html");
-			ex.printStackTrace();
-		}
+		//	response.sendRedirect("err.html");
+		//	ex.printStackTrace();
+		//}
 		
 			
 	
