@@ -423,28 +423,41 @@ $(document).ready(function(){
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action="servletCrearTurno" method = "post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Nuevo turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
+						<%
+						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+						Date date = new Date();
+						String fecmin = dateFormat.format(date);
+						
+						%>
 							<label>Fecha</label>
-							<input type="date" class="form-control" required>
+							<input type="date" class="form-control" min="<%=fecmin%>" name="fecha" required>
 						</div>
 						<div class="form-group">
 							<label>Hora</label>
-							<input type="time" class="form-control" required>
+							<input type="time" class="form-control" name="hora" required>
 						</div>
 						<div class="form-group">
 							<label>Consultorio</label>
 							<br/>
-							<div class="custom-select" style="width:200px;">
+							<div class="custom-select" name="consultorio" style="width:200px;">
 							<select>
+							<%ConsultorioDatos cd = new ConsultorioDatos();
+							ArrayList<Consultorio> consultorios = cd.getAll();
+							%>
 								<option value="0">     --      </option>
- 								<option value="1">Consultorio 1</option>
-  								<option value="2">Consultorio 2</option>
+								<% for(Consultorio con : consultorios){%>
+								
+ 								<option value="<%=con.getIdconsultorio() %>"><%=con.getDesc() %></option>
+ 								
+ 								<% }%>
+  								
   								
 							</select>
 						</div>
@@ -525,7 +538,7 @@ document.addEventListener("click", closeAllSelect);
 						</div>
 						<div class="form-group">
 							<label>DNI paciente (dejar en blanco si no se asigna aun)</label>
-							<input type="text" class="form-control" required>
+							<input type="text" class="form-control" name="dni" required>
 						</div>					
 					</div>
 					<div class="modal-footer">

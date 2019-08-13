@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import datos.UsuarioDatos;
 import entidades.*;
@@ -70,14 +71,22 @@ public class ServletLogin extends HttpServlet {
 				 out.println("</script>");
 				 out.println("</html>");
 			}
-			
+			 TurnoLogico tl = new TurnoLogico();
+			 
+			 
+			 
+			 
+			 
+
 			if(usActual.getTipousuario() == 2) {
-				
-				 TurnoLogico tl = new TurnoLogico();
-				 request.getSession().setAttribute("usuario", usActual);
-				 request.getSession().setAttribute("listaturnospendesp", tl.getProximosDeEspecialista(usActual));
-				 request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-				//response.sendRedirect("menuEspecialista.html");
+				HttpSession sesion = request.getSession();
+				sesion.setAttribute("usuario", usActual);
+				sesion.setAttribute("usmail", usActual.getEmail());
+				sesion.setAttribute("listaturnospendesp", tl.getProximosDeEspecialista(usActual));
+				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				sesion.removeAttribute("listaturnospendesp");
+				 
+						//response.sendRedirect("menuEspecialista.html");
 			}
 			if(usActual.getTipousuario() == 1) {
 				response.sendRedirect("menuPaciente.html");
