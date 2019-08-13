@@ -73,7 +73,11 @@ public class ServletLogin extends HttpServlet {
 			
 			if(usActual.getTipousuario() == 2) {
 				
-				response.sendRedirect("menuEspecialista.html");
+				 TurnoLogico tl = new TurnoLogico();
+				 request.getSession().setAttribute("usuario", usActual);
+				 request.getSession().setAttribute("listaturnospendesp", tl.getProximosDeEspecialista(usActual));
+				 request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				//response.sendRedirect("menuEspecialista.html");
 			}
 			if(usActual.getTipousuario() == 1) {
 				response.sendRedirect("menuPaciente.html");

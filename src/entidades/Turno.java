@@ -7,7 +7,7 @@ public class Turno {
 
 	private int idturno;
 	private Date fechahora;
-	private String estado;
+	private int estado;
 	private Usuario paciente;
 	private Usuario especialista;
 	private String observacion;
@@ -38,10 +38,10 @@ public class Turno {
 	public void setFechahora(Date fechahora) {
 		this.fechahora = fechahora;
 	}
-	public String getEstado() {
+	public int getEstado() {
 		return estado;
 	}
-	public void setEstado(String estado) {
+	public void setEstado(int estado) {
 		this.estado = estado;
 	}
 	public Usuario getPaciente() {

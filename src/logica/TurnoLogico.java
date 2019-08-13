@@ -1,6 +1,6 @@
 package logica;
 import datos.TurnoDatos;
-import entidades.Turno;
+import entidades.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,4 +16,19 @@ public class TurnoLogico {
 	public ArrayList<Turno> getAll() throws SQLException{				
 		return turDat.getAll();
 	}
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista){
+		try {
+			ArrayList<Turno> turnos;
+			turnos = turDat.getProximosDeEspecialista(especialista);
+			return turnos;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		
+	}
+	
 }

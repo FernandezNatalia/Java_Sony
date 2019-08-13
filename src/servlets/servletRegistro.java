@@ -54,7 +54,6 @@ public class servletRegistro extends HttpServlet {
 					PrintWriter out = response.getWriter();
 					out.println("<html>");
 					out.println("<script type=\"text/javascript\">");
-				 
 					out.println("alert('Ya existe un usuario con ese dni');");
 					out.println("window.location.href = \"registro.html\";");
 					out.println("</script>");

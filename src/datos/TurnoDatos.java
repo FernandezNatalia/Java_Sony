@@ -28,6 +28,7 @@ public class TurnoDatos extends Conexion {
 		Turno turno = new Turno();
 		UsuarioDatos ud = new UsuarioDatos();
 		PlanDatos pd = new PlanDatos();
+		ConsultorioDatos cd = new ConsultorioDatos();
 		getConnection();
     try {
 	    	
@@ -35,12 +36,15 @@ public class TurnoDatos extends Conexion {
 	        ResultSet rs = stmt.executeQuery("SELECT * FROM Turnos WHERE idTurnos = " + id);
 	        if(rs.next())
 	        {
-	        	turno.setEspecialista(ud.getOne(rs.getInt("dni")));
+	        	turno.setEspecialista(ud.getOne(rs.getInt("dni_profesional")));
 	        	turno.setFechahora(rs.getTimestamp("fecha"));
 	        	turno.setIdturno(rs.getInt("idTurnos"));
 	            turno.setPaciente(ud.getOne(rs.getInt("dni")));
 	            turno.setObservacion(rs.getString("observacion"));
 	            turno.setPlan(pd.getOne(rs.getInt("idPlan")));
+	            turno.setConsultorio(cd.getOne(rs.getInt("idconsultorio")));
+	            turno.setEstado(rs.getInt("estado"));
+	            //turno.setEstado(rs.getString("desc"));
 	            //Falta el consultorio?
 	            
 	        }
@@ -56,7 +60,8 @@ public class TurnoDatos extends Conexion {
 	}
 	public ArrayList<Turno> getAll() throws SQLException{
 		
-		ArrayList<Turno> turnos = new ArrayList<Turno>();		
+		ArrayList<Turno> turnos = new ArrayList<Turno>();
+		ConsultorioDatos cd = new ConsultorioDatos();
 		getConnection();
 		
 		try {
@@ -74,7 +79,46 @@ public class TurnoDatos extends Conexion {
 	            tur.setPaciente(ud.getOne(rs.getInt("dni")));
 	            tur.setObservacion(rs.getString("observacion"));
 	            tur.setPlan(pd.getOne(rs.getInt("idPlan")));
+	            tur.setConsultorio(cd.getOne(rs.getInt("idconsultorio")));
+	            tur.setEstado(rs.getInt("estado"));
 	            
+	            turnos.add(tur);
+			}
+			
+			rs.close();
+			stm.close();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {closeConnection();}
+		
+		return turnos;
+	}
+public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws SQLException{
+		
+		ArrayList<Turno> turnos = new ArrayList<Turno>();	
+		ConsultorioDatos cd = new ConsultorioDatos();
+		getConnection();
+		
+		try {
+			Statement stm = miCon.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT * FROM Turnos WHERE Turnos.estado = 1 OR Turnos.estado = 2"); //Modificar para traer los turnos del dia actual.
+			
+			while(rs.next())
+			{
+				Turno tur = new Turno();
+				UsuarioDatos ud = new UsuarioDatos();
+				PlanDatos pd = new PlanDatos();
+				tur.setEspecialista(ud.getOne(rs.getInt("dni")));
+	        	tur.setFechahora(rs.getTimestamp("fecha"));
+	        	tur.setIdturno(rs.getInt("idTurnos"));
+	            tur.setPaciente(ud.getOne(rs.getInt("dni")));
+	            tur.setObservacion(rs.getString("observacion"));
+	            tur.setPlan(pd.getOne(rs.getInt("idPlan")));
+	            tur.setConsultorio(cd.getOne(rs.getInt("idconsultorio")));
+	            tur.setEstado(rs.getInt("estado"));
 	            turnos.add(tur);
 			}
 			
