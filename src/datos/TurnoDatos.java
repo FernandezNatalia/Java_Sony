@@ -1,10 +1,13 @@
 package datos;
 
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 
 import entidades.*;
 
@@ -133,4 +136,41 @@ public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws S
 		
 		return turnos;
 	}
+	public void add(Turno turno) throws SQLException {
+	 getConnection();
+	 
+	 
+	java.sql.PreparedStatement st;
+	try {
+		
+		Timestamp fechora = new Timestamp(turno.getFechahora().getTime()); 
+		String datestring = fechora.toString();
+		String sql = "insert into Turnos.Turnos(fecha, estado, idconsultorio, dni_profesional) VALUES( ?, ?, ? , ?)";
+		st = miCon.prepareStatement(sql);
+		
+		
+        st.setTimestamp(1, Timestamp.valueOf(datestring)); 
+        st.setInt(2, Integer.valueOf(turno.getEstado()));
+        st.setInt(3, Integer.valueOf(turno.getConsultorio().getIdconsultorio()));
+        st.setInt(4, Integer.valueOf(turno.getEspecialista().getDni()));
+       
+        st.executeUpdate(); 
+        st.close();
+	        st.close();
+	        closeConnection();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		 e.printStackTrace();
+		
+	}
+	
+		
+	
+	
+    
+    
+
+}
+
 }

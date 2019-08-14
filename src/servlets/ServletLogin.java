@@ -79,12 +79,12 @@ public class ServletLogin extends HttpServlet {
 			 
 
 			if(usActual.getTipousuario() == 2) {
-				HttpSession sesion = request.getSession();
+				HttpSession sesion = request.getSession(true);
 				sesion.setAttribute("usuario", usActual);
-				sesion.setAttribute("usmail", usActual.getEmail());
-				sesion.setAttribute("listaturnospendesp", tl.getProximosDeEspecialista(usActual));
+				
+				
 				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-				sesion.removeAttribute("listaturnospendesp");
+				
 				 
 						//response.sendRedirect("menuEspecialista.html");
 			}

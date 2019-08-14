@@ -332,9 +332,10 @@ $(document).ready(function(){
 	});
 });
 </script>
-<% 
+<% 		
+		TurnoLogico tl = new TurnoLogico();
     	Usuario us= (Usuario)session.getAttribute("usuario");
-    	ArrayList<Turno> lt=(ArrayList<Turno>)session.getAttribute("listaturnospendesp");
+    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us);
     	 UsuarioLogico ul = new UsuarioLogico();
     	 UsuarioDatos ud = new UsuarioDatos();
     %>
@@ -412,7 +413,8 @@ $(document).ready(function(){
                         </td>
                     </tr>
                     <%} %>
-                    <%} %>					
+                    <%}
+                    %>					
 					
                 </tbody>
             </table>
@@ -447,18 +449,14 @@ $(document).ready(function(){
 							<label>Consultorio</label>
 							<br/>
 							<div class="custom-select" name="consultorio" style="width:200px;">
-							<select>
+							<select name="cons">
 							<%ConsultorioDatos cd = new ConsultorioDatos();
 							ArrayList<Consultorio> consultorios = cd.getAll();
 							%>
-								<option value="0">     --      </option>
+								<option value="0" disabled="disabled">     --      </option>
 								<% for(Consultorio con : consultorios){%>
-								
- 								<option value="<%=con.getIdconsultorio() %>"><%=con.getDesc() %></option>
- 								
+ 								<option value="<%=con.getIdconsultorio()%>"><%=con.getDesc() %></option>
  								<% }%>
-  								
-  								
 							</select>
 						</div>
 						<script>
@@ -536,10 +534,7 @@ then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
 </script>
 						</div>
-						<div class="form-group">
-							<label>DNI paciente (dejar en blanco si no se asigna aun)</label>
-							<input type="text" class="form-control" name="dni" required>
-						</div>					
+											
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
