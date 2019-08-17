@@ -38,7 +38,11 @@ public class ServletLogin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//Verificar que el usuario este logeado
-		HttpSession sesion = request.getSession(false);
+		HttpSession sesion = request.getSession();
+		if(sesion.isNew()) {
+			response.sendRedirect("index.html");
+		}
+		if(!sesion.isNew()) {
 		Usuario usr = (Usuario) sesion.getAttribute("usuario");
 		if(usr.getTipousuario() == 2) {
 			
@@ -65,7 +69,7 @@ public class ServletLogin extends HttpServlet {
 			 out.println("window.location.href = \"index.html\";");
 			 out.println("</script>");
 			 out.println("</html>");
-			
+		}
 		}
 	}
 

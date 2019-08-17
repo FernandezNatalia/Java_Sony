@@ -56,7 +56,19 @@ public class servletCrearTurno extends HttpServlet {
 		String datestr=request.getParameter("fecha");
 		String horastr=request.getParameter("hora");
 		String fechayhorastr = datestr + " " + horastr;
-		
+		HttpSession sesion = request.getSession(false);
+		if(sesion==null) {
+			response.sendRedirect("index.html");
+		}
+		else {
+			Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
+			if(especialista.getTipousuario()!=2) {
+				//El usuario no es especialista, vuelve al login y le expiramos la sesion por rata
+				sesion.invalidate();
+				response.sendRedirect("index.html");
+				
+			}
+			if(especialista.getTipousuario()==2) {
 		int idconsultorio =  Integer.parseInt(request.getParameter("cons"));
 		ConsultorioDatos cd = new ConsultorioDatos();
 		TurnoDatos td = new TurnoDatos();
@@ -73,8 +85,8 @@ public class servletCrearTurno extends HttpServlet {
 			e1.printStackTrace();
 		}
 		
-		HttpSession sesion = request.getSession(false);
-		Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
+		
+		
 		turno.setEspecialista(especialista);
 		
 		 String fechabonita = "yyyy-MM-dd hh:mm";
@@ -96,13 +108,13 @@ public class servletCrearTurno extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+		request.getRequestDispatcher("/servletVerTurnosPendientes").forward(request, response);
+		}
 		
 		
 		
 		
-		
-		
+		}
 		
 		}
 		catch(Exception e) {

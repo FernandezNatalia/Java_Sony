@@ -349,8 +349,7 @@ $(document).ready(function(){
 						<h2>Mis <b>turnos</b></h2>
 					</div>
 					<div class="col-sm-6">
-	
-						<a href="#saliendoModal" class="btn btn-info" data-toggle="modal"><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
 						
 
