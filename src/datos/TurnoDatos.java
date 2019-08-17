@@ -107,7 +107,7 @@ public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws S
 		
 		try {
 			Statement stm = miCon.createStatement();
-			ResultSet rs = stm.executeQuery("SELECT * FROM Turnos WHERE Turnos.estado = 1 OR Turnos.estado = 2"); //Modificar para traer los turnos del dia actual.
+			ResultSet rs = stm.executeQuery("SELECT * FROM Turnos WHERE Turnos.estado = 1 OR Turnos.estado = 2 ORDER BY fecha"); //Modificar para traer los turnos del dia actual.
 			
 			while(rs.next())
 			{
