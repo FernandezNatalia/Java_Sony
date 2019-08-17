@@ -37,9 +37,36 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		doPost(request,response);
-		
+		//Verificar que el usuario este logeado
+		HttpSession sesion = request.getSession(false);
+		Usuario usr = (Usuario) sesion.getAttribute("usuario");
+		if(usr.getTipousuario() == 2) {
+			
+	
+			request.getRequestDispatcher("WEB-INF/menuEspecialista.html").forward(request, response);
+		}
+		if(usr.getTipousuario() == 1) {
+			
+			request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
+			
+		}
+		if(usr.getTipousuario() == 3) {
+			
+			request.getRequestDispatcher("WEB-INF/menuAdmin.html").forward(request, response);
+			
+		}
+		if(usr.getTipousuario() != 1 && usr.getTipousuario()!=2 && usr.getTipousuario()!=3) {
+			 response.setContentType("text/html"); 
+			 PrintWriter out = response.getWriter();
+			 out.println("<html>");
+			 out.println("<script type=\"text/javascript\">");
+			 
+			 out.println("alert('Debe iniciar sesion');");
+			 out.println("window.location.href = \"index.html\";");
+			 out.println("</script>");
+			 out.println("</html>");
+			
+		}
 	}
 
 	/**
