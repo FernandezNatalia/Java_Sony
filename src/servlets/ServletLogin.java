@@ -51,9 +51,13 @@ public class ServletLogin extends HttpServlet {
 		
 		try {
 		int dni = 0;
-		dni = Integer.parseInt(request.getParameter("dni"));
+		if(ValidacionIngresoDatos.EsNro(request.getParameter("dni"))) {
+			dni = Integer.parseInt(request.getParameter("dni"));
+		}
+		
+		
 		String pass = request.getParameter("pass");
-		//int ndni = Integer.parseInt(dni);
+		
 		UsuarioLogico usLog = new UsuarioLogico();	
 		Usuario usActual = new Usuario();
 		
@@ -62,7 +66,7 @@ public class ServletLogin extends HttpServlet {
 		
 		
 		
-			if(dni==0 || pass == "" ) {
+			if((dni==0 || pass == "") || (dni==0 && pass == "") ) {
 				response.setContentType("text/html"); 
 				 PrintWriter out = response.getWriter();
 				 out.println("<html>");
@@ -111,6 +115,7 @@ public class ServletLogin extends HttpServlet {
 			 out.println("Error, no se puede conectar a la base de datos");
 			 out.println("</html>");
 		}
+		
 		//catch(Exception ex) {
 			
 		//	response.sendRedirect("err.html");
