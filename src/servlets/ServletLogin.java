@@ -86,10 +86,14 @@ public class ServletLogin extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/menuEspecialista.html").forward(request, response);
 			}
 			if(usActual.getTipousuario() == 1) {
+				HttpSession sesion = request.getSession(true);
+				sesion.setAttribute("usuario", usActual);
 				request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
 				
 			}
 			if(usActual.getTipousuario() == 3) {
+				HttpSession sesion = request.getSession(true);
+				sesion.setAttribute("usuario", usActual);
 				request.getRequestDispatcher("WEB-INF/menuAdmin.html").forward(request, response);
 				
 			}
