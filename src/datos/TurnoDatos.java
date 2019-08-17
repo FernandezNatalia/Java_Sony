@@ -2,6 +2,7 @@ package datos;
 
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,8 +107,14 @@ public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws S
 		getConnection();
 		
 		try {
-			Statement stm = miCon.createStatement();
-			ResultSet rs = stm.executeQuery("SELECT * FROM Turnos WHERE Turnos.estado = 1 OR Turnos.estado = 2 ORDER BY fecha"); //Modificar para traer los turnos del dia actual.
+			java.sql.Statement stm;
+			String sql = "SELECT * FROM Turnos WHERE (Turnos.estado = 1 OR Turnos.estado = 2) AND Turnos.dni_profesional = " + Integer.toString(especialista.getDni()) + " ORDER BY fecha";
+			stm = miCon.prepareStatement(sql);
+			//stm.setInt(1, Integer.valueOf(especialista.getDni()));
+			
+			
+			
+			ResultSet rs = stm.executeQuery(sql); //Modificar para traer los turnos del dia actual.
 			
 			while(rs.next())
 			{

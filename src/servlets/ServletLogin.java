@@ -73,28 +73,24 @@ public class ServletLogin extends HttpServlet {
 				 out.println("</script>");
 				 out.println("</html>");
 			}
-			 TurnoLogico tl = new TurnoLogico();
-			 
-			 
-			 
-			 
-			 
+			
 
 			if(usActual.getTipousuario() == 2) {
 				HttpSession sesion = request.getSession(true);
 				sesion.setAttribute("usuario", usActual);
-				
-				
-				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-				
-				 
-						//response.sendRedirect("menuEspecialista.html");
+		
+				request.getRequestDispatcher("WEB-INF/menuEspecialista.html").forward(request, response);
 			}
 			if(usActual.getTipousuario() == 1) {
-				response.sendRedirect("menuPaciente.html");
+				request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
+				
+			}
+			if(usActual.getTipousuario() == 3) {
+				request.getRequestDispatcher("WEB-INF/menuAdmin.html").forward(request, response);
+				
 			}
 			
-			if(usActual.getTipousuario() != 1 && usActual.getTipousuario()!=2) {
+			if(usActual.getTipousuario() != 1 && usActual.getTipousuario()!=2 && usActual.getTipousuario()!=3) {
 				 response.setContentType("text/html"); 
 				 PrintWriter out = response.getWriter();
 				 out.println("<html>");
