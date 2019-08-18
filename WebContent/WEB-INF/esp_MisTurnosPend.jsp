@@ -34,6 +34,7 @@
         margin: 30px 0;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        min-width : 540px
     }
 	.table-title {        
 		padding-bottom: 15px;

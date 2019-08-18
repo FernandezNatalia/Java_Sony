@@ -108,7 +108,15 @@ public class servletCrearTurno extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("/servletVerTurnosPendientes").forward(request, response);
+		//request.getRequestDispatcher("/servletVerTurnosPendientesEsp").forward(request, response);
+		response.setContentType("text/html"); 
+		 PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script>");
+		out.println("window.location.replace(\"servletVerTurnosPendientesEsp\");");
+		 out.println("</script>");
+		 out.println("</html>");
+		
 		}
 		
 		
