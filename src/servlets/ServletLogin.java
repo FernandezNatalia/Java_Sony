@@ -1,9 +1,7 @@
 package servlets;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
-import java.util.Date;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,65 +10,69 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import datos.UsuarioDatos;
-import entidades.*;
-import logica.*;
+import entidades.Usuario;
+import logica.UsuarioLogico;
+import logica.ValidacionIngresoDatos;
 
-
-/**
- * Servlet implementation class servletPrincipal
- */
-@WebServlet("/servletPrincipal1")
+@WebServlet("/servletPrincipal")
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public ServletLogin() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    HttpSession sesion;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//Verificar que el usuario este logeado
-		HttpSession sesion = request.getSession();
-		if(sesion.isNew()) {
+		//response.getWriter().append("Served at: ").append(request.getContextPath());		
+			
+		if((request.getSession()).isNew()) {
 			response.sendRedirect("index.html");
-		}
-		if(!sesion.isNew()) {
-		Usuario usr = (Usuario) sesion.getAttribute("usuario");
-		if(usr.getTipousuario() == 2) {
+		}else {
 			
-	
-			request.getRequestDispatcher("WEB-INF/menuEspecialista.html").forward(request, response);
-		}
-		if(usr.getTipousuario() == 1) {
+			try {
+				int dni = Integer.parseInt(request.getParameter("dni"));
+				String pass = request.getParameter("pass");//Validar tipo de datos con metodos EsNro,..
 			
-			request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
-			
-		}
-		if(usr.getTipousuario() == 3) {
-			
-			request.getRequestDispatcher("WEB-INF/menuAdmin.html").forward(request, response);
-			
-		}
-		if(usr.getTipousuario() != 1 && usr.getTipousuario()!=2 && usr.getTipousuario()!=3) {
-			 response.setContentType("text/html"); 
-			 PrintWriter out = response.getWriter();
-			 out.println("<html>");
-			 out.println("<script type=\"text/javascript\">");
-			 
-			 out.println("alert('Debe iniciar sesion');");
-			 out.println("window.location.href = \"index.html\";");
-			 out.println("</script>");
-			 out.println("</html>");
-		}
-		}
+				UsuarioLogico usLog = new UsuarioLogico();
+				
+				if(usLog.Autenticacion(dni,pass))
+				{
+					Usuario usActual = usLog.getOne(dni);
+					
+					sesion = request.getSession();					
+					sesion.setAttribute("usuario",usActual);
+					
+					UsuarioLogico usLogi = new UsuarioLogico();
+					String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
+					
+					request.getRequestDispatcher(path).forward(request, response);
+					
+				}else {
+					//Informo que el usuario y/o contraseña son incorrectos
+					
+					 response.setContentType("text/html"); 
+					 PrintWriter out = response.getWriter();
+					 out.println("<html>");
+					 out.println("<script type=\"text/javascript\">");				 
+					 out.println("alert('Usuario y/o contraseña incorrectos');");
+					 out.println("window.location.href = \"index.html\";");
+					 out.println("</script>");
+					 out.println("</html>");
+				}
+				}catch(NumberFormatException ne){
+					//Se produce una excepcion porque los campos estan vacios, o el dni es un string.
+					
+					response.setContentType("text/html"); 
+					PrintWriter out = response.getWriter();
+					out.println("<html>");
+					out.println("<script type=\"text/javascript\">");			 
+					out.println("alert('Ingreso incorrecto, vuelva a intentar.');");
+					out.println("window.location.href = \"index.html\";");
+					out.println("</script>");
+					out.println("</html>");
+				}	
+			}
 	}
 
 	/**
@@ -78,90 +80,11 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
 		
-		try {
-		int dni = 0;
-		if(ValidacionIngresoDatos.EsNro(request.getParameter("dni"))) {
-			dni = Integer.parseInt(request.getParameter("dni"));
-		}
+		doGet(request, response);
 		
 		
-		String pass = request.getParameter("pass");
-		
-		UsuarioLogico usLog = new UsuarioLogico();	
-		Usuario usActual = new Usuario();
-		
-		usActual.setTipousuario(-1);
-		usActual = usLog.Logear(dni, pass);
-		
-		
-		
-			if((dni==0 || pass == "") || (dni==0 && pass == "") ) {
-				response.setContentType("text/html"); 
-				 PrintWriter out = response.getWriter();
-				 out.println("<html>");
-				 out.println("<script type=\"text/javascript\">");
-				 
-				 out.println("alert('Ingrese dni y contraseÃ±a');");
-				 out.println("window.location.href = \"index.html\";");
-				 out.println("</script>");
-				 out.println("</html>");
-			}
-			
-
-			if(usActual.getTipousuario() == 2) {
-				HttpSession sesion = request.getSession(true);
-				sesion.setAttribute("usuario", usActual);
-		
-				request.getRequestDispatcher("WEB-INF/menuEspecialista.html").forward(request, response);
-			}
-			if(usActual.getTipousuario() == 1) {
-				HttpSession sesion = request.getSession(true);
-				sesion.setAttribute("usuario", usActual);
-				request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
-				
-			}
-			if(usActual.getTipousuario() == 3) {
-				HttpSession sesion = request.getSession(true);
-				sesion.setAttribute("usuario", usActual);
-				request.getRequestDispatcher("WEB-INF/menuAdmin.html").forward(request, response);
-				
-			}
-			
-			if(usActual.getTipousuario() != 1 && usActual.getTipousuario()!=2 && usActual.getTipousuario()!=3) {
-				 response.setContentType("text/html"); 
-				 PrintWriter out = response.getWriter();
-				 out.println("<html>");
-				 out.println("<script type=\"text/javascript\">");
-				 
-				 out.println("alert('Usuario o contraseÃ±a incorrectos');");
-				 out.println("window.location.href = \"index.html\";");
-				 out.println("</script>");
-				 out.println("</html>");
-				
-			}
-		
-		}
-		catch(SQLException e) {
-			response.setContentType("text/html"); 
-			 PrintWriter out = response.getWriter();
-			out.println("<html>");
-			 out.println("Error, no se puede conectar a la base de datos");
-			 out.println("</html>");
-		}
-		
-		//catch(Exception ex) {
-			
-		//	response.sendRedirect("err.html");
-		//	ex.printStackTrace();
-		//}
-		
-			
-	
-	
 		
 	}
+
 }
-
-
