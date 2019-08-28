@@ -17,16 +17,13 @@ public class TurnoDatos extends Conexion {
 	public void CancelarTurno(Turno tur) throws SQLException {
 		
 	    getConnection();
-	    try {
-	    	
+	    try {	    	
 	        Statement stmt = miCon.createStatement();
-	        ResultSet rs = stmt.executeQuery("call Turnos.CancelarTurno(" + Integer.toString(tur.getIdturno()) + ");");
-	        
-	        
+	        stmt.executeUpdate("call Turnos.CancelarTurno(" + Integer.toString(tur.getIdturno()) + ");");
+        
 	    } catch (SQLException ex) {
 	        ex.printStackTrace();
 	    }
-
 	}
 	public Turno getOne(int id) throws SQLException {
 		Turno turno = new Turno();
@@ -100,7 +97,7 @@ public class TurnoDatos extends Conexion {
 		
 		return turnos;
 	}
-public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws SQLException{
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();	
 		ConsultorioDatos cd = new ConsultorioDatos();
@@ -143,10 +140,9 @@ public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws S
 		
 		return turnos;
 	}
+	
 	public void add(Turno turno) throws SQLException {
 	 getConnection();
-	 
-	 
 	java.sql.PreparedStatement st;
 	try {
 		
@@ -180,4 +176,78 @@ public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista) throws S
 
 }
 
+	
+	
+	
+	
+	public ArrayList<Turno> getPacienteTurnos(int dni){
+		ArrayList<Turno> turnos = new ArrayList<Turno>();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String consulta = "SELECT * FROM turnos WHERE dni=?"; //INNER JOIN?
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+			pst.setInt(1,dni);
+			rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				
+				Turno t = new Turno();
+				t.setIdturno(rs.getInt("idTurnos"));
+				t.setFechahora(rs.getTimestamp("fecha"));
+				//t.setDuracion(rs.getInt("duracion")); NO ESTA EN ENTIDADES
+				t.setEstado(rs.getInt("estado"));
+				//t.setPaciente(paciente);
+				
+						//t.setConsultorio(consultorio);				
+						ConsultorioDatos cd = new ConsultorioDatos();
+						t.setConsultorio(cd.getOne(rs.getInt("idconsultorio")));
+				
+						//t.setEspecialista(especialista);
+						UsuarioDatos ud = new UsuarioDatos();
+						t.setEspecialista(ud.getOne(rs.getInt("dni_profesional")));
+						
+				t.setObservacion(rs.getString("observacion"));
+				
+						//t.setPlan(plan);
+						PlanDatos pd = new PlanDatos();
+						t.setPlan(pd.getOne(rs.getInt("idPlan")));
+				
+				
+				//BORRAR - ES DE PRUEBA
+				/*Turno tur = new Turno();
+				UsuarioDatos ud = new UsuarioDatos();
+				PlanDatos pd = new PlanDatos();
+				ConsultorioDatos cd = new ConsultorioDatos();				
+				
+				tur.setEspecialista(ud.getOne(rs.getInt("dni")));
+				tur.setPaciente(ud.getOne(rs.getInt("dni")));
+				
+	        	tur.setFechahora(rs.getTimestamp("fecha"));
+	        	tur.setIdturno(rs.getInt("idTurnos"));
+	            
+	            tur.setObservacion(rs.getString("observacion"));
+	            tur.setPlan(pd.getOne(rs.getInt("idPlan")));
+	            tur.setConsultorio(cd.getOne(rs.getInt("idconsultorio")));
+	            tur.setEstado(rs.getInt("estado"));
+	            */
+	            turnos.add(t);
+			}
+		
+			} catch (SQLException ex) {
+	        ex.printStackTrace();
+			}
+	    	finally {
+	    		try {
+	    			if(rs!=null) rs.close();
+	    			if(pst!=null) pst.close();
+	    			if(miCon!=null)closeConnection();
+	    			
+	    			} catch (SQLException e) 
+	    			 { e.printStackTrace();}	        
+	    }		
+		return turnos;
+	}
+	
 }

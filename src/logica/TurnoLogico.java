@@ -31,4 +31,7 @@ public class TurnoLogico {
 		
 	}
 	
+	public ArrayList<Turno> getPacienteTurnos(int dni){
+		return turDat.getPacienteTurnos(dni);
+	}
 }

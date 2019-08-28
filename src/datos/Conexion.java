@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class Conexion {
 
 	private static String driver = "com.mysql.jdbc.Driver";
-	private static String url = "jdbc:mysql://localhost:3306/Turnos";
+	private static String url = "jdbc:mysql://localhost:3306/turnos";
 	private static String user = "java";
 	private static String psw = "java";	
 	public static Connection miCon;
@@ -17,18 +17,14 @@ public class Conexion {
 		try {
 			Class.forName(driver);
 			
-			miCon = DriverManager.getConnection(url,user,psw);
-			
+			miCon = DriverManager.getConnection(url,user,psw);			
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
-		}
-		
-		//return miCon;
-	
+		}	
 	}
 	
 	public static void closeConnection()

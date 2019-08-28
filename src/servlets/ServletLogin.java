@@ -20,7 +20,7 @@ import logica.*;
 /**
  * Servlet implementation class servletPrincipal
  */
-@WebServlet("/servletPrincipal")
+@WebServlet("/servletPrincipal1")
 public class ServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

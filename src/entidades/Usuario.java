@@ -6,8 +6,9 @@ import datos.*;
 
 public class Usuario {
 	
-	public static final int paciente = 0;
-	public static final int especialista = 1;
+	public static final int paciente = 1;
+	public static final int especialista = 2;
+	public static final int admin = 3;
 	
 	private int dni;
 	private String nombre;

@@ -6,7 +6,7 @@ import datos.*;
 import entidades.*;
 
 public class UsuarioLogico {
-	
+
 	private UsuarioDatos userDat;
 	public UsuarioLogico()
 	{
@@ -45,4 +45,33 @@ public class UsuarioLogico {
 			return false;
 		}
 	}
+
+	public boolean Autenticacion(int dni,String contraseña) {
+		return userDat.Autenticacion(dni, contraseña);
+	}
+	public Usuario getOne(int dni) {
+		return userDat.getOne(dni);
+	}
+	
+	
+	public String getPathMenuUsuario(Usuario us)
+	{
+		
+		if(us.getTipousuario() == Usuario.especialista) {
+			
+			return"WEB-INF/menuEspecialista.html";				
+		}
+		else if(us.getTipousuario() == Usuario.paciente) {
+			return "/menuPaciente.jsp";
+			//request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
+		}
+		else if (us.getTipousuario() == Usuario.admin) {
+			
+			return "WEB-INF/menuAdmin.html";
+		}
+		
+		return ""; //Pagina de error
+	}
+	
+
 }
