@@ -87,14 +87,14 @@ public class servletPaciente extends HttpServlet {
 	// LOS METODOS QUE ESTAN ABAJO TENDRIAN QUE ESTAR EN CAPA LOGICA
 
 	public void verTurnos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		//Busco los turnos para el paciente con este dni.
 		TurnoLogico tLogic = new TurnoLogico();
 		ArrayList<Turno> turnos = tLogic.getPacienteTurnos(user.getDni());
 		
 		//Agrego la lista de turnos a la sesion.
 		sesion.setAttribute("listaTurnosActuales",turnos);	
-		
+		*/
 		request.getRequestDispatcher("/listadoTurnosPaciente.jsp").forward(request, response);
 		
 	}

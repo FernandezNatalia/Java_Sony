@@ -364,7 +364,11 @@ $(document).ready(function(){
                 </thead>
                 <tbody>
                 <%
-                	ArrayList<Turno> turnos = (ArrayList<Turno>)session.getAttribute("listaTurnosActuales");
+                	//ArrayList<Turno> turnos = (ArrayList<Turno>)session.getAttribute("listaTurnosActuales");
+                	Usuario user = (Usuario)session.getAttribute("usuario");
+                	TurnoLogico tLogic = new TurnoLogico();
+        			ArrayList<Turno> turnos = tLogic.getPacienteTurnos(user.getDni());
+                	
                 	for(Turno t:turnos)
                 	{
                 %>
