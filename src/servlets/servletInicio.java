@@ -70,7 +70,8 @@ public class servletInicio extends HttpServlet {
 		}
 		}
 		catch(NumberFormatException ne){
-		//Se produce una excepcion porque los campos estan vacios, o el dni es un string.
+		
+			//Se produce una excepcion porque los campos estan vacios, o el dni es un string.
 			response.setContentType("text/html"); 
 			PrintWriter out = response.getWriter();
 			out.println("<html>");
