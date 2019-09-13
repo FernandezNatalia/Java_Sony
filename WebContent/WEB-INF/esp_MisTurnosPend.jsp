@@ -334,11 +334,14 @@ $(document).ready(function(){
 });
 </script>
 <% 		
-		TurnoLogico tl = new TurnoLogico();
-    	Usuario us= (Usuario)session.getAttribute("usuario");
-    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us);
-    	 UsuarioLogico ul = new UsuarioLogico();
-    	 UsuarioDatos ud = new UsuarioDatos();
+		Usuario us= (Usuario)session.getAttribute("usuario");
+		TurnoLogico tl = new TurnoLogico();	
+		Date diaActual= new Date();
+    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us,diaActual);
+    	
+    	//BORRAR
+    	UsuarioLogico ul = new UsuarioLogico();
+    	UsuarioDatos ud = new UsuarioDatos();
     %>
 </head>
 <body>
@@ -347,22 +350,20 @@ $(document).ready(function(){
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Mis <b>turnos</b></h2>
+						<h2><b>Mis turnos de hoy</b></h2>
 					</div>
 					<div class="col-sm-6">
 						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
-						
-
+						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>						
 					</div>
                 </div>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-						
-                        <th>Nombre paciente</th>
-                        <th>Fecha y hora</th>
+                     	<th>Hora</th>
+						<th>Dni paciente</th>
+                        <th>Nombre y Apellido</th>
 						<th>Consultorio</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -370,19 +371,16 @@ $(document).ready(function(){
                 </thead>
                 <tbody>
                 <% for (Turno tur : lt) {%>
-                 <% if (tur.getEstado() == 2) {%>
                     <tr>
-			            <% Usuario pac_turno = tur.getPaciente();
-			            String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-			            
-			            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-			            String fechayhoramin = formato.format(tur.getFechahora());
-			            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-			            Consultorio con = tur.getConsultorio();
+			            <% 
+			            	//SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
+			           		SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
+			           		ConsultorioDatos cd = new ConsultorioDatos();
 			             %>
-                        <td><%=pac_turno.getNombre() + " " + pac_turno.getApellido() %></td>
-                        <td><%=fechayhora %></td>
-						<td><%=con.getDesc() %></td>
+			            <td><%=formatohhmm.format(tur.getHora())%></td>
+                        <td><%=tur.getPaciente().getDni()%></td>
+                        <td><%=tur.getPaciente().getNombre()+" "+tur.getPaciente().getApellido() %></td>
+						<td><%=tur.getConsultorio().getDesc()%></td>
                         <td>Ocupado</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Finalizar turno">check_circle</i></a>
@@ -390,29 +388,6 @@ $(document).ready(function(){
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar/Cancelar">&#xE872;</i></a>
                         </td>
                     </tr>
-                    
-				<%} %>
-                  <% if (tur.getEstado() == 1) {%>
-					
-                    <tr>
-						<% 
-			            String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-			            
-			            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-			            String fechayhoramin = formato.format(tur.getFechahora());
-			            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-			            Consultorio con = tur.getConsultorio();
-			             %>
-                        <td>--</td>
-                        <td><%=fechayhora %></td>
-						<td><%=con.getDesc() %></td>
-                        <td>Disponible</td>
-                        <td>
-                                           
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar/Cancelar">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    <%} %>
                     <%}
                     %>					
 					
@@ -555,13 +530,45 @@ document.addEventListener("click", closeAllSelect);
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
+						</div>
 						
+						
+						
+					<div class="form-group">
+						<label>Practicas Realizadas</label>
+						
+						<select name="practicas" class="form-control">
+							<%
+							//ArrayList<Practica> practicas = new ArrayList<Practica>();
+							//PracticaLogica plog = new PracticaLogica();
 							
-						</div>
-						<div class="form-group">
-							<label>Observación</label>
-							<input type="text" class="form-control" required></textarea>
-						</div>
+							UsuarioLogico uslog = new UsuarioLogico();
+							//practicas = plog.getAll(usLog.getEspecialidad(us).getCod());
+							//for(Practica p:practicas){
+							%>
+							<!-- <option value="volvo"><%=//p.getDesc()%></option> -->
+							<%=//}%>
+  						</select>
+
+					</div>
+					<div class="form-group">
+					<input type="submit" class="btn btn-info" value="Agregar">
+					</div>
+					<div class="form-group">					
+						<textarea rows="4" cols="40" class="form-control">
+						bla bla bla bla bla bla bla bla bla bla bla
+						</textarea>
+					</div>
+					
+					
+					
+					
+					<div class="form-group">
+						<label>Observación</label>
+						<input type="text" class="form-control" required></textarea>
+					</div>
+				
+				
 				
 					</div>
 					<div class="modal-footer">

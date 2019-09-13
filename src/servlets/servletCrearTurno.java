@@ -95,7 +95,9 @@ public class servletCrearTurno extends HttpServlet {
         
 		try {
 			Date fechaturno = formato.parse(fechayhorastr);
-			turno.setFechahora(fechaturno);
+			//=================ESTA COMENTADA POR MI
+			//turno.setFechahora(fechaturno);
+			//========================
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

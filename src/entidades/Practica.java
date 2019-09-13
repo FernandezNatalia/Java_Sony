@@ -18,16 +18,14 @@ public class Practica {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public Double getValor(Plan pl) {
+	
+	/*public Double getValor(Plan pl) {
 		double valor = 0;
 		int pl_id=0;
 		PracticaDatos pd = new PracticaDatos();
 		valor = pd.getValorPlan(this.id, pl_id);
 		
 		return valor;
-	}
-	public void setValor(Double valor) {
-		
-		;
-	}
+	}*/
+	
 }

@@ -44,25 +44,18 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			
-			
 			HttpSession sesion = request.getSession(false);
 			if(sesion==null) {
 				response.sendRedirect("index.html");
 			}
 			else {
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-			
-			
-			if(usActual.getTipousuario()==2) {
-			//El usuario esta logeado y es especialista, mostrar sus turnos
-			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-			}
-			if(usActual.getTipousuario()!=2) {
-				//El usuario no es especialista, vuelve al login y le expiramos la sesion por rata
-				sesion.invalidate();
-				response.sendRedirect("index.html");
-				
-			}
+				Usuario usActual = (Usuario)sesion.getAttribute("usuario");				
+				if(usActual.getTipousuario()== Usuario.especialista) {					
+					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);					
+				}else {
+					sesion.invalidate();
+					response.sendRedirect("index.html");
+				}
 		}
 		}	
 		catch(Exception ex) {

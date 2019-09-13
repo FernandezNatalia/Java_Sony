@@ -1,9 +1,11 @@
 package entidades;
 
 public class Consultorio {
+	
 	private int idconsultorio;
 	private String desc;
-	private String direccion;
+	private String direccion;		
+	
 	public int getIdconsultorio() {
 		return idconsultorio;
 	}

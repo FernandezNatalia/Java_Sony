@@ -13,10 +13,58 @@ public class UsuarioLogico {
 		userDat = new UsuarioDatos();
 	}
 
-	public Usuario Logear(Integer dni, String psw) throws SQLException
+	public boolean Autenticacion(int dni,String contraseña) {
+		return userDat.Autenticacion(dni, contraseña);
+	}
+	public Usuario getOne(int dni) {
+		return userDat.getOne(dni);
+	}
+	public String getPathMenuUsuario(Usuario us)
+	{
+		
+		if(us.getTipousuario() == Usuario.especialista) {
+			
+			return"WEB-INF/menuEspecialista.html";				
+		}
+		else if(us.getTipousuario() == Usuario.paciente) {
+			return "/menuPaciente.jsp";
+			//==================================
+			//request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
+			//CAMBIAR CUANDO ESTE ADENTRO DEL WEB-INF
+			//==================================
+		}
+		else if (us.getTipousuario() == Usuario.admin) {
+			
+			return "WEB-INF/menuAdmin.html";
+		}
+		
+		return "err.html"; //Pagina de error CON PARAMETROS
+	}	
+	public boolean RegistrarNuevoUsuario(Usuario us) {
+		
+		Usuario usExiste = null;
+		usExiste = userDat.getOne(us.getDni());		
+		
+		 if(usExiste == null) {
+			userDat.RegistrarNuevoUsuario(us);
+			return true;
+		}
+		 
+		 return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*public Usuario Logear(Integer dni, String psw) throws SQLException
 	{
 		return userDat.Logear(dni, psw);
-	}
+	}*/
 	public void Registro(Usuario us ) throws Exception {
 		try{int errn = 0;
 		if(ExisteUsuario(us.getDni())) {
@@ -25,7 +73,7 @@ public class UsuarioLogico {
 		}
 		else {
 			
-			userDat.add(us);
+			userDat.RegistrarNuevoUsuario(us);
 		}
 		}
 		catch(Exception ex) {
@@ -34,7 +82,8 @@ public class UsuarioLogico {
 		
 		
 	}
-	public boolean ExisteUsuario(int dni) throws SQLException {
+	
+	public boolean ExisteUsuario(int dni) {
 		
 		Usuario us = userDat.getOne(dni);
 		
@@ -45,33 +94,7 @@ public class UsuarioLogico {
 			return false;
 		}
 	}
-
-	public boolean Autenticacion(int dni,String contraseña) {
-		return userDat.Autenticacion(dni, contraseña);
-	}
-	public Usuario getOne(int dni) {
-		return userDat.getOne(dni);
-	}
 	
-	
-	public String getPathMenuUsuario(Usuario us)
-	{
-		
-		if(us.getTipousuario() == Usuario.especialista) {
-			
-			return"WEB-INF/menuEspecialista.html";				
-		}
-		else if(us.getTipousuario() == Usuario.paciente) {
-			return "/menuPaciente.jsp";
-			//request.getRequestDispatcher("WEB-INF/menuPaciente.html").forward(request, response);
-		}
-		else if (us.getTipousuario() == Usuario.admin) {
-			
-			return "WEB-INF/menuAdmin.html";
-		}
-		
-		return ""; //Pagina de error
-	}
 	
 
 }

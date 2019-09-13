@@ -8,9 +8,9 @@ import java.sql.SQLException;
 public class Conexion {
 
 	private static String driver = "com.mysql.jdbc.Driver";
-	private static String url = "jdbc:mysql://localhost:3306/turnos";
-	private static String user = "java";
-	private static String psw = "java";	
+	private static String url = "jdbc:mysql://localhost:3306/java_turnos";
+	private static String user = "root";
+	private static String psw = "utn1";	
 	public static Connection miCon;
 	
 	public static void getConnection() throws SQLException {				
