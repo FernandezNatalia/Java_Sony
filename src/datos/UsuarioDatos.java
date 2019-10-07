@@ -49,7 +49,7 @@ public class UsuarioDatos extends Conexion {
 	    }
 	    return us;
 	}	
-	public boolean Autenticacion(int dni,String contraseña){
+	public boolean Autenticacion(int dni,String pass){
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
 		String consulta = "SELECT * FROM Usuarios WHERE dni = ? AND password = ?";
@@ -59,7 +59,7 @@ public class UsuarioDatos extends Conexion {
 			pst = miCon.prepareStatement(consulta);
 			
 			pst.setInt(1, dni);
-			pst.setString(2, contraseña);			
+			pst.setString(2, pass);			
 			rs = pst.executeQuery();
 			
 	        if(rs.next()) return true;	       
@@ -87,9 +87,7 @@ public class UsuarioDatos extends Conexion {
 			pst.setInt(1,us.getDni());
 			pst.setString(2,us.getNombre());
 			pst.setString(3,us.getApellido());
-			SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
-            String fecha = formatoddmmyy.format(us.getFechanacimiento());
-			pst.setString(4,fecha);
+            pst.setTimestamp(4, new java.sql.Timestamp(us.getFechanacimiento().getTime()));		
 			pst.setInt(5,1);			
 			pst.setString(6,us.getPassword());
 			pst.setString(7,us.getEmail());

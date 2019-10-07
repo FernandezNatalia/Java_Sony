@@ -7,18 +7,12 @@
 <%@page import="java.util.*"%>
 <%@page import="java.io.*"%>
 <%@page import="java.text.*"%>
-<%@ page errorPage="/err.html" %>
-
-<%
-//Aca se guarda una variable de sesion para determinar a que servlet se vuelve al presionar el boton volver en detalles del turno
-session.setAttribute("detallesturnobotonvolver", "listadopendesp");
-%>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mis turnos</title>
+<title>Configuracion personal</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -38,7 +32,6 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
         margin: 30px 0;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
-        min-width : 540px
     }
 	.table-title {        
 		padding-bottom: 15px;
@@ -337,14 +330,14 @@ $(document).ready(function(){
 	});
 });
 </script>
-<% 		
-		Usuario us= (Usuario)session.getAttribute("usuario");
-		TurnoLogico tl = new TurnoLogico();	
-	
-	    java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
-    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us,diaActual);
-
-    %>
+<% HttpSession sesion = request.getSession(false);
+   Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+   String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
+   
+   SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
+   String fechayhoramin = formato.format(usActual.getFechanacimiento());
+   String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
+   %>
 </head>
 <body>
     <div class="container">
@@ -352,11 +345,12 @@ $(document).ready(function(){
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Mis <b>turnos</b></h2>
+						<h2>Configuracion personal</h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
+	
+						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
+						
 						
 
 					</div>
@@ -366,100 +360,117 @@ $(document).ready(function(){
                 <thead>
                     <tr>
 						
-                        <th>Hora</th>
-						<th>Dni paciente</th>
-                        <th>Nombre y Apellido</th>
-						<th>Consultorio</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th></th>
+                        <th></th>
+                         <th></th>
+						            
                     </tr>
                 </thead>
                 <tbody>
-                <% for (Turno tur : lt) {%>
-                 <% if (tur.getEstado() == 2) {%>
                     <tr>
-			            <% 
-			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
-		           		ConsultorioDatos cd = new ConsultorioDatos();
-			             %>
-                        <td><%=formatohhmm.format(tur.getFechahora())%></td>
-                        <td><%=tur.getPaciente().getDni()%></td>
-                        <td><%=tur.getPaciente().getNombre()+" "+tur.getPaciente().getApellido() %></td>
-						<td><%=tur.getConsultorio().getDesc()%></td>
-                        <td>Ocupado</td>
-                        <td>
-                            <a href="#finTurnoModal<%=tur.getIdturno()%>" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Finalizar turno">check_circle</i></a>
-                            <a href="detallesTurno?idturno=<%=tur.getIdturno() %>" class="more" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Mas información">more_horiz</i></a>
-                            <a href="#cancelarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelar">&#xE872;</i></a>
-                        </td>
+			
+                        <td>Nombre</td>
+                        <td><input type="text" class="form-control" value="<%=usActual.getNombre() %>" disabled></td>
+						<td></td>      
                     </tr>
-                    
-				<%} %>
-                  <% if (tur.getEstado() == 1) {%>
-					
                     <tr>
-						<% 
-			            String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-			            
-			            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-			            String fechayhoramin = formato.format(tur.getFechahora());
-			            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-			            Consultorio con = tur.getConsultorio();
-			             %>
-                        <td>--</td>
-                        <td><%=fechayhora %></td>
-						<td><%=con.getDesc() %></td>
-                        <td>Disponible</td>
-                        <td>
-                                           
-                            <a href="#eliminarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar turno">&#xE872;</i></a>
-                        </td>
+				
+                        <td>Apellido</td>
+                        <td><input type="text" class="form-control" value="<%=usActual.getApellido() %>" disabled></td>
+						<td></td>
                     </tr>
-                    <%} %>
-                    <%}
-                    %>					
+					<tr>
 					
+                        <td>Fecha de nacimiento</td>
+                        <td><input type="text" class="form-control" value="<%=fechayhora %>" disabled></td>
+						<td></td>
+                    </tr>
+                    <tr>
+					
+                        <td>DNI</td>
+                        <td><input type="text" class="form-control" value="<%=usActual.getDni() %>" disabled></td>
+                        <td></td>
+						
+                    </tr>
+                    <tr>
+					
+                        <td>Email</td>
+                        <td><input type="text" class="form-control" value="<%=usActual.getEmail() %>" disabled></td>
+						<td><a href="#cambiarMailModal" class="btn btn-default" data-toggle="modal">Cambiar</a></td>
+                    </tr>
+                    <tr>
+					
+                        <td>Contraseña</td>
+                        <td><input type="text" class="form-control" value="**************" disabled></td>
+						<td><a href="#cambiarClaveModal" class="btn btn-default" data-toggle="modal">Cambiar</a></td>
+                    </tr>
+
+                   
                 </tbody>
             </table>
-
+			<div class="clearfix">
+                
         </div>
     </div>
+    <%if(usActual.getTipousuario()==1){ %>
+    <div class="card">
+    	<div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Obras sociales</h2>
+					</div>
+					<div class="col-sm-6">
+	
+					<a href="#agregarPlanModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir plan</span></a>	
+						
+
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+						<th>Obra social</th>
+                        <th>Plan</th>
+                        <th>ID Afiliado</th>						            
+                    </tr>
+                </thead>
+                <tbody>
+                <% for (Plan p : usActual.getPlanes()) {%>
+                    <tr>
+						<td><%=p.getObs()%></td>
+                        <td><%=p.getNomplan()%></td>
+                        <td><%=//NUMERO DE AFILIADO %></td>
+						<td><a href="#borrarPlanModal" class="btn btn-default" data-toggle="modal">Eliminar</a></td>
+                    </tr>
+                                
+                </tbody>
+            </table>
+			<div class="clearfix">
+                
+        </div>
+    </div>
+    <%} %>
 	<!-- Edit Modal HTML -->
-	<div id="addEmployeeModal" class="modal fade">
+	<div id="agregarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletCrearTurno" method = "post">
+				<form>
 					<div class="modal-header">						
-						<h4 class="modal-title">Nuevo turno</h4>
+						<h4 class="modal-title">Añadir plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
-						<%
-						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-						Date date = new Date();
-						String fecmin = dateFormat.format(date);
-						
-						%>
-							<label>Fecha</label>
-							<input type="date" class="form-control" min="<%=fecmin%>" name="fecha" required>
-						</div>
-						<div class="form-group">
-							<label>Hora</label>
-							<input type="time" class="form-control" name="hora" required>
-						</div>
-						<div class="form-group">
-							<label>Consultorio</label>
+							<label>Plan</label>
 							<br/>
-							<div class="custom-select" name="consultorio" style="width:200px;">
-							<select name="cons">
-							<%ConsultorioDatos cd = new ConsultorioDatos();
-							ArrayList<Consultorio> consultorios = cd.getAll();
-							%>
-								<option value="0" disabled="disabled">     --      </option>
-								<% for(Consultorio con : consultorios){%>
- 								<option value="<%=con.getIdconsultorio()%>"><%=con.getDesc() %></option>
- 								<% }%>
+							<div class="custom-select" style="width:200px;">
+							<select>
+								<option value="0">     --      </option>
+ 								<option value="1">OSDE 1000</option>
+  								<option value="2">IAPOS GOLD</option>
+  								
 							</select>
 						</div>
 						<script>
@@ -537,7 +548,10 @@ then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
 </script>
 						</div>
-											
+						<div class="form-group">
+							<label>Numero de afiliado</label>
+							<input type="text" class="form-control" required>
+						</div>					
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -547,16 +561,13 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-	
-	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 2) {%>
-	<!-- finturno Modal HTML -->
-	<div id="finTurnoModal<%=tur.getIdturno()%>" class="modal fade">
+	<!-- Cambiar mail Modal HTML -->
+	<div id="cambiarMailModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="finalizarturno" method="post">
+				<form action="cambiaremail" method="post">
 					<div class="modal-header">						
-						<h4 class="modal-title">Finalizar turno</h4>
+						<h4 class="modal-title">Cambiar Email</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
@@ -565,9 +576,8 @@ document.addEventListener("click", closeAllSelect);
 							
 						</div>
 						<div class="form-group">
-							<label>Observación</label>
-							<input type="text" class="form-control" name="observacion" required></textarea>
-							<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
+							<label>Nuevo email</label>
+							<input type="text" class="form-control" name="mail" required></textarea>
 						</div>
 				
 					</div>
@@ -580,44 +590,55 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-	<!-- Modal Cancelar turno -->
-	<div id="cancelarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
+	<!-- Cambiar clave Modal HTML -->
+	<div id="cambiarClaveModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="cancelarturno" method="post">
+				<form action="cambiarclave" method="post">
 					<div class="modal-header">						
-						<h4 class="modal-title">Cancelar Turno</h4>
+						<h4 class="modal-title">Cambiar contraseña</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<p>Esta seguro de que desea cancelar este turno?</p>
-						<p class="text-warning"><small>Se creara un turno disponible con el mismo horario</small></p>
-						<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
+						<div class="form-group">
+						
+							
+						</div>
+						<div class="form-group">
+							<label>Contraseña anterior</label>
+							<input type="password" class="form-control" name="oldpass" required></textarea>
+						</div>
+						<div class="form-group">
+							<label>Nueva contraseña</label>
+							<input type="password" class="form-control" name="newpass" required></textarea>
+						</div>
+						<div class="form-group">
+							<label>Repetir nueva contraseña</label>
+							<input type="password" class="form-control" name="rnewpass" required></textarea>
+						</div>
+				
 					</div>
 					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Volver">
-						<input type="submit" class="btn btn-danger" value="Cancelar turno">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+						<input type="submit" class="btn btn-info" value="Cambiar contraseña">
+
 					</div>
 				</form>
 			</div>
 		</div>
-	</div>	
-	<%}} %>
-	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 1) {%>
-	<!-- Modal Eliminar turno -->
-	<div id="eliminarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
+	</div>
+	<!-- Delete Modal HTML -->
+	<div id="borrarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="eliminarturno" method="post">
+				<form>
 					<div class="modal-header">						
-						<h4 class="modal-title">Eliminar turno</h4>
+						<h4 class="modal-title">Eliminar plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<p>Esta seguro de que desea eliminar este turno?</p>
-						<p class="text-warning"><small>Esta acción no se puede deshacer.</small></p>
-						<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
+						<p>Esta seguro de que desea eliminar este plan?</p>
+						<p class="text-warning"><small>Necesitará volver a agregarlo para solicitar turnos con este plan</small></p>
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -627,7 +648,24 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-<%}} %>
-		
+	<!-- Delete Modal HTML -->
+	<div id="saliendoModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">						
+						<h4 class="modal-title">Volviendo al menu...</h4>
+						
+					</div>
+					<div class="modal-body">					
+						
+					</div>
+					<div class="modal-footer">
+						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>                                		                            

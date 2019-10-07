@@ -17,7 +17,7 @@ import logica.*;
 /**
  * Servlet implementation class servletRegistro
  */
-@WebServlet("/servletRegistro")
+@WebServlet("/pasando")
 public class servletRegistro extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,12 +44,11 @@ public class servletRegistro extends HttpServlet {
 		
 		//=============VALIDO TODOS LOS DATOS Y REGISTRO==================
 		
-		ValidacionNegocio validar = new ValidacionNegocio();
-		boolean validado=validar.ValidarDatosDeRegistro(dni,nombre,apellido,email,fechaNacimiento,password);
+		boolean validado=ValidacionNegocio.ValidarDatosDeRegistro(dni,nombre,apellido,email,fechaNacimiento,password);
 		
 		if(validado) {
 			
-			Date fechaDate = validar.ConvertirStringAFecha(fechaNacimiento);					
+			Date fechaDate = ValidacionNegocio.ConvertirStringAFecha(fechaNacimiento);					
 			Usuario usNuevo = new Usuario(Integer.parseInt(dni),nombre,apellido,email,fechaDate,password,1);
 			
 			UsuarioLogico userLogico = new UsuarioLogico();			

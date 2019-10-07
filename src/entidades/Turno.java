@@ -10,8 +10,7 @@ public class Turno {
 	public static final int terminado = 3;
 
 	private int idturno;
-	private Date fecha;
-	private Date hora;
+	private Date fechahora;
 	private int duracion;
 	private int estado;
 	private Usuario paciente;
@@ -27,18 +26,6 @@ public class Turno {
 	}
 	public void setIdturno(int idturno) {
 		this.idturno = idturno;
-	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-	public Date getHora() {
-		return hora;
-	}
-	public void setHora(Date hora) {
-		this.hora = hora;
 	}
 	public int getDuracion() {
 		return duracion;
@@ -87,6 +74,12 @@ public class Turno {
 	}
 	public void setPracticas(ArrayList<Practica> practicas) {
 		Practicas = practicas;
+	}
+	public Date getFechahora() {
+		return fechahora;
+	}
+	public void setFechahora(Date fechahora) {
+		this.fechahora = fechahora;
 	}
 	
 	

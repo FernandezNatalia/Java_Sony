@@ -64,7 +64,8 @@ public class servletPaciente extends HttpServlet {
 		switch(path)
 		{
 			case "/verTurnos": 
-				verTurnos(request,response); 							
+				//verTurnos(request,response); 		
+				request.getRequestDispatcher("/WEB-INF/listadoTurnosDePaciente.jsp").forward(request, response);
 				break;
 			case "/cancelarTurno": 				
 				cancelarTurno(request,response);  
@@ -76,7 +77,7 @@ public class servletPaciente extends HttpServlet {
 				planes(request,response); 
 				break;
 			case "/configuracion": 
-				configuracionPersonal(request,response); 
+				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				break;	
 			default: //REDIRECCIONAR MENSAJE ERROR 
 				break;

@@ -10,7 +10,7 @@ public class ValidacionNegocio {
 	
 	public static SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
 	
-	public boolean ValidarDatosDeRegistro(String dni,String nombre,String apellido,String email,String fechaNacimiento,String password) {
+	public static boolean ValidarDatosDeRegistro(String dni,String nombre,String apellido,String email,String fechaNacimiento,String password) {
 		
 		if(ValidarEmail(email) 
 		   && ValidarFecha(fechaNacimiento)
@@ -22,7 +22,7 @@ public class ValidacionNegocio {
 		return false;
 	}
 	
-	public boolean ValidarString(String cadena) {
+	public static boolean ValidarString(String cadena) {
 		
 		if(cadena=="" || cadena==null) return false;
 		
@@ -36,7 +36,7 @@ public class ValidacionNegocio {
 		}
 		return true;
 	}	
-	public boolean ValidarInteger(String cadena) {
+	public static boolean ValidarInteger(String cadena) {
 		try {
 			Integer.parseInt(cadena);
 			return true;
@@ -44,7 +44,7 @@ public class ValidacionNegocio {
 			return false;
 		}
 	}	
-	public boolean ValidarFecha(String fecha) {
+	public static boolean ValidarFecha(String fecha) {
 		try {
 			formatoddmmyy.parse(fecha);
 			return true;
@@ -52,7 +52,7 @@ public class ValidacionNegocio {
 			return false;
 		}
 	}	
-	public boolean ValidarEmail(String email) {
+	public static boolean ValidarEmail(String email) {
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                         + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         
@@ -63,7 +63,7 @@ public class ValidacionNegocio {
         	return false;       
 	}
 	
-	public Date ConvertirStringAFecha(String fechaNacimiento) {		
+	public static Date ConvertirStringAFecha(String fechaNacimiento) {		
 			
 			try {
 				

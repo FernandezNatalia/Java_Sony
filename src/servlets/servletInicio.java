@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
 import logica.UsuarioLogico;
+import logica.ValidacionNegocio;
 
 @WebServlet("/servletPrincipal")
 public class servletInicio extends HttpServlet {
@@ -42,21 +43,24 @@ public class servletInicio extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	try {		
-		int dni = Integer.parseInt(request.getParameter("dni"));
-		String pass = request.getParameter("pass");//Validar tipo de datos con metodos EsNro,..
+		String strdni = request.getParameter("dni");
+		String pass = request.getParameter("pass");
 
 		UsuarioLogico usLog = new UsuarioLogico();
 
-		if(usLog.Autenticacion(dni,pass))
+		if(ValidacionNegocio.ValidarInteger(strdni) && ValidacionNegocio.ValidarInteger(pass))
 		{
-			Usuario usActual = usLog.getOne(dni);
+			int dni = Integer.parseInt(strdni);
+			if(usLog.Autenticacion(dni,pass))
+			{
+				Usuario usActual = usLog.getOne(dni);
+				sesion = request.getSession();					
+				sesion.setAttribute("usuario",usActual);
 
-			sesion = request.getSession();					
-			sesion.setAttribute("usuario",usActual);
-
-			doGet(request, response);
-			
-		}else {
+				doGet(request, response);
+			}
+		}
+		else {
 			//Informo que el usuario y/o contraseña son incorrectos
 			response.sendRedirect("err.html");
 		}

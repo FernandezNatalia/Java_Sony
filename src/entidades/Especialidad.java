@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Especialidad {
 	
-	private int codEspecialidad;
+	/*private int codEspecialidad;
 	private String nombre;
 	private ArrayList<Practica> practicas;	
 	
@@ -25,6 +25,6 @@ public class Especialidad {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
+	}*/
 
 }

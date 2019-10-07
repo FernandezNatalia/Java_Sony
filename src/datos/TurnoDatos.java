@@ -5,6 +5,7 @@ import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 import entidades.*;
@@ -20,8 +21,12 @@ public class TurnoDatos extends Conexion {
 		//PracticaDatos p = new PracticaDatos(); //Podria no estar todavia aca
 		
 		turno.setIdturno(rs.getInt("id_turno"));			
-		turno.setFecha(rs.getDate("fecha"));
-		turno.setHora(rs.getTime("hora"));
+		//turno.setFecha(rs.getDate("fecha"));
+		//turno.setHora(rs.getTime("hora"));
+		
+		turno.setFechahora(rs.getTimestamp("fecha_hora"));
+		
+		
 		turno.setDuracion(rs.getInt("duracion"));			
 		turno.setEstado(rs.getInt("estado"));		
 		
@@ -63,20 +68,21 @@ public class TurnoDatos extends Conexion {
 	}
 
 	
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fechaDate) throws SQLException{
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,java.sql.Date fechaDate) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_especialista = ? AND fecha=? ORDER BY hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_especialista = ? AND date(fecha_hora)=? ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			
 			pst = miCon.prepareStatement(cadena);
 			pst.setInt(1,especialista.getDni());
-				SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
+				/*SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
 				String fecha = formatoddmmyy.format(fechaDate);
-			pst.setString(2,fecha);
+			pst.setString(2,fecha);*/
+			pst.setDate(2,fechaDate); 
 			rs = pst.executeQuery(); //Modificar para traer los turnos del dia actual.
 			
 			while(rs.next())
@@ -97,7 +103,36 @@ public class TurnoDatos extends Conexion {
 		return turnos;
 	}
 	
-	
+	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{
+		
+		ArrayList<Turno> turnos = new ArrayList<Turno>();		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_paciente = ? ORDER BY hora";
+		getConnection();
+		
+		try {			
+			pst = miCon.prepareStatement(cadena);
+			pst.setInt(1,paciente.getDni());
+			rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+	            turnos.add(readTurno(rs));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			if(rs != null) rs.close();
+			if(pst != null) pst.close();
+			if(miCon != null) closeConnection();
+		}
+		
+		return turnos;
+	}
 	
 /*	
   		//==============================================

@@ -4,7 +4,7 @@ import entidades.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class TurnoLogico {
 
@@ -22,6 +22,12 @@ public class TurnoLogico {
 		
 		return turDat.getProximosDeEspecialista(especialista,fecha);
 	}
+
+	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
+		
+		return turDat.getTurnosPendientesPaciente(paciente);
+	}
+	
 	
 	/*public ArrayList<Turno> getPacienteTurnos(int dni){
 		return turDat.getPacienteTurnos(dni);

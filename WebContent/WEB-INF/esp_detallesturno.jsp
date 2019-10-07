@@ -7,18 +7,12 @@
 <%@page import="java.util.*"%>
 <%@page import="java.io.*"%>
 <%@page import="java.text.*"%>
-<%@ page errorPage="/err.html" %>
-
-<%
-//Aca se guarda una variable de sesion para determinar a que servlet se vuelve al presionar el boton volver en detalles del turno
-session.setAttribute("detallesturnobotonvolver", "listadopendesp");
-%>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mis turnos</title>
+<title>Detalles del turno</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -38,7 +32,6 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
         margin: 30px 0;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
-        min-width : 540px
     }
 	.table-title {        
 		padding-bottom: 15px;
@@ -337,26 +330,30 @@ $(document).ready(function(){
 	});
 });
 </script>
-<% 		
-		Usuario us= (Usuario)session.getAttribute("usuario");
-		TurnoLogico tl = new TurnoLogico();	
-	
-	    java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
-    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us,diaActual);
-
-    %>
 </head>
+<% HttpSession sesion = request.getSession(false);
+   int idturno = (int) sesion.getAttribute("idturno");
+   TurnoDatos td = new TurnoDatos();
+   PracticaDatos pd = new PracticaDatos();
+   Turno turno = td.getOne(idturno);
+   String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
+   ArrayList<Practica> practicas = pd.getPracticasTurno(turno);
+   SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
+   String fechayhoramin = formato.format(turno.getFechahora());
+   String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
+   %>
 <body>
     <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Mis <b>turnos</b></h2>
+						<h2>Detalles del turno</h2>
 					</div>
 					<div class="col-sm-6">
-						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
+	
+						<a href="javascript:history.back()" class="btn btn-info" data-toggle="modal"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
+						
 						
 
 					</div>
@@ -366,100 +363,117 @@ $(document).ready(function(){
                 <thead>
                     <tr>
 						
-                        <th>Hora</th>
-						<th>Dni paciente</th>
-                        <th>Nombre y Apellido</th>
-						<th>Consultorio</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                <% for (Turno tur : lt) {%>
-                 <% if (tur.getEstado() == 2) {%>
                     <tr>
-			            <% 
-			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
-		           		ConsultorioDatos cd = new ConsultorioDatos();
-			             %>
-                        <td><%=formatohhmm.format(tur.getFechahora())%></td>
-                        <td><%=tur.getPaciente().getDni()%></td>
-                        <td><%=tur.getPaciente().getNombre()+" "+tur.getPaciente().getApellido() %></td>
-						<td><%=tur.getConsultorio().getDesc()%></td>
-                        <td>Ocupado</td>
-                        <td>
-                            <a href="#finTurnoModal<%=tur.getIdturno()%>" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Finalizar turno">check_circle</i></a>
-                            <a href="detallesTurno?idturno=<%=tur.getIdturno() %>" class="more" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Mas información">more_horiz</i></a>
-                            <a href="#cancelarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelar">&#xE872;</i></a>
-                        </td>
+                        <td>Nombre del paciente</td>
+                        <td><%=turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido() %></td>
+						
                     </tr>
-                    
-				<%} %>
-                  <% if (tur.getEstado() == 1) {%>
-					
                     <tr>
-						<% 
-			            String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-			            
-			            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-			            String fechayhoramin = formato.format(tur.getFechahora());
-			            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-			            Consultorio con = tur.getConsultorio();
-			             %>
-                        <td>--</td>
+                        <td>Fecha y hora del turno</td>
                         <td><%=fechayhora %></td>
-						<td><%=con.getDesc() %></td>
-                        <td>Disponible</td>
-                        <td>
-                                           
-                            <a href="#eliminarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar turno">&#xE872;</i></a>
-                        </td>
                     </tr>
-                    <%} %>
-                    <%}
-                    %>					
-					
+                     <tr>
+                        <td>Observacion</td>
+                        <%if(turno.getEstado()==6) {%>
+                        <td><%=turno.getObservacion() %></td>
+                        <%}
+                        if(turno.getEstado()==2){%>
+                        <td>--</td>
+                        <%}%>
+                    </tr>
+                     <tr>
+                        <td>Estado</td>
+                        <%if(turno.getEstado()==6) {%>
+                        <td>Finalizado</td>
+                        <%}
+                        if(turno.getEstado()==2){%>
+                        <td>Reservado</td>
+                        <%}%>
+                    </tr>
+                     <tr>
+                        <td>Plan</td>
+                        <td><%=turno.getPlan().getNomplan() %></td>
+                    </tr>
+                    <tr>
+                        <td>Consultorio</td>
+                        <td><%=turno.getConsultorio().getDesc() %></td>
+                    </tr>
+
+                    
                 </tbody>
             </table>
-
-        </div>
+			
     </div>
-	<!-- Edit Modal HTML -->
-	<div id="addEmployeeModal" class="modal fade">
+    </div>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Practicas del turno</h2>
+					</div>
+					<div class="col-sm-6">
+	
+						<a href="#addPracticaModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir práctica</span></a>	
+						
+						
+
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+						
+                        <th>Nombre de práctica</th>
+                        <th>Código</th>
+                         <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% for (Practica prac : practicas) {%>
+                    <tr>
+                        <td><%=prac.getDesc() %></td>
+                        <td><%=prac.getId() %></td>
+						<td><a href="#borrarPracticaModal" class="btn btn-default" data-toggle="modal">Eliminar</a></td>
+                    </tr>
+                    <%} %>
+                     
+                   
+
+                    
+                </tbody>
+            </table>
+			
+    </div>
+    </div>
+	<!-- Agregar Practica HTML -->
+	<div id="addPracticaModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletCrearTurno" method = "post">
+				<form>
 					<div class="modal-header">						
-						<h4 class="modal-title">Nuevo turno</h4>
+						<h4 class="modal-title">Añadir práctica</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<div class="form-group">
-						<%
-						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-						Date date = new Date();
-						String fecmin = dateFormat.format(date);
 						
-						%>
-							<label>Fecha</label>
-							<input type="date" class="form-control" min="<%=fecmin%>" name="fecha" required>
-						</div>
 						<div class="form-group">
-							<label>Hora</label>
-							<input type="time" class="form-control" name="hora" required>
-						</div>
-						<div class="form-group">
-							<label>Consultorio</label>
+							<label>Práctica</label>
 							<br/>
-							<div class="custom-select" name="consultorio" style="width:200px;">
-							<select name="cons">
-							<%ConsultorioDatos cd = new ConsultorioDatos();
-							ArrayList<Consultorio> consultorios = cd.getAll();
-							%>
-								<option value="0" disabled="disabled">     --      </option>
-								<% for(Consultorio con : consultorios){%>
- 								<option value="<%=con.getIdconsultorio()%>"><%=con.getDesc() %></option>
- 								<% }%>
+							<div class="custom-select" style="width:200px;">
+							<select>
+							<%ArrayList<Practica> practicasdisp = pd.getAll(); %>
+							
+								<option value="0">     --      </option>
+								<%for(Practica pract : practicasdisp){%>
+ 								<option value="<%=pract.getId() %>"><%=pract.getDesc() %></option>
+  								<%} %>
 							</select>
 						</div>
 						<script>
@@ -537,7 +551,7 @@ then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
 </script>
 						</div>
-											
+										
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -548,76 +562,18 @@ document.addEventListener("click", closeAllSelect);
 		</div>
 	</div>
 	
-	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 2) {%>
-	<!-- finturno Modal HTML -->
-	<div id="finTurnoModal<%=tur.getIdturno()%>" class="modal fade">
+	<!-- Borrar practica Modal HTML -->
+	<div id="borrarPracticaModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="finalizarturno" method="post">
+				<form>
 					<div class="modal-header">						
-						<h4 class="modal-title">Finalizar turno</h4>
+						<h4 class="modal-title">Eliminar práctica</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<div class="form-group">
+						<p>Esta seguro de que desea eliminar esta práctica del turno?</p>
 						
-							
-						</div>
-						<div class="form-group">
-							<label>Observación</label>
-							<input type="text" class="form-control" name="observacion" required></textarea>
-							<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
-						</div>
-				
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-						<input type="submit" class="btn btn-info" value="Guardar">
-
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Modal Cancelar turno -->
-	<div id="cancelarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="cancelarturno" method="post">
-					<div class="modal-header">						
-						<h4 class="modal-title">Cancelar Turno</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<p>Esta seguro de que desea cancelar este turno?</p>
-						<p class="text-warning"><small>Se creara un turno disponible con el mismo horario</small></p>
-						<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Volver">
-						<input type="submit" class="btn btn-danger" value="Cancelar turno">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>	
-	<%}} %>
-	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 1) {%>
-	<!-- Modal Eliminar turno -->
-	<div id="eliminarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="eliminarturno" method="post">
-					<div class="modal-header">						
-						<h4 class="modal-title">Eliminar turno</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<p>Esta seguro de que desea eliminar este turno?</p>
-						<p class="text-warning"><small>Esta acción no se puede deshacer.</small></p>
-						<input type="hidden" name="idturno" value="<%=tur.getIdturno()%>">
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -627,7 +583,6 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-<%}} %>
-		
+	
 </body>
-</html>                                		                            
+</html>                                		                                                     		                            
