@@ -31,12 +31,11 @@ public class servletPaciente extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    
     private HttpSession sesion;
     private Usuario user;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		
 		//Menu paciente
@@ -60,26 +59,27 @@ public class servletPaciente extends HttpServlet {
 		
 		//Obtengo el usuario, recuperando su session.
 		sesion = request.getSession();		
-		user = (Usuario)sesion.getAttribute("usuario"); 
+		user = (Usuario)sesion.getAttribute("usuario");
 		switch(path)
 		{
-			case "/verTurnos": 
-				//verTurnos(request,response); 		
-				request.getRequestDispatcher("/WEB-INF/listadoTurnosDePaciente.jsp").forward(request, response);
+			case "/verTurnos": 	
+				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
 				break;
 			case "/cancelarTurno": 				
-				cancelarTurno(request,response);  
+				//cancelarTurno(request,response);  
 				break;
 			case "/solicitarTurno": 
 				solicitarTurno(request,response);  
 				break;
 			case "/planes": 
-				planes(request,response); 
+				//planes(request,response); 
 				break;
 			case "/configuracion": 
 				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				break;	
-			default: //REDIRECCIONAR MENSAJE ERROR 
+			default: 
+				request.getRequestDispatcher("/err.html").forward(request, response);
+				//REDIRECCIONAR MENSAJE ERROR 
 				break;
 		}		
 	}
@@ -87,22 +87,6 @@ public class servletPaciente extends HttpServlet {
 	
 	// LOS METODOS QUE ESTAN ABAJO TENDRIAN QUE ESTAR EN CAPA LOGICA
 
-	public void verTurnos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		//Busco los turnos para el paciente con este dni.
-		TurnoLogico tLogic = new TurnoLogico();
-		ArrayList<Turno> turnos = tLogic.getPacienteTurnos(user.getDni());
-		
-		//Agrego la lista de turnos a la sesion.
-		sesion.setAttribute("listaTurnosActuales",turnos);	
-		*/
-		request.getRequestDispatcher("/listadoTurnosPaciente.jsp").forward(request, response);
-		
-	}
-	public void cancelarTurno(HttpServletRequest request, HttpServletResponse response) {
-		
-						 				
-	}
 	public void solicitarTurno(HttpServletRequest request, HttpServletResponse response) {
 		
 		//Como no ingresa datos, no los valido.
@@ -117,16 +101,8 @@ public class servletPaciente extends HttpServlet {
 		//Confirma - se envia un mail
 
 		
-		
-		
 	}
-	public void planes(HttpServletRequest request, HttpServletResponse response) {
-		
-	}
-	public void configuracionPersonal(HttpServletRequest request, HttpServletResponse response) {
-	
-	}
-	
+
 	
 	
 	

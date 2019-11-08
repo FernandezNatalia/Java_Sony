@@ -1,10 +1,14 @@
 package datos;
-import entidades.Especialista;
-import entidades.Usuario;
+
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import entidades.Especialista;
+import entidades.Paciente;
+import entidades.Plan;
+import entidades.Usuario;
 public class EspecialistaDatos extends Conexion{
 
 	public String getEspecialidad(int dni){ 
@@ -40,4 +44,43 @@ public class EspecialistaDatos extends Conexion{
 	}
 	
 	
+	
+	public Especialista getEspecialista(int dni) throws SQLException {
+
+		
+		Usuario espe = null;
+		PracticaDatos practicas = new PracticaDatos();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String cadena = "select u.dni,u.nombre,u.apellido,u.fecha_nacimiento,u.tipo_usuario,u.password,u.email,u.cod_especialidad,e.nombre as nomb_espe from usuarios u " + 
+				"inner join especialidades e on e.cod_especialidad = u.cod_especialidad where dni = ?";		
+	    try {
+	    	getConnection();
+	        pst = miCon.prepareStatement(cadena);
+	        pst.setInt(1, dni);
+	        rs = pst.executeQuery();
+	        
+	        if(rs.next())
+	        {
+	        	        	
+	        	UsuarioDatos udat = new UsuarioDatos();
+		    	espe = new Especialista();
+		    	udat.readUsuario(rs,espe);
+	        	
+	        	((Especialista)espe).setCodEspecialidad(rs.getInt("cod_especialidad"));
+	        	((Especialista)espe).setEspecialidad(rs.getString("nomb_espe"));
+	        	((Especialista)espe).setPracticas(practicas.getPracticasDeEspecialista(espe.getDni()));
+	        
+	        }
+	        
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    finally {
+	    	if(rs!=null) rs.close();
+			if(pst!=null) pst.close();
+			if(miCon!=null)closeConnection();
+	    }
+	    return ((Especialista)espe);
+	}
 }

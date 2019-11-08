@@ -1,5 +1,7 @@
 package datos;
 
+import entidades.Paciente;
+import entidades.Plan;
 import entidades.Usuario;
 
 import java.sql.PreparedStatement;
@@ -10,6 +12,17 @@ import java.text.SimpleDateFormat;
 
 
 public class UsuarioDatos extends Conexion {
+	
+	public Usuario readUsuario(ResultSet rs,Usuario us) throws SQLException {
+		us.setDni(rs.getInt("dni"));
+		us.setNombre(rs.getString("nombre"));
+		us.setApellido(rs.getString("apellido"));	            	
+		us.setFechanacimiento(rs.getDate("fecha_nacimiento"));
+		us.setTipousuario(rs.getInt("tipo_usuario"));	
+		us.setPassword(rs.getString("password"));
+		us.setEmail(rs.getString("email"));
+		return us;
+	}		
 	
 	public Usuario getOne(int dni){
 		Usuario us = null;	
@@ -26,14 +39,7 @@ public class UsuarioDatos extends Conexion {
 	        if(rs.next())
 	        {
 	        	us = new Usuario();
-	            us.setDni(rs.getInt("dni"));
-	            us.setNombre(rs.getString("nombre"));
-	            us.setApellido(rs.getString("apellido"));	            	
-	            us.setFechanacimiento(rs.getDate("fecha_nacimiento"));
-	            us.setTipousuario(rs.getInt("tipo_usuario"));	
-	            us.setPassword(rs.getString("password"));
-	            us.setEmail(rs.getString("email"));
-	            //us.setCodEspecialidad(rs.getInt("cod_especialidad"));
+		    	readUsuario(rs,us);
 	                        
 	        }	 
 	        
@@ -48,7 +54,8 @@ public class UsuarioDatos extends Conexion {
 			} catch (SQLException e) { e.printStackTrace();}	        
 	    }
 	    return us;
-	}	
+	}
+	
 	public boolean Autenticacion(int dni,String pass){
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
@@ -105,5 +112,58 @@ public class UsuarioDatos extends Conexion {
 				} catch (SQLException e) { e.printStackTrace();}			
 		}
 	}
+	
+	public void CambioMail(String mail, int dni) throws SQLException {
+		
+		PreparedStatement pst = null;
+		String consulta = "UPDATE usuarios SET email = ? WHERE (dni = ?)";
+		try {
+			
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+			pst.setString(1,mail);
+			pst.setInt(2, dni);
+			
+			pst.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}		
+	}
+	
+	
+	public void CambioClave(String newpass,int dni) throws SQLException {
+		
+		PreparedStatement pst = null;
+		String consulta = "UPDATE usuarios SET password = ? WHERE (dni = ?)";
+		try {
+			
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+			pst.setString(1,newpass);
+			pst.setInt(2, dni);
+			
+			pst.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}
+		
+	}
+	
+	
+	
 	
 }

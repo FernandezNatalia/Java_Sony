@@ -15,7 +15,7 @@ public class Usuario {
 	private int tipousuario;
 	private String password;
 	private String email;
-	private ArrayList<Plan> planes;
+	//private ArrayList<Plan> planes;
 	
 	public Usuario () {
 		
@@ -72,10 +72,10 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public ArrayList<Plan> getPlanes() {
+	/*public ArrayList<Plan> getPlanes() {
 		return planes;
 	}
 	public void setPlanes(ArrayList<Plan> planes) {
 		this.planes = planes;
-	}
+	}*/
 }

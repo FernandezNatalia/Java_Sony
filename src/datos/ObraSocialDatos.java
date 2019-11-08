@@ -16,11 +16,10 @@ public class ObraSocialDatos extends Conexion {
 		String cadena = "SELECT * FROM obras_sociales WHERE cuit = ?";
 		
 		try {
-			getConnection();
-			
+			getConnection();			
 			 pst = miCon.prepareStatement(cadena);
 		     pst.setString(1,cuit);
-		     rs = pst.executeQuery(cadena);
+		     rs = pst.executeQuery();
 			
 		     if(rs.next())
 		        {

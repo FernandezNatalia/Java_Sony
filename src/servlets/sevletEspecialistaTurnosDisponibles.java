@@ -8,19 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entidades.Usuario;
+import entidades.Turno;
 
 /**
- * Servlet implementation class configuracionPersonal
+ * Servlet implementation class sevletEspecialistaTurnosDisponibles
  */
-@WebServlet("/configuracionPersonal")
-public class configuracionPersonal extends HttpServlet {
+@WebServlet("/sevletEspecialistaTurnosDisponibles")
+public class sevletEspecialistaTurnosDisponibles extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public configuracionPersonal() {
+    public sevletEspecialistaTurnosDisponibles() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +30,22 @@ public class configuracionPersonal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request,response);
+		HttpSession sesion = request.getSession(false);
+		if(sesion==null) {
+			response.sendRedirect("index.html");
+		}
+		else {
+				if((Integer)sesion.getAttribute("estado") == Turno.reservado) {
+					
+					sesion.setAttribute("estado",Turno.disponible);				
+					sesion.setAttribute("botonEstado","Ver turnos reservados");
+					
+				}else {					
+					sesion.setAttribute("estado", Turno.reservado);
+					sesion.setAttribute("botonEstado","Ver turnos disponibles");
+				}				
+				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);								
+		}
 	}
 
 	/**
@@ -39,19 +53,7 @@ public class configuracionPersonal extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		try {
-			
-			HttpSession sesion = request.getSession(false);
-			
-			if(sesion==null) {
-				
-				response.sendRedirect("index.html");
-				
-			}else {
-				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
-			}
-			
-		}catch(Exception e) {e.printStackTrace();}
+		doGet(request, response);
 	}
+
 }

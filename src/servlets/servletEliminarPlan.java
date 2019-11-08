@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import logica.CtrlConfiguracion;;
 
 /**
- * Servlet implementation class configuracionPersonal
+ * Servlet implementation class servletEliminarPlan
  */
-@WebServlet("/configuracionPersonal")
-public class configuracionPersonal extends HttpServlet {
+@WebServlet("/paciente/servletEliminarPlan")
+public class servletEliminarPlan extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public configuracionPersonal() {
+    public servletEliminarPlan() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,28 +33,32 @@ public class configuracionPersonal extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request,response);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	private HttpSession sesion;
+    private Usuario user;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		
+		sesion = request.getSession();		
+		user = (Usuario)sesion.getAttribute("usuario");
+		
+		CtrlConfiguracion controlador = new CtrlConfiguracion();
+		
 		try {
+			controlador.eliminarPlan(user.getDni());
+			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 			
-			HttpSession sesion = request.getSession(false);
-			
-			if(sesion==null) {
-				
-				response.sendRedirect("index.html");
-				
-			}else {
-				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
-			}
-			
-		}catch(Exception e) {e.printStackTrace();}
+		}catch (SQLException e) {
+			request.getRequestDispatcher("/err.html").forward(request, response);
+		}
+
+		
 	}
+
 }

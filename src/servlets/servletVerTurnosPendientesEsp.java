@@ -2,7 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,23 +45,29 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 		try {
 			
 			HttpSession sesion = request.getSession(false);
+			
 			if(sesion==null) {
+				
 				response.sendRedirect("index.html");
-			}
-			else {
+			
+			}else {
+				
 				Usuario usActual = (Usuario)sesion.getAttribute("usuario");				
-				if(usActual.getTipousuario()== Usuario.especialista) {					
-					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);					
+				if(usActual.getTipousuario()== Usuario.especialista) {	
+					
+					java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
+					sesion.setAttribute("fecha", diaActual);
+					sesion.setAttribute("estado", Turno.reservado);
+					sesion.setAttribute("botonEstado","Ver turnos disponibles");
+					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+					
 				}else {
 					sesion.invalidate();
 					response.sendRedirect("index.html");
+					}
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
 				}
 		}
-		}	
-		catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
 	}
-
-}

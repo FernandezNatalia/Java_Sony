@@ -338,10 +338,19 @@ $(document).ready(function(){
 	<div id="saliendoModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
-					<div class="modal-body">						
-						<h4 class="modal-title">Cerrando sesión...</h4>
-					</div>	
+				<form action="servletCerrarSesion" method="post">
+					<div class="modal-header">						
+						<h4 class="modal-title">Cerrar sesión</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<p>Esta seguro de que desea cerrar la sesión?</p>
+						
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+						<input type="submit" class="btn btn-danger" value="Cerrar sesión">
+					</div>
 				</form>
 			</div>
 		</div>

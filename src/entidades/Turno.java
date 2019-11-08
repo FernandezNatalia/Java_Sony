@@ -17,7 +17,7 @@ public class Turno {
 	private Usuario especialista;	
 	private String observacion;
 	private Consultorio consultorio;
-	private Plan plan;
+	//private Plan plan;
 	private ArrayList<Practica> Practicas;
 	
 	
@@ -63,12 +63,12 @@ public class Turno {
 	public void setConsultorio(Consultorio consultorio) {
 		this.consultorio = consultorio;
 	}
-	public Plan getPlan() {
+	/*public Plan getPlan() {
 		return plan;
 	}
 	public void setPlan(Plan plan) {
 		this.plan = plan;
-	}
+	}*/
 	public ArrayList<Practica> getPracticas() {
 		return Practicas;
 	}

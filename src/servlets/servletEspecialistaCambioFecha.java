@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import logica.ValidacionNegocio;
 
 /**
- * Servlet implementation class configuracionPersonal
+ * Servlet implementation class servletEspecialistaCambioFecha
  */
-@WebServlet("/configuracionPersonal")
-public class configuracionPersonal extends HttpServlet {
+@WebServlet("/servletEspecialistaCambioFecha")
+public class servletEspecialistaCambioFecha extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public configuracionPersonal() {
+    public servletEspecialistaCambioFecha() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +34,24 @@ public class configuracionPersonal extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request,response);
+		
+		HttpSession sesion = request.getSession();
+		if(sesion==null) {
+			response.sendRedirect("index.html");
+		}
+		else {
+			String strFecha = request.getParameter("fechaDeseada");			
+			
+			if(ValidacionNegocio.ValidarFecha(strFecha)) {
+				
+				java.sql.Date fecha = ValidacionNegocio.ConvertirStringAFechaSql(strFecha);
+				sesion.setAttribute("fecha", fecha);
+				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				
+			}else {
+				response.sendRedirect("err.html");
+			}		
+		}
 	}
 
 	/**
@@ -39,19 +59,7 @@ public class configuracionPersonal extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		try {
-			
-			HttpSession sesion = request.getSession(false);
-			
-			if(sesion==null) {
-				
-				response.sendRedirect("index.html");
-				
-			}else {
-				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
-			}
-			
-		}catch(Exception e) {e.printStackTrace();}
+		doGet(request, response);
 	}
+
 }

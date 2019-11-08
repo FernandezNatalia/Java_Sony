@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
-import logica.UsuarioLogico;
+import logica.CtrlUsuario;
 import logica.ValidacionNegocio;
 
 @WebServlet("/servletPrincipal")
@@ -29,7 +29,7 @@ public class servletInicio extends HttpServlet {
 		}else {
 			
 			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-			UsuarioLogico usLogi = new UsuarioLogico();
+			CtrlUsuario usLogi = new CtrlUsuario();
 			
 			String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
 			request.getRequestDispatcher(path).forward(request, response);
@@ -46,7 +46,7 @@ public class servletInicio extends HttpServlet {
 		String strdni = request.getParameter("dni");
 		String pass = request.getParameter("pass");
 
-		UsuarioLogico usLog = new UsuarioLogico();
+		CtrlUsuario usLog = new CtrlUsuario();
 
 		if(ValidacionNegocio.ValidarInteger(strdni) && ValidacionNegocio.ValidarInteger(pass))
 		{
@@ -58,7 +58,8 @@ public class servletInicio extends HttpServlet {
 				sesion.setAttribute("usuario",usActual);
 
 				doGet(request, response);
-			}
+			}else
+				response.sendRedirect("err.html");
 		}
 		else {
 			//Informo que el usuario y/o contraseña son incorrectos

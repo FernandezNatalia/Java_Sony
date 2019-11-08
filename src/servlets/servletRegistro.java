@@ -17,7 +17,7 @@ import logica.*;
 /**
  * Servlet implementation class servletRegistro
  */
-@WebServlet("/pasando")
+@WebServlet("/servletRegistro")
 public class servletRegistro extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -51,7 +51,7 @@ public class servletRegistro extends HttpServlet {
 			Date fechaDate = ValidacionNegocio.ConvertirStringAFecha(fechaNacimiento);					
 			Usuario usNuevo = new Usuario(Integer.parseInt(dni),nombre,apellido,email,fechaDate,password,1);
 			
-			UsuarioLogico userLogico = new UsuarioLogico();			
+			CtrlUsuario userLogico = new CtrlUsuario();			
 			if(userLogico.RegistrarNuevoUsuario(usNuevo)) {
 				response.sendRedirect("index.html");
 			}else {

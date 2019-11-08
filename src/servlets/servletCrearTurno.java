@@ -41,7 +41,34 @@ public class servletCrearTurno extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		HttpSession sesion = request.getSession(false);
+		
+		if(sesion==null) {
+			
+			response.sendRedirect("index.html");	
+			
+		}else {
+			Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
+			
+			if(especialista.getTipousuario()== Usuario.especialista) {
+				
+				String strFechaHora=request.getParameter("fecha")+" "+request.getParameter("hora");
+				String strConsultorio = request.getParameter("cons");
+				
+				CtrlTurno controlador = new CtrlTurno();				
+				if(controlador.AgregarNuevoTurno(strFechaHora,strConsultorio,especialista.getDni())) {
+					
+					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				}else {
+					response.sendRedirect("err.html");
+				}
+			}else {
+				
+				sesion.invalidate();
+				response.sendRedirect("index.html");				
+			}			
+		}		
 	}
 
 	/**
@@ -49,102 +76,7 @@ public class servletCrearTurno extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		
-		try {
-		//String dnipacstr=request.getParameter("dnipac"); Mejor no asignar el paciente aca, alto quilombo y el medico tendria que saber el dni
-		String datestr=request.getParameter("fecha");
-		String horastr=request.getParameter("hora");
-		String fechayhorastr = datestr + " " + horastr;
-		HttpSession sesion = request.getSession(false);
-		if(sesion==null) {
-			response.sendRedirect("index.html");
-		}
-		else {
-			Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
-			if(especialista.getTipousuario()!=2) {
-				//El usuario no es especialista, vuelve al login y le expiramos la sesion por rata
-				sesion.invalidate();
-				response.sendRedirect("index.html");
-				
-			}
-			if(especialista.getTipousuario()==2) {
-		int idconsultorio =  Integer.parseInt(request.getParameter("cons"));
-		ConsultorioDatos cd = new ConsultorioDatos();
-		TurnoDatos td = new TurnoDatos();
-		Turno turno = new Turno();
-		
-		
-		turno.setEstado(1);
-		
-		try {
-			Consultorio consultorio = cd.getOne(idconsultorio);
-			turno.setConsultorio(consultorio);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
-		
-		turno.setEspecialista(especialista);
-		
-		 String fechabonita = "yyyy-MM-dd hh:mm";
-		
-         SimpleDateFormat formato = new SimpleDateFormat(fechabonita);
-        
-		try {
-			Date fechaturno = formato.parse(fechayhorastr);
-			//=================ESTA COMENTADA POR MI
-			//turno.setFechahora(fechaturno);
-			//========================
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-		
-		try {
-			td.add(turno);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//request.getRequestDispatcher("/servletVerTurnosPendientesEsp").forward(request, response);
-		response.setContentType("text/html"); 
-		 PrintWriter out = response.getWriter();
-		out.println("<html>");
-		out.println("<script>");
-		out.println("window.location.replace(\"servletVerTurnosPendientesEsp\");");
-		 out.println("</script>");
-		 out.println("</html>");
-		
-		}
-		
-		
-		
-		
-		}
-		
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			response.setContentType("text/html"); 
-			 PrintWriter out = response.getWriter();
-			out.println("<html>");
-			 out.println("Error");
-			 out.println("</html>");
-		}
-		//catch(Exception ex) {
-			
-		//	response.sendRedirect("err.html");
-		//	ex.printStackTrace();
-		//}
-		
-			
-	
-	
-		
+		doGet(request, response);	
 	}
 }
 

@@ -15,27 +15,21 @@ public class TurnoDatos extends Conexion {
 	private Turno readTurno(ResultSet rs) throws SQLException {
 		
 		Turno turno = new Turno();
-		UsuarioDatos ud = new UsuarioDatos();
-		PlanDatos pd = new PlanDatos();;
+		PacienteDatos ud = new PacienteDatos();
+		EspecialistaDatos es = new EspecialistaDatos();
 		ConsultorioDatos cd = new ConsultorioDatos();
-		//PracticaDatos p = new PracticaDatos(); //Podria no estar todavia aca
+		PracticaDatos p = new PracticaDatos(); //Podria no estar todavia aca	
+		
 		
 		turno.setIdturno(rs.getInt("id_turno"));			
-		//turno.setFecha(rs.getDate("fecha"));
-		//turno.setHora(rs.getTime("hora"));
-		
 		turno.setFechahora(rs.getTimestamp("fecha_hora"));
-		
-		
 		turno.setDuracion(rs.getInt("duracion"));			
-		turno.setEstado(rs.getInt("estado"));		
-		
-		turno.setEspecialista(ud.getOne(rs.getInt("dni_especialista")));
-		turno.setPaciente(ud.getOne(rs.getInt("dni_paciente")));
+		turno.setEstado(rs.getInt("estado"));				
+		turno.setEspecialista(es.getEspecialista(rs.getInt("dni_especialista")));
+		turno.setPaciente(ud.getPaciente(rs.getInt("dni_paciente")));
 		turno.setObservacion(rs.getString("observacion"));		
-		turno.setConsultorio(cd.getOne(rs.getInt("id_consultorio")));			
-		turno.setPlan(pd.getOne(rs.getInt("id_plan")));
-		//turno.setPracticas(p.getPracticasDeTurno(turno.getIdturno()));
+		turno.setConsultorio(cd.getOne(rs.getInt("id_consultorio")));	
+		turno.setPracticas(p.getPracticasDeTurno(turno.getIdturno()));
 
 	return turno;
 }
@@ -68,22 +62,22 @@ public class TurnoDatos extends Conexion {
 	}
 
 	
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,java.sql.Date fechaDate) throws SQLException{
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,java.sql.Date fechaDate,int estado) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_especialista = ? AND date(fecha_hora)=? ORDER BY fecha_hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND date(fecha_hora) between current_date() and ? ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			
 			pst = miCon.prepareStatement(cadena);
-			pst.setInt(1,especialista.getDni());
-				/*SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
-				String fecha = formatoddmmyy.format(fechaDate);
-			pst.setString(2,fecha);*/
-			pst.setDate(2,fechaDate); 
-			rs = pst.executeQuery(); //Modificar para traer los turnos del dia actual.
+			
+			pst.setInt(1,estado);
+			pst.setInt(2,especialista.getDni());
+			pst.setDate(3,fechaDate); 
+			
+			rs = pst.executeQuery();
 			
 			while(rs.next())
 			{
@@ -102,13 +96,12 @@ public class TurnoDatos extends Conexion {
 		
 		return turnos;
 	}
-	
 	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_paciente = ? ORDER BY hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_paciente = ? ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			
@@ -133,6 +126,46 @@ public class TurnoDatos extends Conexion {
 		
 		return turnos;
 	}
+	public void AgregarNuevoTurno(java.util.Date fechaHora,int idConsultorio,int dniEspecialista) throws SQLException {
+		
+
+		String cadena = "INSERT INTO turnos (fecha_hora,estado,dni_especialista,id_consultorio) VALUES (?,1,?,?)";
+		PreparedStatement pst = null;
+		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(cadena);
+
+			pst.setTimestamp(1, new java.sql.Timestamp(fechaHora.getTime()));			
+			pst.setInt(2,dniEspecialista);
+			pst.setInt(3, idConsultorio);
+			
+			pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}			
+	}	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 /*	
   		//==============================================

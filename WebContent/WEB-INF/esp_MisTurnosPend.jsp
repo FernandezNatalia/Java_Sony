@@ -313,6 +313,8 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 
 </style>
 <script type="text/javascript">
+
+
 $(document).ready(function(){
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
@@ -339,12 +341,14 @@ $(document).ready(function(){
 </script>
 <% 		
 		Usuario us= (Usuario)session.getAttribute("usuario");
-		TurnoLogico tl = new TurnoLogico();	
+		CtrlTurno tl = new CtrlTurno();	
 	
-	    java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
-    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us,diaActual);
-
-    %>
+		java.sql.Date fechaVista = (java.sql.Date) session.getAttribute("fecha");
+		
+		int estado = (Integer)session.getAttribute("estado");
+		
+    	ArrayList<Turno> lt=tl.getProximosDeEspecialista(us,fechaVista,estado);
+%>
 </head>
 <body>
     <div class="container">
@@ -355,18 +359,17 @@ $(document).ready(function(){
 						<h2>Mis <b>turnos</b></h2>
 					</div>
 					<div class="col-sm-6">
+						
 						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
 						
-
 					</div>
                 </div>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
-                    <tr>
-						
-                        <th>Hora</th>
+                    <tr>			
+                        <th>Fecha y hora</th>
 						<th>Dni paciente</th>
                         <th>Nombre y Apellido</th>
 						<th>Consultorio</th>
@@ -376,52 +379,42 @@ $(document).ready(function(){
                 </thead>
                 <tbody>
                 <% for (Turno tur : lt) {%>
-                 <% if (tur.getEstado() == 2) {%>
+                 
                     <tr>
 			            <% 
-			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
+			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm  dd/MM/yyyy");
 		           		ConsultorioDatos cd = new ConsultorioDatos();
 			             %>
                         <td><%=formatohhmm.format(tur.getFechahora())%></td>
+                        
+                        <%if (tur.getEstado() == Turno.reservado) {%>
                         <td><%=tur.getPaciente().getDni()%></td>
                         <td><%=tur.getPaciente().getNombre()+" "+tur.getPaciente().getApellido() %></td>
-						<td><%=tur.getConsultorio().getDesc()%></td>
+						<%}if (tur.getEstado() == Turno.disponible) {%>
+						<td>--</td>
+						<td>--</td>
+						<%} %>
+						<td><%=tur.getConsultorio().getDesc()%></td>                       
+                        <%if (tur.getEstado() == Turno.reservado) {%>
                         <td>Ocupado</td>
                         <td>
                             <a href="#finTurnoModal<%=tur.getIdturno()%>" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Finalizar turno">check_circle</i></a>
                             <a href="detallesTurno?idturno=<%=tur.getIdturno() %>" class="more" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Mas información">more_horiz</i></a>
                             <a href="#cancelarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelar">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    
-				<%} %>
-                  <% if (tur.getEstado() == 1) {%>
-					
-                    <tr>
-						<% 
-			            String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-			            
-			            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-			            String fechayhoramin = formato.format(tur.getFechahora());
-			            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-			            Consultorio con = tur.getConsultorio();
-			             %>
-                        <td>--</td>
-                        <td><%=fechayhora %></td>
-						<td><%=con.getDesc() %></td>
+                        <%}if (tur.getEstado() == Turno.disponible) {%>
                         <td>Disponible</td>
                         <td>
-                                           
-                            <a href="#eliminarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar turno">&#xE872;</i></a>
+                            <a href="#eliminarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Eliminar turno">&#xE872;</i></a>	
+                        <%} %>
                         </td>
                     </tr>
-                    <%} %>
-                    <%}
-                    %>					
+
+                    <%}%>					
 					
                 </tbody>
             </table>
-
+			<a href="#verSemanaTurno" class="btn btn-success" data-toggle="modal"><span>Ver semana completa</span></a>
+			<a href="sevletEspecialistaTurnosDisponibles" class="btn btn-success"><span><%=(String)session.getAttribute("botonEstado") %></span></a>
         </div>
     </div>
 	<!-- Edit Modal HTML -->
@@ -436,10 +429,9 @@ $(document).ready(function(){
 					<div class="modal-body">					
 						<div class="form-group">
 						<%
-						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-						Date date = new Date();
-						String fecmin = dateFormat.format(date);
-						
+							DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+							Date date = new Date();
+							String fecmin = dateFormat.format(date);						
 						%>
 							<label>Fecha</label>
 							<input type="date" class="form-control" min="<%=fecmin%>" name="fecha" required>
@@ -547,10 +539,10 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-	
-	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 2) {%>
 	<!-- finturno Modal HTML -->
+	
+	<% for (Turno tur : lt) {
+     if (tur.getEstado() == 2) {%>	
 	<div id="finTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -580,6 +572,8 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
+	
+	
 	<!-- Modal Cancelar turno -->
 	<div id="cancelarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
@@ -628,6 +622,36 @@ document.addEventListener("click", closeAllSelect);
 		</div>
 	</div>
 <%}} %>
+
+		
+		<!-- verSemanaTurno Modal HTML -->
+	<div id="verSemanaTurno" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="servletEspecialistaCambioFecha" method="post">
+					<div class="modal-header">						
+						<h4 class="modal-title">Ver proximas semanas</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+						</div>
+
+					<div class="form-group">
+						<label>Ingrese una fecha (yyyy-mm-dd)</label>
+						<input type="text" class="form-control" name="fechaDeseada" required></textarea>
+					</div>
+
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+						<input type="submit" class="btn btn-info" value="Aceptar">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 		
 </body>
 </html>                                		                            

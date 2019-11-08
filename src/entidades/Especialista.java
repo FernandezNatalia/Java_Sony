@@ -5,12 +5,13 @@ import java.util.ArrayList;
 public class Especialista extends Usuario {
 
 	private String especialidad;
+	private int codEspecialidad;
+	
+	private ArrayList<Practica> practicas;
+	
+	
 	
 	//Ver si queda
-	private int codEspecialidad;
-	private String nombre;
-	private ArrayList<Practica> practicas;	
-	
 	public ArrayList<Practica> getPracticas() {
 		return practicas;
 	}
@@ -23,15 +24,9 @@ public class Especialista extends Usuario {
 	public void setCodEspecialidad(int codEspecialidad) {
 		this.codEspecialidad = codEspecialidad;
 	}
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+
 	//Hasta aca
-	
-	
+
 	public String getEspecialidad() {
 		return especialidad;
 	}

@@ -1,27 +1,27 @@
 package servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import logica.*;
+import entidades.Usuario;
+import logica.CtrlConfiguracion;
 
 /**
- * Servlet implementation class servletEspecialista
+ * Servlet implementation class servletCambiarMail
  */
-@WebServlet("/servletEspecialista")
-public class servletEspecialista extends HttpServlet {
+@WebServlet({"/cambiaremail","/paciente/cambiaremail"})
+public class servletCambiarMail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public servletEspecialista() {
+    public servletCambiarMail() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +31,25 @@ public class servletEspecialista extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession sesion = request.getSession(false);
+		if(sesion==null) {
+			
+			response.sendRedirect("index.html");
+		}
+		else {
+			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+			
+			String newmail = request.getParameter("mail");			
+			CtrlConfiguracion controlador = new CtrlConfiguracion();
+			
+			if(controlador.CambioMail(newmail,usActual)) {
+				
+				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
+			}else {
+				response.sendRedirect("err.html");
+			}
+			
+		}
 	}
 
 	/**
@@ -39,27 +57,7 @@ public class servletEspecialista extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		
-	
-		
-		
+		doGet(request, response);
 	}
-	
-	public static void crearTurno()
-	{
-		//Ingresa parametros para crear turno
-	}
-	public static void listarTurnos() throws SQLException
-	{
-		TurnoLogico turnos = new TurnoLogico();
-		turnos.getAll();
-	}
-	public static void FinalizarTurnos() throws SQLException
-	{
-		listarTurnos();
-	    //Ingresa turno que desea observar - getOne()
-		//Cambiar estado
-	}
-	
+
 }

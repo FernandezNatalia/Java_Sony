@@ -330,14 +330,19 @@ $(document).ready(function(){
 	});
 });
 </script>
-<% HttpSession sesion = request.getSession(false);
+<% 
+   
+   HttpSession sesion = request.getSession(false);
    Usuario usActual = (Usuario) sesion.getAttribute("usuario");
    String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
    
    SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
    String fechayhoramin = formato.format(usActual.getFechanacimiento());
    String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-   %>
+   
+
+   CtrlConfiguracion controlador = new CtrlConfiguracion();
+%>
 </head>
 <body>
     <div class="container">
@@ -347,72 +352,56 @@ $(document).ready(function(){
                     <div class="col-sm-6">
 						<h2>Configuracion personal</h2>
 					</div>
-					<div class="col-sm-6">
-	
-						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
-						
-						
-
+					<div class="col-sm-6">	
+						<a href="/TurnosWeb/servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					</div>
                 </div>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
-                    <tr>
-						
-                        <th></th>
-                        <th></th>
+                    <tr>						
                          <th></th>
-						            
+                         <th></th>
+                         <th></th>						            
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-			
+                    <tr>			
                         <td>Nombre</td>
                         <td><input type="text" class="form-control" value="<%=usActual.getNombre() %>" disabled></td>
 						<td></td>      
                     </tr>
-                    <tr>
-				
+                    <tr>				
                         <td>Apellido</td>
                         <td><input type="text" class="form-control" value="<%=usActual.getApellido() %>" disabled></td>
 						<td></td>
                     </tr>
-					<tr>
-					
+					<tr>					
                         <td>Fecha de nacimiento</td>
                         <td><input type="text" class="form-control" value="<%=fechayhora %>" disabled></td>
 						<td></td>
                     </tr>
-                    <tr>
-					
+                    <tr>				
                         <td>DNI</td>
                         <td><input type="text" class="form-control" value="<%=usActual.getDni() %>" disabled></td>
-                        <td></td>
-						
+                        <td></td>						
                     </tr>
-                    <tr>
-					
+                    <tr>					
                         <td>Email</td>
                         <td><input type="text" class="form-control" value="<%=usActual.getEmail() %>" disabled></td>
 						<td><a href="#cambiarMailModal" class="btn btn-default" data-toggle="modal">Cambiar</a></td>
                     </tr>
-                    <tr>
-					
+                    <tr>					
                         <td>Contraseña</td>
                         <td><input type="text" class="form-control" value="**************" disabled></td>
 						<td><a href="#cambiarClaveModal" class="btn btn-default" data-toggle="modal">Cambiar</a></td>
-                    </tr>
-
-                   
+                    </tr>  
                 </tbody>
             </table>
-			<div class="clearfix">
-                
+			<div class="clearfix">           
         </div>
     </div>
-    <%if(usActual.getTipousuario()==1){ %>
+    <%if(usActual.getTipousuario()==Usuario.paciente){ %>
     <div class="card">
     	<div class="table-wrapper">
             <div class="table-title">
@@ -421,9 +410,11 @@ $(document).ready(function(){
 						<h2>Obras sociales</h2>
 					</div>
 					<div class="col-sm-6">
-	
-					<a href="#agregarPlanModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir plan</span></a>	
-						
+					<%	Paciente pac = controlador.getPaciente(usActual.getDni());
+						if(pac == null){ 
+					%>
+						<a href="#agregarPlanModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir plan</span></a>	
+					<%	} %>
 
 					</div>
                 </div>
@@ -437,12 +428,13 @@ $(document).ready(function(){
                     </tr>
                 </thead>
                 <tbody>
-                <% for (Plan p : usActual.getPlanes()) {%>
                     <tr>
-						<td><%=p.getObs()%></td>
-                        <td><%=p.getNomplan()%></td>
-                        <td><%=//NUMERO DE AFILIADO %></td>
+                   <% if(pac !=null) { %>
+						<td><%=pac.getPlan().getObs().getRazonSocial()%></td>
+                        <td><%=pac.getPlan().getNomplan()%></td>
+                        <td><%=pac.getNroAfiliado()%></td>
 						<td><a href="#borrarPlanModal" class="btn btn-default" data-toggle="modal">Eliminar</a></td>
+					<%} %>
                     </tr>
                                 
                 </tbody>
@@ -451,12 +443,12 @@ $(document).ready(function(){
                 
         </div>
     </div>
-    <%} %>
+<%} %>
 	<!-- Edit Modal HTML -->
 	<div id="agregarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action="servletAgregarPlan" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Añadir plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -466,91 +458,92 @@ $(document).ready(function(){
 							<label>Plan</label>
 							<br/>
 							<div class="custom-select" style="width:200px;">
-							<select>
-								<option value="0">     --      </option>
- 								<option value="1">OSDE 1000</option>
-  								<option value="2">IAPOS GOLD</option>
-  								
+							<select name="planes">
+							<%	ArrayList<Plan> planes = controlador.getAllPlanes();
+								for(Plan pa : planes) {
+							%>								
+								<option value="<%=pa.getId()%>"><%=pa.getNomplan()+" "+pa.getObs().getRazonSocial() %></option>	
+  							<%} %>							
 							</select>
 						</div>
 						<script>
-var x, i, j, selElmnt, a, b, c;
-/*look for any elements with the class "custom-select":*/
-x = document.getElementsByClassName("custom-select");
-for (i = 0; i < x.length; i++) {
-  selElmnt = x[i].getElementsByTagName("select")[0];
-  /*for each element, create a new DIV that will act as the selected item:*/
-  a = document.createElement("DIV");
-  a.setAttribute("class", "select-selected");
-  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-  x[i].appendChild(a);
-  /*for each element, create a new DIV that will contain the option list:*/
-  b = document.createElement("DIV");
-  b.setAttribute("class", "select-items select-hide");
-  for (j = 1; j < selElmnt.length; j++) {
-    /*for each option in the original select element,
-    create a new DIV that will act as an option item:*/
-    c = document.createElement("DIV");
-    c.innerHTML = selElmnt.options[j].innerHTML;
-    c.addEventListener("click", function(e) {
-        /*when an item is clicked, update the original select box,
-        and the selected item:*/
-        var y, i, k, s, h;
-        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-        h = this.parentNode.previousSibling;
-        for (i = 0; i < s.length; i++) {
-          if (s.options[i].innerHTML == this.innerHTML) {
-            s.selectedIndex = i;
-            h.innerHTML = this.innerHTML;
-            y = this.parentNode.getElementsByClassName("same-as-selected");
-            for (k = 0; k < y.length; k++) {
-              y[k].removeAttribute("class");
-            }
-            this.setAttribute("class", "same-as-selected");
-            break;
-          }
-        }
-        h.click();
-    });
-    b.appendChild(c);
-  }
-  x[i].appendChild(b);
-  a.addEventListener("click", function(e) {
-      /*when the select box is clicked, close any other select boxes,
-      and open/close the current select box:*/
-      e.stopPropagation();
-      closeAllSelect(this);
-      this.nextSibling.classList.toggle("select-hide");
-      this.classList.toggle("select-arrow-active");
-    });
-}
-function closeAllSelect(elmnt) {
-  /*a function that will close all select boxes in the document,
-  except the current select box:*/
-  var x, y, i, arrNo = [];
-  x = document.getElementsByClassName("select-items");
-  y = document.getElementsByClassName("select-selected");
-  for (i = 0; i < y.length; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i)
-    } else {
-      y[i].classList.remove("select-arrow-active");
-    }
-  }
-  for (i = 0; i < x.length; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add("select-hide");
-    }
-  }
-}
-/*if the user clicks anywhere outside the select box,
-then close all select boxes:*/
-document.addEventListener("click", closeAllSelect);
-</script>
+								var x, i, j, selElmnt, a, b, c;
+								/*look for any elements with the class "custom-select":*/
+								x = document.getElementsByClassName("custom-select");
+								for (i = 0; i < x.length; i++) {
+  								selElmnt = x[i].getElementsByTagName("select")[0];
+ 								 /*for each element, create a new DIV that will act as the selected item:*/
+  								a = document.createElement("DIV");
+  								a.setAttribute("class", "select-selected");
+ 								a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+  								x[i].appendChild(a);
+  								/*for each element, create a new DIV that will contain the option list:*/
+ 								b = document.createElement("DIV");
+ 								b.setAttribute("class", "select-items select-hide");
+ 								for (j = 1; j < selElmnt.length; j++) {
+ 	 						    /*for each option in the original select element,
+ 								create a new DIV that will act as an option item:*/
+ 								c = document.createElement("DIV");
+ 								c.innerHTML = selElmnt.options[j].innerHTML;
+ 								c.addEventListener("click", function(e) {
+ 	 								/*when an item is clicked, update the original select box,
+ 								and the selected item:*/
+ 								var y, i, k, s, h;
+ 								s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+ 								h = this.parentNode.previousSibling;
+ 								for (i = 0; i < s.length; i++) {
+ 	 								if (s.options[i].innerHTML == this.innerHTML) {
+ 	 	 								s.selectedIndex = i;
+ 	 	 								h.innerHTML = this.innerHTML;
+ 	 	 								y = this.parentNode.getElementsByClassName("same-as-selected");
+ 	 	 								for (k = 0; k < y.length; k++) {
+ 	 	 	 								y[k].removeAttribute("class");
+ 	 	 	 								}
+ 	 	 								this.setAttribute("class", "same-as-selected");
+ 	 	 								break;
+ 	 	 								}
+ 	 								}
+ 								h.click();
+ 								});
+ 								b.appendChild(c);
+ 								}
+ 								x[i].appendChild(b);
+ 								 a.addEventListener("click", function(e) {
+ 	 								/*when the select box is clicked, close any other select boxes,
+ 								and open/close the current select box:*/
+ 								e.stopPropagation();
+ 								closeAllSelect(this);
+ 								this.nextSibling.classList.toggle("select-hide");
+ 								 this.classList.toggle("select-arrow-active");
+  								 });
+  								}
+ 								function closeAllSelect(elmnt) {
+ 	 								  /*a function that will close all select boxes in the document,
+  								 except the current select box:*/
+  								var x, y, i, arrNo = [];
+ 								 x = document.getElementsByClassName("select-items");
+  								 y = document.getElementsByClassName("select-selected");
+  								 for (i = 0; i < y.length; i++) {
+  	 								  if (elmnt == y[i]) {
+  	 	 								    arrNo.push(i)
+  	 	  								  } else {
+  	 	  	 								    y[i].classList.remove("select-arrow-active");
+  	 	  	 								  }
+  	 								 }
+  								for (i = 0; i < x.length; i++) {
+  	 								  if (arrNo.indexOf(i)) {
+  	 	 								x[i].classList.add("select-hide");
+  	 	 		 					}
+  	 							}
+ 								}
+ 								/*if the user clicks anywhere outside the select box,
+ 								then close all select boxes:*/
+ 								document.addEventListener("click", closeAllSelect);
+ 						</script>
 						</div>
 						<div class="form-group">
 							<label>Numero de afiliado</label>
-							<input type="text" class="form-control" required>
+							<input type="text" class="form-control" name="nroafiliado" required>
 						</div>					
 					</div>
 					<div class="modal-footer">
@@ -572,24 +565,21 @@ document.addEventListener("click", closeAllSelect);
 					</div>
 					<div class="modal-body">					
 						<div class="form-group">
-						
-							
 						</div>
 						<div class="form-group">
 							<label>Nuevo email</label>
 							<input type="text" class="form-control" name="mail" required></textarea>
 						</div>
-				
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Guardar">
-
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	
 	<!-- Cambiar clave Modal HTML -->
 	<div id="cambiarClaveModal" class="modal fade">
 		<div class="modal-dialog">
@@ -600,9 +590,7 @@ document.addEventListener("click", closeAllSelect);
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<div class="form-group">
-						
-							
+						<div class="form-group">			
 						</div>
 						<div class="form-group">
 							<label>Contraseña anterior</label>
@@ -615,13 +603,11 @@ document.addEventListener("click", closeAllSelect);
 						<div class="form-group">
 							<label>Repetir nueva contraseña</label>
 							<input type="password" class="form-control" name="rnewpass" required></textarea>
-						</div>
-				
+						</div>				
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Cambiar contraseña">
-
 					</div>
 				</form>
 			</div>
@@ -631,7 +617,7 @@ document.addEventListener("click", closeAllSelect);
 	<div id="borrarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action="servletEliminarPlan" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Eliminar plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -652,16 +638,13 @@ document.addEventListener("click", closeAllSelect);
 	<div id="saliendoModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form action="servletAgregarPlan" method="post">
 					<div class="modal-header">						
-						<h4 class="modal-title">Volviendo al menu...</h4>
-						
+						<h4 class="modal-title">Volviendo al menu...</h4>						
 					</div>
-					<div class="modal-body">					
-						
+					<div class="modal-body">										
 					</div>
-					<div class="modal-footer">
-						
+					<div class="modal-footer">						
 					</div>
 				</form>
 			</div>
