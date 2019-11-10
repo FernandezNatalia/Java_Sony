@@ -539,14 +539,14 @@ document.addEventListener("click", closeAllSelect);
 			</div>
 		</div>
 	</div>
-	<!-- finturno Modal HTML -->
+	<!-- finalizar turno Modal HTML -->
 	
 	<% for (Turno tur : lt) {
-     if (tur.getEstado() == 2) {%>	
+     if (tur.getEstado() == Turno.reservado) {%>	
 	<div id="finTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="finalizarturno" method="post">
+				<form action="servletFinalizarTurno" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Finalizar turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -571,14 +571,12 @@ document.addEventListener("click", closeAllSelect);
 				</form>
 			</div>
 		</div>
-	</div>
-	
-	
-	<!-- Modal Cancelar turno -->
+	</div>		
+<!-- Cancelar turno -->
 	<div id="cancelarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="cancelarturno" method="post">
+				<form action="servletCancelarTurno" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Cancelar Turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -598,7 +596,7 @@ document.addEventListener("click", closeAllSelect);
 	</div>	
 	<%}} %>
 	<% for (Turno tur : lt) {%>
-    <% if (tur.getEstado() == 1) {%>
+    <% if (tur.getEstado() == Turno.disponible) {%>
 	<!-- Modal Eliminar turno -->
 	<div id="eliminarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">

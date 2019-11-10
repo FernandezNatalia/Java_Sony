@@ -7,11 +7,9 @@
 <%@page import="java.text.*"%>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Turnos</title>
-    <!--  <link rel="stylesheet" href="css/estilos.css">-->
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 
+<meta charset="UTF-8">
+<title>Turnos</title>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
 html, body{
@@ -19,7 +17,6 @@ html, body{
     padding: 0;
     background-color: #bfefbb;
 }
-
 body{
     width: 100%;
     height: 100%;
@@ -28,7 +25,6 @@ body{
     line-height: 1.6;
     font-family: 'Open Sans', sans-serif;
 }
-
 .title{
     text-align: center;
     font-size: 40px;
@@ -37,8 +33,6 @@ body{
     font-weight: 100;
     font-family: 'Roboto', sans-serif;
 }
-
-
 .container{
     width: 100%;
     max-width: 1200px;
@@ -49,7 +43,6 @@ body{
     margin: auto;
     
 }
-
 .container .card{
     width: auto;
     height: 250px;
@@ -61,34 +54,27 @@ body{
     transition: all 0.25s;
     background-color: #ffffbf;
 }
-
 .container .card:hover{
     transform: translateY(-15px);
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
 }
-
 .container .card img{
     width: 330px;
     height: 220px;
 }
-
-
 .container .card h4{
     font-weight: 600;
 }
-
 .container .card p{
     padding: 0 1rem;
     font-size: 14px;
     font-weight: 30;
 }
-
 .container .card a {
     font-weight: 500;
     text-decoration: none;
     color: #3498db;
 }
-
 /*Estilos sacados del menu paciente*/
 .table-wrapper {
         background: #fff;
@@ -180,7 +166,6 @@ body{
     table.table td a.delete {
         color: #F44336;
     }
-
     table.table td i {
         font-size: 19px;
     }
@@ -189,7 +174,6 @@ body{
 		vertical-align: middle;
 		margin-right: 10px;
 	}
-
 </style>
 
 <script>
@@ -206,8 +190,6 @@ function alerta()
     	document.getElementById("ejemplo").innerHTML = mensaje;
 }
 </script>
-
-
 
 </head>
 <body>
@@ -250,13 +232,5 @@ function alerta()
       	</thead>
     </table>
     </div>  
-    
-
-
-
-    
-    
-    
-      
 </body>
 </html>

@@ -55,13 +55,10 @@ public class servletRegistro extends HttpServlet {
 			if(userLogico.RegistrarNuevoUsuario(usNuevo)) {
 				response.sendRedirect("index.html");
 			}else {
-				//MensajeError.html("Ya existe ese usuario"); AGREGAR PARAMETROS
-				response.sendRedirect("err.html");	
+				servlet.NotificarMensaje(response,"registro.html","Ya existe el usuario que se desea ingresar.");
 			}	
 		}else {
-			//MensajeError.html("Datos ingresados incorrectos"); AGREGAR PARAMETROS
-			response.sendRedirect("err.html");
-			
+			servlet.NotificarMensaje(response,"registro.html","Los datos ingresados son incorrectos.");			
 		}		
 	}
 	/**

@@ -75,7 +75,7 @@ public class ValidacionNegocio {
 			return null;			
 			}		
 	}	
-	
+
 	public static java.sql.Date ConvertirStringAFechaSql(String fecha) {		
 		
 		Date parsed = ConvertirStringAFecha(fecha);
@@ -83,8 +83,6 @@ public class ValidacionNegocio {
 		    
 		return sql;		
 	}
-
-
 	public static Date ConvertirStringAFechaHora(String fechahora) {			
 		try {
 			Date fechaFormateada;
@@ -96,4 +94,6 @@ public class ValidacionNegocio {
 			return null;			
 			}		
 	}
+	
+	
 }

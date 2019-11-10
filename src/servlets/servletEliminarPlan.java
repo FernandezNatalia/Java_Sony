@@ -55,7 +55,7 @@ public class servletEliminarPlan extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 			
 		}catch (SQLException e) {
-			request.getRequestDispatcher("/err.html").forward(request, response);
+			servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido eliminar el plan: "+e.getMessage());
 		}
 
 		

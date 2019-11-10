@@ -19,7 +19,4 @@ public class Paciente extends Usuario{
 		this.plan = plan;
 	}
 	
-	
-	
-	
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import logica.Conversion;
 import logica.CtrlUsuario;
 import logica.ValidacionNegocio;
 
@@ -50,7 +51,7 @@ public class servletInicio extends HttpServlet {
 
 		if(ValidacionNegocio.ValidarInteger(strdni) && ValidacionNegocio.ValidarInteger(pass))
 		{
-			int dni = Integer.parseInt(strdni);
+			int dni = Conversion.ConvertirStringAInteger(strdni);
 			if(usLog.Autenticacion(dni,pass))
 			{
 				Usuario usActual = usLog.getOne(dni);
@@ -62,13 +63,11 @@ public class servletInicio extends HttpServlet {
 				response.sendRedirect("err.html");
 		}
 		else {
-			//Informo que el usuario y/o contraseña son incorrectos
-			response.sendRedirect("err.html");
+			servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");
 		}
 		}
 		catch(NumberFormatException ne){		
-			//Se produce una excepcion porque los campos estan vacios, o el dni es un string.
-			response.sendRedirect("err.html"); //PARAMETROS INFORMANDO
+			servlet.NotificarMensaje(response,"index.html","Algun/os campos se encuentran vacios o son incorrectos");
 	}
 	}
 

@@ -61,7 +61,9 @@ public class detallesturno extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/esp_detallesturno.jsp").forward(request, response);
 			}
 			}}
-		catch(Exception e) {e.printStackTrace();}
+		catch(Exception e) {
+			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Se ha producido un error "+e.getMessage());
+		}
 	}
 
 	/**

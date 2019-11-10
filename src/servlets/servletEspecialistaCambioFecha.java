@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -49,7 +50,7 @@ public class servletEspecialistaCambioFecha extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 				
 			}else {
-				response.sendRedirect("err.html");
+				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cambiar la fecha.");
 			}		
 		}
 	}

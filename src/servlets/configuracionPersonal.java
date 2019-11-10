@@ -52,6 +52,8 @@ public class configuracionPersonal extends HttpServlet {
 				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
 			}
 			
-		}catch(Exception e) {e.printStackTrace();}
+		}catch(Exception e) {
+			servlet.NotificarMensaje(response,"configuracionPersonal","Se ha producido un error "+e.getMessage());
+		}
 	}
 }

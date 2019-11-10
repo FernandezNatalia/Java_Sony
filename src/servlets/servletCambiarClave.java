@@ -52,7 +52,7 @@ public class servletCambiarClave extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				
 			}else {
-				response.sendRedirect("err.html");
+				servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido cambiar la clave");
 			}
 
 		}		

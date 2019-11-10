@@ -59,9 +59,7 @@ public class TurnoDatos extends Conexion {
 	     if(miCon != null) closeConnection();
 	 }
 		return turno;
-	}
-
-	
+	}	
 	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,java.sql.Date fechaDate,int estado) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
@@ -126,8 +124,37 @@ public class TurnoDatos extends Conexion {
 		
 		return turnos;
 	}
-	public void AgregarNuevoTurno(java.util.Date fechaHora,int idConsultorio,int dniEspecialista) throws SQLException {
+	
+	public void UpdateTurno(Turno t) throws SQLException {
 		
+		String consulta = "UPDATE turnos SET fecha_hora = ?, estado = ?, dni_especialista = ?, id_consultorio = ?, dni_paciente = ?, observacion = ? WHERE (id_turno = ?)";
+		PreparedStatement pst = null;
+		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+			
+			pst.setTimestamp(1, new java.sql.Timestamp(t.getFechahora().getTime()));	
+			pst.setInt(2, t.getEstado());
+			pst.setInt(3,t.getEspecialista().getDni());
+			pst.setInt(4, t.getConsultorio().getIdconsultorio());
+			pst.setInt(5, t.getPaciente().getDni());		
+			pst.setString(6, t.getObservacion());
+			pst.setInt(7, t.getIdturno());			
+
+			pst.executeUpdate();
+			
+		}finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}	
+	}
+	
+	
+	
+	public void AgregarNuevoTurno(java.util.Date fechaHora,int idConsultorio,int dniEspecialista) throws SQLException {
 
 		String cadena = "INSERT INTO turnos (fecha_hora,estado,dni_especialista,id_consultorio) VALUES (?,1,?,?)";
 		PreparedStatement pst = null;
@@ -139,23 +166,64 @@ public class TurnoDatos extends Conexion {
 			pst.setTimestamp(1, new java.sql.Timestamp(fechaHora.getTime()));			
 			pst.setInt(2,dniEspecialista);
 			pst.setInt(3, idConsultorio);
-			
+
 			pst.executeUpdate();
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
-		finally {
+		}finally {
 			
 			if(pst!=null)pst.close();
 			if(miCon!= null) miCon.close();
 			
 		}			
 	}	
+	
+	/*public void FinalizarTurno(Turno t) throws SQLException {
+		
+		String consulta = "UPDATE turnos SET estado = 3,observacion = ? WHERE (id_turno = ?)";
+		PreparedStatement pst = null;
+		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+		
+			pst.setString(1,t.getObservacion());
+			pst.setInt(2,t.getIdturno());
+			
+			pst.executeUpdate();
+			
+		} finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}
+	}
+	
+	public void AgregarNuevoTurno(Turno t) throws SQLException {
+		
+		String cadena = "INSERT INTO turnos (fecha_hora, estado, dni_especialista, id_consultorio, dni_paciente, observacion) VALUES (?,1,?,?,?,?)";
+		PreparedStatement pst = null;
+		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(cadena);
 
-	
-	
-	
+			pst.setTimestamp(1, new java.sql.Timestamp(t.getFechahora().getTime()));			
+			pst.setInt(2,t.getEspecialista().getDni());
+			pst.setInt(3, t.getConsultorio().getIdconsultorio());
+			pst.setInt(4, t.getPaciente().getDni());
+			pst.setString(5, t.getObservacion());
+
+			pst.executeUpdate();
+			
+		}finally {
+			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();
+			
+		}			
+	}
+	*/
 	
 	
 	

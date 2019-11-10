@@ -61,12 +61,12 @@ public class servletAgregarPlan extends HttpServlet {
 			
 				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 			}else {
-				response.sendRedirect("err.html");
+				servlet.NotificarMensaje(response,"configuracionPersonal","Nro de afiliado incorrecto, no debe poseer letras");
 			}			
 		}catch (SQLException e) {
-			response.sendRedirect("err.html");
+			servlet.NotificarMensaje(response,"configuracionPersonal","Se ha producido un error: "+e.getMessage());
 		}catch(NumberFormatException ne){		
-			response.sendRedirect("err.html");
+			servlet.NotificarMensaje(response,"configuracionPersonal","Se ha producido un error: "+ne.getMessage());
 		}
 	}
 }

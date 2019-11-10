@@ -42,8 +42,7 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		try {
-			
+		try {			
 			HttpSession sesion = request.getSession(false);
 			
 			if(sesion==null) {
@@ -51,7 +50,7 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 				response.sendRedirect("index.html");
 			
 			}else {
-				
+				//Valido que el usuario sea del tipo especialista, sino le expiro la sesion.
 				Usuario usActual = (Usuario)sesion.getAttribute("usuario");				
 				if(usActual.getTipousuario()== Usuario.especialista) {	
 					
@@ -67,7 +66,7 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 					}
 				}
 			}catch(Exception ex) {
-				ex.printStackTrace();
+				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp",ex.getMessage());
 				}
 		}
 	}

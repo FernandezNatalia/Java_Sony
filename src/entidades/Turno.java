@@ -8,6 +8,7 @@ public class Turno {
 	public static final int disponible = 1;
 	public static final int reservado = 2;
 	public static final int terminado = 3;
+	public static final int cancelado= 4;
 
 	private int idturno;
 	private Date fechahora;
@@ -17,7 +18,6 @@ public class Turno {
 	private Usuario especialista;	
 	private String observacion;
 	private Consultorio consultorio;
-	//private Plan plan;
 	private ArrayList<Practica> Practicas;
 	
 	
@@ -63,12 +63,6 @@ public class Turno {
 	public void setConsultorio(Consultorio consultorio) {
 		this.consultorio = consultorio;
 	}
-	/*public Plan getPlan() {
-		return plan;
-	}
-	public void setPlan(Plan plan) {
-		this.plan = plan;
-	}*/
 	public ArrayList<Practica> getPracticas() {
 		return Practicas;
 	}
