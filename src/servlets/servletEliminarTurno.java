@@ -6,25 +6,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
 import logica.Conversion;
+import logica.CtrlTurno;
 import logica.ValidacionNegocio;
 
 /**
- * Servlet implementation class servletEspecialistaCambioFecha
+ * Servlet implementation class servletEliminarTurno
  */
-@WebServlet("/servletEspecialistaCambioFecha")
-public class servletEspecialistaCambioFecha extends HttpServlet {
+@WebServlet("/servletEliminarTurno")
+public class servletEliminarTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public servletEspecialistaCambioFecha() {
+    public servletEliminarTurno() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -32,27 +31,29 @@ public class servletEspecialistaCambioFecha extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);
+		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);		
+		String strIDTurno = request.getParameter("idturno");
 		
-		HttpSession sesion = request.getSession();
-		String strFecha = request.getParameter("fechaDeseada");			
+		if(ValidacionNegocio.ValidarInteger(strIDTurno)){
 			
-		if(ValidacionNegocio.ValidarFecha(strFecha)) {
-			java.sql.Date fecha = Conversion.ConvertirStringAFechaSql(strFecha);
-			sesion.setAttribute("fecha", fecha);
-			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+			int idTurno = Conversion.ConvertirStringAInteger(strIDTurno);				
+			CtrlTurno controlador = new CtrlTurno();	
 			
-		}else {			
-			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cambiar la fecha.");
-			
-		}	
-	}
+			if(controlador.EliminarTurno(idTurno)) {
+				request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);				
+			}else {
+				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Ha ocurrido un error, no se puede finalizar el turno");
+			}
+		}
+		
+		
+		request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+	}	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

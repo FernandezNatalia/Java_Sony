@@ -22,35 +22,23 @@ public class servletCancelarTurno extends HttpServlet {
      */
     public servletCancelarTurno() {
         super();
-        // TODO Auto-generated constructor stub
     }
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession sesion = request.getSession(false);
-		if(sesion==null) {			
-			response.sendRedirect("index.html");	
-			
-		}else {
-			Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
-			
-			if(especialista.getTipousuario()== Usuario.especialista) {				
-				Integer IDTurno = Conversion.ConvertirStringAInteger(request.getParameter("idturno"));
+					
+		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);
+		Integer IDTurno = Conversion.ConvertirStringAInteger(request.getParameter("idturno"));
 	
-				//Llamo al controlador, se elimina el turno y se redirecciona al listado.
-				CtrlTurno controlador = new CtrlTurno();			
-				if(controlador.EliminarTurno(IDTurno))
-					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);				
-				else {					
-					servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");
-				}				
-			}else {			
-				//El usuario no es especialista, le invalido la sesion.
-				sesion.invalidate();
-				response.sendRedirect("index.html");				
-			}			
-		}		
+		//Llamo al controlador, se elimina el turno y se redirecciona al listado.
+		
+		CtrlTurno controlador = new CtrlTurno();			
+		if(controlador.CancelarTurno(IDTurno))
+			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);				
+		else {		
+			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");			
+		}						
 	}
 
 	/**

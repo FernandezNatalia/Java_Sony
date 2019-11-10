@@ -17,7 +17,7 @@ import logica.ValidacionNegocio;
 /**
  * Servlet implementation class servletAgregarPlan
  */
-@WebServlet("/paciente/servletAgregarPlan")
+@WebServlet("/servletAgregarPlan")
 public class servletAgregarPlan extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,8 +43,8 @@ public class servletAgregarPlan extends HttpServlet {
 	private HttpSession sesion;
     private Usuario user;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+		
+		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		
 		sesion = request.getSession();		
 		user = (Usuario)sesion.getAttribute("usuario");

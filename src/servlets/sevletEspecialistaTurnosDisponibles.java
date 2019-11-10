@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Turno;
+import entidades.Usuario;
 
 /**
  * Servlet implementation class sevletEspecialistaTurnosDisponibles
@@ -29,23 +30,19 @@ public class sevletEspecialistaTurnosDisponibles extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		servlet.VerificarSesionYUsuario(request, response, Usuario.especialista);
 		HttpSession sesion = request.getSession(false);
-		if(sesion==null) {
-			response.sendRedirect("index.html");
-		}
-		else {
-				if((Integer)sesion.getAttribute("estado") == Turno.reservado) {
-					
-					sesion.setAttribute("estado",Turno.disponible);				
-					sesion.setAttribute("botonEstado","Ver turnos reservados");
-					
-				}else {					
-					sesion.setAttribute("estado", Turno.reservado);
-					sesion.setAttribute("botonEstado","Ver turnos disponibles");
-				}				
-				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);								
-		}
+		
+		if((Integer)sesion.getAttribute("estado") == Turno.reservado) {			
+			sesion.setAttribute("estado",Turno.disponible);				
+			sesion.setAttribute("botonEstado","Ver turnos reservados");
+		
+		}else {
+			sesion.setAttribute("estado", Turno.reservado);
+			sesion.setAttribute("botonEstado","Ver turnos disponibles");
+			}
+		request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);			
 	}
 
 	/**

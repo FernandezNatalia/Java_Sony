@@ -74,8 +74,9 @@ public class servletPaciente extends HttpServlet {
 			case "/planes": 
 				//planes(request,response); 
 				break;
-			case "/configuracion": 
-				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
+			case "/configuracion": 	
+				response.sendRedirect("/TurnosWeb/configuracionPersonal");
+				//request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				break;	
 			default: 
 				request.getRequestDispatcher("/err.html").forward(request, response);

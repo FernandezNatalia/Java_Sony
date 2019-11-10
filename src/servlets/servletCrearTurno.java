@@ -40,33 +40,22 @@ public class servletCrearTurno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+
+		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);
 		HttpSession sesion = request.getSession(false);
 		
-		if(sesion==null) {
+		Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
+		String strFechaHora=request.getParameter("fecha")+" "+request.getParameter("hora");
+		String strConsultorio = request.getParameter("cons");
+				
+		CtrlTurno controlador = new CtrlTurno();				
+		if(controlador.AgregarNuevoTurno(strFechaHora,strConsultorio,especialista.getDni())) {
 			
-			response.sendRedirect("index.html");	
+			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 			
 		}else {
-			Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
 			
-			if(especialista.getTipousuario()== Usuario.especialista) {
-				
-				String strFechaHora=request.getParameter("fecha")+" "+request.getParameter("hora");
-				String strConsultorio = request.getParameter("cons");
-				
-				CtrlTurno controlador = new CtrlTurno();				
-				if(controlador.AgregarNuevoTurno(strFechaHora,strConsultorio,especialista.getDni())) {
-					
-					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-				}else {
-					servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido crear un turno");
-				}
-			}else {				
-				sesion.invalidate();
-				response.sendRedirect("index.html");				
-			}			
+			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido crear un turno");
 		}		
 	}
 

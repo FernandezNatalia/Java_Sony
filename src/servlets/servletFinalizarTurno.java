@@ -30,32 +30,25 @@ public class servletFinalizarTurno extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		HttpSession sesion = request.getSession(false);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {				
+		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);
 		
-		//Si el Usuario no tiene una sesion o es un paciente se lo manda a la pagina de inicio.
+		String observacion=request.getParameter("observacion");
+		String strIDTurno = request.getParameter("idturno");
 		
-		if(sesion==null || Usuario.paciente == ((Usuario)(sesion.getAttribute("usuario"))).getTipousuario()) {			
-			response.sendRedirect("index.html");			
-		}else {
+		//Valido que el id sea integer
+		if(ValidacionNegocio.ValidarInteger(strIDTurno)){
+			int idTurno = Conversion.ConvertirStringAInteger(strIDTurno);				
+			CtrlTurno controlador = new CtrlTurno();	
 			
-			String observacion=request.getParameter("observacion");
-			String strIDTurno = request.getParameter("idturno");
-			
-			if(ValidacionNegocio.ValidarInteger(strIDTurno)){
+			//El controlador del turno se encarga de finalizarlo
+			if(controlador.FinalizarTurno(observacion,idTurno)) {
+				request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 				
-				int idTurno = Conversion.ConvertirStringAInteger(strIDTurno);				
-				CtrlTurno controlador = new CtrlTurno();	
-				
-				if(controlador.FinalizarTurno(observacion,idTurno)) {
-
-					request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-					
-				}else {
-					servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Ha ocurrido un error, no se puede finalizar el turno");
-				}
-			}
-		}
+			}else {
+				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Ha ocurrido un error, no se puede finalizar el turno");				
+			}			
+		}		
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

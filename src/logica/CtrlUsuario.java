@@ -24,10 +24,10 @@ public class CtrlUsuario {
 			
 			return"WEB-INF/menuEspecialista.html";				
 		}
-		else if(us.getTipousuario() == Usuario.paciente) {
+		if(us.getTipousuario() == Usuario.paciente) {
 			return "WEB-INF/menuPaciente.jsp";
 		}
-		else if (us.getTipousuario() == Usuario.admin) {
+		if (us.getTipousuario() == Usuario.admin) {
 			
 			return "WEB-INF/menuAdmin.html";
 		}

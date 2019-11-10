@@ -33,7 +33,6 @@ public class servletRegistro extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());		
 		
 		String dni = request.getParameter("dni");
 		String nombre = request.getParameter("nombre");
@@ -48,7 +47,7 @@ public class servletRegistro extends HttpServlet {
 		
 		if(validado) {
 			
-			Date fechaDate = ValidacionNegocio.ConvertirStringAFecha(fechaNacimiento);					
+			Date fechaDate = Conversion.ConvertirStringAFecha(fechaNacimiento);					
 			Usuario usNuevo = new Usuario(Integer.parseInt(dni),nombre,apellido,email,fechaDate,password,1);
 			
 			CtrlUsuario userLogico = new CtrlUsuario();			

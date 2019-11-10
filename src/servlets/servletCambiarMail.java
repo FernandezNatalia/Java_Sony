@@ -30,26 +30,21 @@ public class servletCambiarMail extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		servlet.VerificarSesion(request, response);
 		HttpSession sesion = request.getSession(false);
-		if(sesion==null) {
+		
+		
+		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
 			
-			response.sendRedirect("index.html");
-		}
-		else {
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+		String newmail = request.getParameter("mail");			
+		CtrlConfiguracion controlador = new CtrlConfiguracion();
 			
-			String newmail = request.getParameter("mail");			
-			CtrlConfiguracion controlador = new CtrlConfiguracion();
-			
-			if(controlador.CambioMail(newmail,usActual)) {
+		if(controlador.CambioMail(newmail,usActual)) {
 				
-				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
-			}else {
-				servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido cambiar el email.");
-			}
-			
-		}
+			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
+		}else {
+			servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido cambiar el email.");
+		}	
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class CtrlTurno {
 		
 		if(ValidacionNegocio.ValidarFecha(strFechaHora) && ValidacionNegocio.ValidarInteger(strConsultorio)) {
 			
-			java.util.Date fecha = ValidacionNegocio.ConvertirStringAFechaHora(strFechaHora);
+			java.util.Date fecha = Conversion.ConvertirStringAFechaHora(strFechaHora);
 			int idConsultorio = Conversion.ConvertirStringAInteger(strConsultorio);			
 			
 			try {
@@ -52,6 +52,7 @@ public class CtrlTurno {
 		try {
 			Turno t = this.getOne(idTurno);
 			t.setObservacion(observacion);
+			t.setEstado(Turno.terminado);
 			//t.setDuracion(duracion);
 			
 			turnoData.UpdateTurno(t);			
@@ -62,8 +63,18 @@ public class CtrlTurno {
 		
 		return true;
 	}
-	
-	public boolean EliminarTurno(int id) {
+	public boolean EliminarTurno(int idTurno){		
+		try {
+			
+			turnoData.EliminarTurno(idTurno);			
+			
+		} catch (SQLException e) {
+			return false;
+		}
+		
+		return true;
+	}
+	public boolean CancelarTurno(int id) {
 
 		try {
 			Turno t = this.getOne(id);

@@ -25,36 +25,29 @@ public class servletCambiarClave extends HttpServlet {
      */
     public servletCambiarClave() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
+		servlet.VerificarSesion(request, response);
 		HttpSession sesion = request.getSession(false);
-		if(sesion==null) {
-			response.sendRedirect("index.html");
-		}
-		else {
-			String oldpass = request.getParameter("oldpass");
-			String newpass = request.getParameter("newpass");
-			String repnewpass = request.getParameter("rnewpass");
+		
+		String oldpass = request.getParameter("oldpass");
+		String newpass = request.getParameter("newpass");
+		String repnewpass = request.getParameter("rnewpass");
 			
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
 			
 			
-			CtrlConfiguracion controlador = new CtrlConfiguracion();
-			if(controlador.CambioClave(oldpass,newpass,repnewpass,usActual)) {
+		CtrlConfiguracion controlador = new CtrlConfiguracion();
+		if(controlador.CambioClave(oldpass,newpass,repnewpass,usActual)) {
 				
-				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				
-			}else {
-				servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido cambiar la clave");
-			}
-
+		}else {
+			servlet.NotificarMensaje(response,"configuracionPersonal","No se ha podido cambiar la clave");
 		}		
 	}
 

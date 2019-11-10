@@ -26,14 +26,12 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
      */
     public servletVerTurnosPendientesEsp() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request,response);
 	}
 
@@ -41,32 +39,14 @@ public class servletVerTurnosPendientesEsp extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		try {			
+	
+			servlet.VerificarSesionYUsuario(request, response, Usuario.especialista);
 			HttpSession sesion = request.getSession(false);
 			
-			if(sesion==null) {
-				
-				response.sendRedirect("index.html");
-			
-			}else {
-				//Valido que el usuario sea del tipo especialista, sino le expiro la sesion.
-				Usuario usActual = (Usuario)sesion.getAttribute("usuario");				
-				if(usActual.getTipousuario()== Usuario.especialista) {	
-					
-					java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
-					sesion.setAttribute("fecha", diaActual);
-					sesion.setAttribute("estado", Turno.reservado);
-					sesion.setAttribute("botonEstado","Ver turnos disponibles");
-					request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
-					
-				}else {
-					sesion.invalidate();
-					response.sendRedirect("index.html");
-					}
-				}
-			}catch(Exception ex) {
-				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp",ex.getMessage());
-				}
-		}
-	}
+			java.sql.Date diaActual = new java.sql.Date(new Date().getTime());
+			sesion.setAttribute("fecha", diaActual);
+			sesion.setAttribute("estado", Turno.reservado);
+			sesion.setAttribute("botonEstado","Ver turnos disponibles");
+			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);			
+	}	
+}

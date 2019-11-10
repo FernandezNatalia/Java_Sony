@@ -123,8 +123,7 @@ public class TurnoDatos extends Conexion {
 		}
 		
 		return turnos;
-	}
-	
+	}	
 	public void UpdateTurno(Turno t) throws SQLException {
 		
 		String consulta = "UPDATE turnos SET fecha_hora = ?, estado = ?, dni_especialista = ?, id_consultorio = ?, dni_paciente = ?, observacion = ? WHERE (id_turno = ?)";
@@ -150,10 +149,7 @@ public class TurnoDatos extends Conexion {
 			if(miCon!= null) miCon.close();
 			
 		}	
-	}
-	
-	
-	
+	}		
 	public void AgregarNuevoTurno(java.util.Date fechaHora,int idConsultorio,int dniEspecialista) throws SQLException {
 
 		String cadena = "INSERT INTO turnos (fecha_hora,estado,dni_especialista,id_consultorio) VALUES (?,1,?,?)";
@@ -175,8 +171,23 @@ public class TurnoDatos extends Conexion {
 			if(miCon!= null) miCon.close();
 			
 		}			
-	}	
+	}		
+	public void EliminarTurno(int id) throws SQLException {
+		String cadena = "DELETE FROM turnos WHERE (id_turno = ?)";
+		PreparedStatement pst = null;		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(cadena);			
+			pst.setInt(1,id);
+			pst.executeUpdate();			
+		}finally {			
+			if(pst!=null)pst.close();
+			if(miCon!= null) miCon.close();			
+		}	
+		
+	}
 	
+}
 	/*public void FinalizarTurno(Turno t) throws SQLException {
 		
 		String consulta = "UPDATE turnos SET estado = 3,observacion = ? WHERE (id_turno = ?)";
@@ -354,6 +365,3 @@ public class TurnoDatos extends Conexion {
 
 */	
 
-
-	
-}

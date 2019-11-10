@@ -22,27 +22,21 @@ public class servletInicio extends HttpServlet {
     }
 
     HttpSession sesion;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("Served at: ").append(request.getContextPath());		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 
-		if(sesion == null) {
-			response.sendRedirect("index.html");
-		}else {
-			
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-			CtrlUsuario usLogi = new CtrlUsuario();
-			
-			String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
-			request.getRequestDispatcher(path).forward(request, response);
-			
-		}
+		servlet.VerificarSesion(request, response);
+		
+		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+		CtrlUsuario usLogi = new CtrlUsuario();
+		String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
+		request.getRequestDispatcher(path).forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	try {		
 		String strdni = request.getParameter("dni");
 		String pass = request.getParameter("pass");
@@ -60,10 +54,10 @@ public class servletInicio extends HttpServlet {
 
 				doGet(request, response);
 			}else
-				response.sendRedirect("err.html");
+				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");;
 		}
 		else {
-			servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");
+			servlet.NotificarMensaje(response,"index.html","Datos ingresados incorrectos");
 		}
 		}
 		catch(NumberFormatException ne){		
