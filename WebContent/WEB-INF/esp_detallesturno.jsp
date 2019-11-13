@@ -90,7 +90,7 @@
                     </tr>
                 </tbody>
             </table>			
-    	</div>
+    </div>
     </div>
     <div class="container">
         <div class="table-wrapper">
