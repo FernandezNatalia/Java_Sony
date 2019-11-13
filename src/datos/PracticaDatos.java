@@ -7,9 +7,42 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import entidades.Practica;
+import entidades.Turno;
 
 public class PracticaDatos extends Conexion{
 
+	public Practica getOne(int idPractica) throws SQLException {
+		Practica p = null;
+		
+		PreparedStatement pst = null; 
+		ResultSet rs = null;
+		String cadena = "SELECT * FROM practicas WHERE cod_practica = ?";
+		
+	    try {
+	    	getConnection();
+	    	pst = miCon.prepareStatement(cadena);
+	    	pst.setInt(1,idPractica);
+	        rs = pst.executeQuery();
+	        
+	        if(rs.next())
+	        {
+	        	p = new Practica();
+	        	p.setId(rs.getInt("cod_practica"));
+	        	p.setDesc(rs.getString("descripcion"));    
+	        	p.setValor(rs.getDouble("costo"));
+	        }
+	        
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    finally {
+	    	if(rs!=null) rs.close();
+			if(pst!=null) pst.close();
+			if(miCon!=null)closeConnection();
+	    }
+
+		return p;
+	}
 	public ArrayList<Practica> getPracticasDeTurno(int idTurno) throws SQLException{
 		ArrayList<Practica> practicas = null;
 		
@@ -114,13 +147,44 @@ public class PracticaDatos extends Conexion{
 			} catch (SQLException e) { e.printStackTrace();}	        
 	    }
 	    return valor;
-		
-		
-		
-		
-		
 	}
 	
+	
+	public void agregarPracticaTurno(Practica practica, Turno turno) throws SQLException {		
+		PreparedStatement st = null;
+		String consulta = "INSERT INTO turnos_practicas (id_turno, cod_practica) VALUES (?,?)";
+		try {
+			getConnection();
+			st = miCon.prepareStatement(consulta);
+			st.setInt(1, turno.getIdturno());
+			st.setInt(2, practica.getId());
+			
+			st.executeUpdate();
+			
+		}
+		finally {		
+			if(st!= null) st.close();
+			if(miCon!=null)closeConnection();
+		}		
+	}
+	
+	public void eliminarPracticaTurno(Practica practica, Turno turno) throws SQLException {		
+		PreparedStatement st = null;
+		String consulta = "DELETE FROM turnos_practicas WHERE (id_turno = ?) and (cod_practica = ?)";
+		try {
+			getConnection();
+			st = miCon.prepareStatement(consulta);
+			st.setInt(1, turno.getIdturno());
+			st.setInt(2, practica.getId());
+			
+			st.executeUpdate();
+			
+		}
+		finally {		
+			if(st!= null) st.close();
+			if(miCon!=null)closeConnection();
+		}		
+	}
 	
 	/*public Practica getOne(int id) throws SQLException {
 		

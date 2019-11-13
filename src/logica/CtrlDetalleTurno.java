@@ -25,12 +25,46 @@ public class CtrlDetalleTurno {
 	}
 	
 	public double getValorPractica(Practica pr ,Plan p) {
+		//Calculo el valor de la practica restandole el porcentaje que cubre la Obra Social.
 		
 		double porcentaje = pracDat.getValorPractica(pr.getId(),p.getId());
 		double valor = pr.getValor() - (porcentaje*100);
 		return valor;
 	}
 	
+	public boolean EliminarPracticaDeTurno(int idTurno, int idPractica) {
+		try {			
+			Practica p = pracDat.getOne(idPractica);
+			Turno t = turDat.getOne(idTurno);
+			
+			//Elimino la practica del turno		
+			pracDat.eliminarPracticaTurno(p, t);
+			
+		} catch (SQLException e) {
+			return false;				
+		}			
+	return true;
+	}
+	
+	public boolean AgregarPractica(int idTurno, int idPractica) {
+		
+		try {			
+			Practica p = pracDat.getOne(idPractica);
+			Turno t = turDat.getOne(idTurno);
+
+			//Verifica que la practica no este agregada al turno
+			if(t.getPracticas().contains(p)) {
+				return false;
+			}
+		
+			//Agrego la nueva practica al turno		
+			pracDat.agregarPracticaTurno(p, t);
+			
+			} catch (SQLException e) {
+				return false;				
+			}				
+		return true;		
+	}
 	
 	
 	/*public ArrayList<Practica> getPracticasDeEspecialista(int dni){
