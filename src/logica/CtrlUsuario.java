@@ -11,8 +11,8 @@ public class CtrlUsuario {
 		userDat = new UsuarioDatos();
 	}
 
-	public boolean Autenticacion(int dni,String contraseña) {
-		return userDat.Autenticacion(dni, contraseña);
+	public boolean Autenticacion(int dni,String clave) {
+		return userDat.Autenticacion(dni, clave);
 	}
 	public Usuario getOne(int dni) {
 		return userDat.getOne(dni);
