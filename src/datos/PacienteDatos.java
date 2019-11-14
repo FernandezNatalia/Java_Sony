@@ -21,7 +21,7 @@ public class PacienteDatos extends Conexion{
 		ResultSet rs = null;
 		String cadena = "select u.dni,u.nombre,u.apellido,u.fecha_nacimiento,u.tipo_usuario, u.password,u.email, "
 				+ "nro_afiliado,p.id_plan, p.cuit_os, p.nombre as plan_nombre from usuarios u " + 
-				"inner join planes p on p.id_plan = u.id_plan " + 
+				"left join planes p on p.id_plan = u.id_plan " + 
 				"where dni= ?";
 		
 	    try {
@@ -32,19 +32,22 @@ public class PacienteDatos extends Conexion{
 	        
 	        if(rs.next())
 	        {
-	        	pl = new Plan();
-	        	ob = new ObraSocialDatos();
 	        	
 	        	UsuarioDatos udat = new UsuarioDatos();
 		    	pac = new Paciente();
 		    	udat.readUsuario(rs,pac);
-	        	
-	        	pl.setId(rs.getInt("id_plan"));
-	        	pl.setObs(ob.getOne(rs.getString("cuit_os")));
-	        	pl.setNomplan(rs.getString("plan_nombre")); 
-	        	
-	        	((Paciente)pac).setPlan(pl);
-	        	((Paciente)pac).setNroAfiliado(rs.getString("nro_afiliado"));
+		    	
+	        	if(rs.getInt("id_plan") != 0) {
+	        		pl = new Plan();
+		        	ob = new ObraSocialDatos();
+		        	
+	        		pl.setId(rs.getInt("id_plan"));
+		        	pl.setObs(ob.getOne(rs.getString("cuit_os")));
+		        	pl.setNomplan(rs.getString("plan_nombre")); 
+		        	
+		        	((Paciente)pac).setPlan(pl);
+		        	((Paciente)pac).setNroAfiliado(rs.getString("nro_afiliado"));
+	        	}
 	        }
 	        
 	    } catch (SQLException ex) {

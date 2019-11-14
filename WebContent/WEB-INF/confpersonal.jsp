@@ -401,11 +401,10 @@ $(document).ready(function(){
 					</div>
 					<div class="col-sm-6">
 					<%	Paciente pac = controlador.getPaciente(usActual.getDni());
-						if(pac == null){ 
+						if(pac.getPlan() == null){ 
 					%>
 						<a href="#agregarPlanModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir plan</span></a>	
 					<%	} %>
-
 					</div>
                 </div>
             </div>
@@ -419,7 +418,7 @@ $(document).ready(function(){
                 </thead>
                 <tbody>
                     <tr>
-                   <% if(pac !=null) { %>
+                   <% if(pac.getPlan() !=null) { %>
 						<td><%=pac.getPlan().getObs().getRazonSocial()%></td>
                         <td><%=pac.getPlan().getNomplan()%></td>
                         <td><%=pac.getNroAfiliado()%></td>

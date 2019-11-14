@@ -110,24 +110,28 @@
                     <tr>						
                         <th>Nombre de práctica</th>
                         <th>Valor</th>
-                        <%if(paci.getPlan() != null){ %>
                         <th>Valor cubierto</th>
-                        <%} %>
-                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                <% double total = 0; %>
-                <% for (Practica prac : turno.getPracticas()) {%>
+                <% 
+              	//Si el paciente tiene un plan se le suma el descuento que le ofrezca el mismo.
+            	//La variable totalConDesc va sumando el total de las practicas (con descuento)
+            	//La variable total contiene la suma de los precios reales de cada practica
+            	
+                double total = 0; double valorDescuento = 0; double totalConDesc = 0;
+                for (Practica prac : turno.getPracticas()) {                	               	
+                	if(paci.getPlan() != null){
+                    	valorDescuento = controlador.getValorPractica(prac,paci.getPlan());
+                        totalConDesc = totalConDesc + valorDescuento ;
+                    }                 	                	
+                	total = total + prac.getValor();                  
+                 %>
                     <tr>
-                        <td><%=prac.getDesc() %></td>                       
-                        <% double valorDescuento = controlador.getValorPractica(prac,paci.getPlan());
-                           total = total + valorDescuento ;
-                        %>                       
+                    	<td><%=prac.getDesc() %></td>                                                                   
                         <td><%=prac.getValor() %></td>
-                        <%if(paci.getPlan() != null){ %>
-                        <td><%=valorDescuento %></td>
-                        <%} %>  
+                        <td><%=valorDescuento %></td>  
 						<td><a href="#borrarPracticaModal<%=prac.getId() %>" class="btn btn-default" data-toggle="modal">Eliminar</a></td>
                     </tr>
 						<!-- Borrar practica Modal HTML -->
@@ -154,10 +158,16 @@
 							</div>
                <%} %>
                 <tr>
-                <td><b>Total de consulta : </b></td>
-                <td></td>
-                <td><b>$ <%=total %></b></td>
-                <td></td>
+                	<td></td>
+                	<td></td>
+                	<td></td>
+                	<td></td>
+                </tr>
+                <tr>
+                	<td><b>Total de consulta : </b></td>
+                	<td><b>$ <%=total - totalConDesc%></b></td>
+                	<td></td>
+                	<td></td>
                 </tr>
                 </tbody>
             </table>			
