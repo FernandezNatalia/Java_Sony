@@ -43,7 +43,8 @@ public class servletFinalizarTurno extends HttpServlet {
 			
 			//El controlador del turno se encarga de finalizarlo
 			if(controlador.FinalizarTurno(observacion,idTurno)) {
-				request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				//request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 				
 			}else {
 				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Ha ocurrido un error, no se puede finalizar el turno");				

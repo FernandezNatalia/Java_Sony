@@ -51,7 +51,9 @@ public class servletCrearTurno extends HttpServlet {
 		CtrlTurno controlador = new CtrlTurno();				
 		if(controlador.AgregarNuevoTurno(strFechaHora,strConsultorio,especialista.getDni())) {
 			
-			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+			//request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
+			//Mejor asi, queda la url correcta en el navegador
+			servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 			
 		}else {
 			

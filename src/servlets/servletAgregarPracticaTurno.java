@@ -44,16 +44,20 @@ public class servletAgregarPracticaTurno extends HttpServlet {
 			CtrlDetalleTurno controlador = new CtrlDetalleTurno();
 			if(controlador.AgregarPractica(idTurno, idPractica)) {
 				
-				//Se agregó la practica al turno			
-				//Añado el turno actual a la sesion para que se muestre el detalle del mismo actualizado.
+				//Se agregï¿½ la practica al turno			
+				//Aï¿½ado el turno actual a la sesion para que se muestre el detalle del mismo actualizado.
 				
 				HttpSession sesion = request.getSession(false);
 				sesion.setAttribute("idturno", idTurno);
 				
-				request.getRequestDispatcher("WEB-INF/esp_detallesturno.jsp").forward(request, response);
+				//request.getRequestDispatcher("WEB-INF/esp_detallesturno.jsp").forward(request, response);
+				servlet.RedirigirUrl(request, response, "detallesTurno?idturno="+idTurnoStr);
+			}
+			else {
+				servlet.NotificarMensaje(response,"detallesTurno?idturno="+idTurnoStr,"No se ha podido agregar la practica");
 			}
 		}		
-			servlet.NotificarMensaje(response,"detallesTurno?idturno="+idTurnoStr,"No se ha podido agregar la practica");
+			
 	}
 
 	/**

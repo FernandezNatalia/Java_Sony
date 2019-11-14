@@ -44,16 +44,20 @@ public class servletQuitarPracticaTurno extends HttpServlet {
 			CtrlDetalleTurno controlador = new CtrlDetalleTurno();
 			if(controlador.EliminarPracticaDeTurno(idTurno, idPractica)) {
 				
-				//Se eliminó la practica del turno			
-				//Añado el turno actual a la sesion para que se muestre el detalle del mismo actualizado.
+				//Se eliminï¿½ la practica del turno			
+				//Aï¿½ado el turno actual a la sesion para que se muestre el detalle del mismo actualizado.
 				
 				HttpSession sesion = request.getSession(false);
 				sesion.setAttribute("idturno", idTurno);
 				
-				request.getRequestDispatcher("WEB-INF/esp_detallesturno.jsp").forward(request, response);
+				//request.getRequestDispatcher("WEB-INF/esp_detallesturno.jsp").forward(request, response);
+				servlet.RedirigirUrl(request, response, "detallesTurno?idturno="+idTurnoStr);
+			}
+			else {
+				servlet.NotificarMensaje(response,"detallesTurno?idturno="+idTurnoStr,"No se ha podido eliminar la practica");
 			}
 		}
-		servlet.NotificarMensaje(response,"detallesTurno?idturno="+idTurnoStr,"No se ha podido eliminar la practica");
+		//servlet.NotificarMensaje(response,"detallesTurno?idturno="+idTurnoStr,"No se ha podido eliminar la practica");
 	}
 
 	/**

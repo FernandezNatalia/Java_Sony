@@ -40,6 +40,7 @@ public class servletEspecialistaCambioFecha extends HttpServlet {
 		if(ValidacionNegocio.ValidarFecha(strFecha)) {
 			java.sql.Date fecha = Conversion.ConvertirStringAFechaSql(strFecha);
 			sesion.setAttribute("fecha", fecha);
+			//servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 			
 		}else {			

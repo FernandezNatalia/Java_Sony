@@ -22,6 +22,8 @@ public static void NotificarMensaje(HttpServletResponse response,String  pagRedi
 		out.println("window.location.replace(\""+pagRedireccionada+"\");");
 		out.println("</script>");
 		out.println("</html>");
+		
+		
 	}
 
 public static void VerificarSesion(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
@@ -47,6 +49,15 @@ public static void VerificarSesionYUsuario(HttpServletRequest request, HttpServl
 	VerificarSesion(request, response);
 	VerificarUsuario(request, response, tipoUsuario);
 	}
+public static void RedirigirUrl(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
+	response.setContentType("text/html"); 
+	PrintWriter out = response.getWriter();
+	out.println("<html>");
+	out.println("<script type=\"text/javascript\">");
+	out.println("window.location.replace(\""+url+"\");");
+	out.println("</script>");
+	out.println("</html>");
+}
 }
 
 

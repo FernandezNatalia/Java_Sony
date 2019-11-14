@@ -382,10 +382,12 @@ $(document).ready(function(){
                  
                     <tr>
 			            <% 
-			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm  dd/MM/yyyy");
+			            SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm EEEEE dd 'de' MMMMM yyyy",  new Locale("ES", "ES"));
 		           		ConsultorioDatos cd = new ConsultorioDatos();
+		           		String strfechahora = formatohhmm.format(tur.getFechahora());
+		           		String str = strfechahora.substring(0,6) + strfechahora.substring(6,7).toUpperCase() + strfechahora.substring(7);
 			             %>
-                        <td><%=formatohhmm.format(tur.getFechahora())%></td>
+                        <td><%=str%></td>
                         
                         <%if (tur.getEstado() == Turno.reservado) {%>
                         <td><%=tur.getPaciente().getDni()%></td>
@@ -413,7 +415,7 @@ $(document).ready(function(){
 					
                 </tbody>
             </table>
-			<a href="#verSemanaTurno" class="btn btn-success" data-toggle="modal"><span>Ver semana completa</span></a>
+			<a href="#verSemanaTurno" class="btn btn-success" data-toggle="modal"><span>Ver hasta fecha</span></a>
 			<a href="sevletEspecialistaTurnosDisponibles" class="btn btn-success"><span><%=(String)session.getAttribute("botonEstado") %></span></a>
         </div>
     </div>
@@ -628,7 +630,7 @@ document.addEventListener("click", closeAllSelect);
 			<div class="modal-content">
 				<form action="servletEspecialistaCambioFecha" method="post">
 					<div class="modal-header">						
-						<h4 class="modal-title">Ver proximas semanas</h4>
+						<h4 class="modal-title">Ver hasta la fecha</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
@@ -637,7 +639,7 @@ document.addEventListener("click", closeAllSelect);
 
 					<div class="form-group">
 						<label>Ingrese una fecha (yyyy-mm-dd)</label>
-						<input type="text" class="form-control" name="fechaDeseada" required></textarea>
+						<input type="date" class="form-control" min="<%=fecmin%>" name="fechaDeseada" required></textarea>
 					</div>
 
 					</div>

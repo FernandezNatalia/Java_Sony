@@ -35,7 +35,8 @@ public class servletCancelarTurno extends HttpServlet {
 		
 		CtrlTurno controlador = new CtrlTurno();			
 		if(controlador.CancelarTurno(IDTurno))
-			request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);				
+			//request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);		
+			servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 		else {		
 			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");			
 		}						
