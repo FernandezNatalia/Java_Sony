@@ -65,7 +65,16 @@ public class TurnoDatos extends Conexion {
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND date(fecha_hora) between current_date() and ? ORDER BY fecha_hora";
+		//Si el turno fue reservado tiene que mostrarse aunque sea viejo, porque sino no se lo puede 
+		//finalizar ya que el especialista nunca lo veria
+		//Ademas le da la opcion de no tener que poner observaciones o similar inmediatamente antes
+		String cadena="";
+		if(estado==1) {
+		cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND date(fecha_hora) between current_date() and ? ORDER BY fecha_hora";
+		}
+		if(estado==2) {
+			cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND fecha_hora < ? ORDER BY fecha_hora";
+		}
 		getConnection();
 		
 		try {			

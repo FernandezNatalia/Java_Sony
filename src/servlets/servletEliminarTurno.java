@@ -40,7 +40,8 @@ public class servletEliminarTurno extends HttpServlet {
 			CtrlTurno controlador = new CtrlTurno();	
 			
 			if(controlador.EliminarTurno(idTurno)) {
-				request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);				
+				//request.getRequestDispatcher("/WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);	
+				servlet.RedirigirUrl(request, response, "servletEspecialistaTurnosDisponibles");
 			}else {
 				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","Ha ocurrido un error, no se puede finalizar el turno");
 			}
