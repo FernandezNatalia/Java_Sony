@@ -36,7 +36,13 @@ public static void VerificarSesion(HttpServletRequest request,HttpServletRespons
 public static void VerificarUsuario(HttpServletRequest request,HttpServletResponse response,int tipoUsuario) throws IOException, ServletException{
 	//Si el Usuario es un tipo de usuario incorrecto se lo manda a la pagina de inicio.
 	
-	HttpSession sesion = request.getSession(false);
+	HttpSession sesion = request.getSession();
+	if(((Usuario)(sesion.getAttribute("usuario")))==null) {
+		request.getRequestDispatcher("index.html").forward(request, response);
+	}
+	if(((Usuario)(sesion.getAttribute("usuario"))).getTipousuario() == null) {
+		request.getRequestDispatcher("index.html").forward(request, response);
+	}
 	if(tipoUsuario != ((Usuario)(sesion.getAttribute("usuario"))).getTipousuario()) {
 		sesion.invalidate();
 		request.getRequestDispatcher("index.html").forward(request, response);

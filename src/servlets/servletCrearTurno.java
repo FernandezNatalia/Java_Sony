@@ -47,17 +47,24 @@ public class servletCrearTurno extends HttpServlet {
 		Usuario especialista= (Usuario)(sesion.getAttribute("usuario"));
 		String strFechaHora=request.getParameter("fecha")+" "+request.getParameter("hora");
 		String strConsultorio = request.getParameter("cons");
-				
+		int estado = (Integer)sesion.getAttribute("estado");
 		CtrlTurno controlador = new CtrlTurno();				
 		if(controlador.AgregarNuevoTurno(strFechaHora,strConsultorio,especialista.getDni())) {
 			
 			//request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 			//Mejor asi, queda la url correcta en el navegador
-			servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
+			//Hay que verificar si esta en turnos disponibles o reservados
+			//para redirigirlo a la pag correcta
+			if(estado == 1){
+			servlet.RedirigirUrl(request, response, "sevletEspecialistaTurnosDisponibles");
+			}
+			if(estado == 2){
+				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
+				}
 			
 		}else {
 			
-			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido crear un turno");
+			servlet.NotificarMensaje(response,"sevletVerTurnosPendientesEsp","No se ha podido crear un turno");
 		}		
 	}
 

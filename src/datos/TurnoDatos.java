@@ -73,7 +73,7 @@ public class TurnoDatos extends Conexion {
 		cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND date(fecha_hora) between current_date() and ? ORDER BY fecha_hora";
 		}
 		if(estado==2) {
-			cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND fecha_hora < ? ORDER BY fecha_hora";
+			cadena = "SELECT * FROM turnos WHERE turnos.estado = ? AND turnos.dni_especialista = ? AND (fecha_hora <= ? OR fecha_hora<=(CURDATE() + INTERVAL 1 DAY)) ORDER BY fecha_hora";
 		}
 		getConnection();
 		
