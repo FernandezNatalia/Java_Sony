@@ -402,7 +402,7 @@ $(document).ready(function(){
                     <td><%=pac.getDni() %></td>
                     <td>31</td>
                     <td><%=pac.getFechanacimiento() %></td>
-                    <td><a href="#" class="btn btn-default btn-block"> <span>Ver detalle</span></a></td>
+                    <td><a href="detallePaciente?dnipaciente=<%=pac.getDni() %>" class="btn btn-default btn-block"> <span>Ver detalle</span></a></td>
                   </tr>
                  <%} %>
                 </tbody>
@@ -410,7 +410,7 @@ $(document).ready(function(){
             </div>
         </div>
           </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          
         </div>
     </div>
 

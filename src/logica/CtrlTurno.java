@@ -91,5 +91,8 @@ public class CtrlTurno {
 		}	
 		return true;
 	}
+	public ArrayList<Turno> getAtencionesPaciente(Usuario pac, Usuario esp) throws SQLException{
+		return turnoData.getTurnosPaciente(pac,esp);
+	}
 
 }
