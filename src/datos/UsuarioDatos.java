@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 
 public class UsuarioDatos extends Conexion {
@@ -160,6 +161,37 @@ public class UsuarioDatos extends Conexion {
 			if(miCon!= null) miCon.close();
 			
 		}
+		
+	}
+	public ArrayList<Usuario> getPacientesEspecialista(int dniEsp){
+		ArrayList<Usuario> pac = new ArrayList<Usuario>();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String consulta ="Select distinct usuarios.dni from usuarios,turnos where turnos.dni_especialista = ? and tipo_usuario=1";		
+		try {
+			getConnection();
+			pst = miCon.prepareStatement(consulta);
+			pst.setInt(1,dniEsp);
+			rs = pst.executeQuery();
+	        
+	        while(rs.next())
+	        {
+	        	Usuario us = this.getOne(rs.getInt("dni"));
+		    	pac.add(us);
+	                        
+	        }	 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				if(pst!=null)pst.close();
+				if(miCon!= null) miCon.close();
+				
+				} catch (SQLException e) { e.printStackTrace();}			
+		}
+		return pac;
 		
 	}
 	

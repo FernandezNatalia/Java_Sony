@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.ArrayList;
+
 import datos.UsuarioDatos;
 import entidades.Usuario;
 
@@ -45,6 +47,9 @@ public class CtrlUsuario {
 		}
 		 
 		 return false;
+	}
+	public ArrayList<Usuario> getPacientesEspecialista(Usuario esp){
+		return userDat.getPacientesEspecialista(esp.getDni());
 	}
 
 }
