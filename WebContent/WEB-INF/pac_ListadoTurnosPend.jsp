@@ -233,6 +233,9 @@ table.table .avatar {
           	<a href="#" data-dismiss="modal" class="btn btn-danger">Eliminar</a>         
            </div>
            
+           
+           
+           
       </div>
    </div>
 </div>    
