@@ -28,6 +28,10 @@ body {
 	margin: 15px -25px -20px;
 	border-radius: 3px 3px 0 0;
 }
+/* */
+.table-footer .btn-group {
+	float: right;
+}
 .table-footer .btn {
 	color: #fff;
 	float: right;
@@ -40,9 +44,24 @@ body {
 	border: none;
 	outline: none !important;
 }
+.table-footer .btn i {
+	float: right;
+	font-size: 21px;
+	margin-right: 5px;
+}
+.table-footer .btn span {
+	float: left;
+	margin-top: 2px;
+}
+/* */
 .table-title h2 {
 	margin: 20px 0 0;
 	font-size: 24px;
+}
+table.table tr th, table.table tr td {
+	border-color: #6400A0;
+	padding: 12px 15px;
+	vertical-align: middle;
 }
 /* Modal styles */
 .modal .modal-dialog {
