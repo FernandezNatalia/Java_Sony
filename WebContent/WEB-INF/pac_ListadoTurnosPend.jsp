@@ -219,6 +219,7 @@ table.table .avatar {
  </div>
  </div> 
    
+<!--  Cancelar turno modal -->
 <div class="modal fade" id="cancelarTurnoModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -231,11 +232,7 @@ table.table .avatar {
        	   </div>
            <div class="modal-footer">
           	<a href="#" data-dismiss="modal" class="btn btn-danger">Eliminar</a>         
-           </div>
-           
-           
-           
-           
+           </div>        
       </div>
    </div>
 </div>    
