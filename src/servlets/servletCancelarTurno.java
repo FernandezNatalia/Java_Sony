@@ -13,7 +13,7 @@ import logica.CtrlTurno;
 /**
  * Servlet implementation class servletCancelarTurno
  */
-@WebServlet("/servletCancelarTurno")
+@WebServlet({"/servletCancelarTurno","/paciente/servletCancelarTurno"})
 public class servletCancelarTurno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -27,18 +27,26 @@ public class servletCancelarTurno extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-					
-		servlet.VerificarSesionYUsuario(request, response,Usuario.especialista);
+		HttpSession sesion = request.getSession();
+		Usuario us = (Usuario)(sesion.getAttribute("usuario"));
+		
+		servlet.VerificarSesion(request, response);
 		Integer IDTurno = Conversion.ConvertirStringAInteger(request.getParameter("idturno"));
 	
-		//Llamo al controlador, se elimina el turno y se redirecciona al listado.
-		
+		//Llamo al controlador, se elimina el turno y se redirecciona al listado.		
 		CtrlTurno controlador = new CtrlTurno();			
 		if(controlador.CancelarTurno(IDTurno))
-			//request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);		
-			servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
-		else {		
-			servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");			
+			
+			
+			if(us.getTipousuario() == Usuario.especialista)			
+				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
+			if(us.getTipousuario() == Usuario.paciente)
+				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
+		else {	
+			if(us.getTipousuario() == Usuario.especialista)			
+				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");	
+			if(us.getTipousuario() == Usuario.paciente)
+				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);		
 		}						
 	}
 

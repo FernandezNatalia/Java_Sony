@@ -177,6 +177,13 @@ table.table .avatar {
 	margin-right: 10px;
 }
 </style>
+
+<script>
+function ObtenerIDTurno(idDeTurno)
+{
+	document.getElementById("IDTURNO").value=idDeTurno; 
+}
+</script>
 </head>
 <body>
 	    <% 		
@@ -210,7 +217,7 @@ table.table .avatar {
            		Especialista: <%=tur.getEspecialista().getNombre()+" "+tur.getEspecialista().getApellido()%> <br>
             	Consultorio: <%=tur.getConsultorio().getDesc()%></p>
             <br>	
-            <a href="#cancelarTurnoModal" class="trigger-btn" data-toggle="modal">Cancelar</a>
+            <a href="#cancelarTurnoModal" onclick="ObtenerIDTurno(<%=tur.getIdturno()%>);"class="trigger-btn" data-toggle="modal">Cancelar</a>
         </div>
         <%} %>
       	</thead>
@@ -220,21 +227,24 @@ table.table .avatar {
  </div> 
    
 <!--  Cancelar turno modal -->
-<div class="modal fade" id="cancelarTurnoModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+<div class="modal fade" id="cancelarTurnoModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">    
       <div class="modal-dialog">
         <div class="modal-content">
-           <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4>Cancelar turno</h4>
+        	<form action="servletCancelarTurno" method="post">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              	<h4>Cancelar turno</h4>
            </div>
            <div class="modal-body">
-             ¿Está seguro que desea cancelar este turno?   
+             ¿Está seguro que desea cancelar este turno?             
        	   </div>
-           <div class="modal-footer">
-          	<a href="#" data-dismiss="modal" class="btn btn-danger">Eliminar</a>         
-           </div>        
+           <div class="modal-footer">          
+          	<input type="submit" class="btn btn-danger" value="Eliminar"> 
+          	<input type="hidden" id="IDTURNO" name="idturno" />               
+           </div>    
+           	</form>     
       </div>
-   </div>
+  	 </div>  
 </div>    
 </body>
 </html>
