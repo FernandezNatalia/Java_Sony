@@ -404,7 +404,7 @@ $(document).ready(function(){
                     <td>31</td>
                     <td><%=pac.getFechanacimiento() %></td>
                     <input type="hidden" name="dnipaciente" value="<%=pac.getDni() %>"/>
-                    <td><input type="submit" class="btn btn-default btn-block"> <span>Ver detalle</span></a></td>
+                    <td><input type="submit" class="btn btn-default btn-block" value="Ver detalle"/></td>
                   </form>
                   </tr>
                  <%} %>
