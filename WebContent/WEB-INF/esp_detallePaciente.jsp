@@ -27,12 +27,14 @@
      
    
    //////////////////
+   
+   
    PacienteDatos pd = new PacienteDatos();
    EspecialistaDatos ed = new EspecialistaDatos();
-   Usuario pacienteusr = (Usuario) session.getAttribute("pacseleccionado");
-   Paciente paciente = pd.getPaciente(pacienteusr.getDni());
+   Paciente paciente = (Paciente) session.getAttribute("pacseleccionado");
+   session.setAttribute("detallesturnobotonvolver", "detallePaciente?dnipaciente=" + String.valueOf(paciente.getDni()));
    
-   Usuario especialistausr = (Especialista) session.getAttribute("usuario");
+   Usuario especialistausr = (Usuario) session.getAttribute("usuario");
    Especialista especialista = ed.getEspecialista(especialistausr.getDni());
    CtrlTurno ctrltur = new CtrlTurno();
    ArrayList<Turno> turnospac = ctrltur.getAtencionesPaciente(paciente,especialista);

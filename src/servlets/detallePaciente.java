@@ -45,23 +45,28 @@ public class detallePaciente extends HttpServlet {
 		try {
 			
 			HttpSession sesion = request.getSession(false);
-			if(sesion==null) {
+			if(sesion==null || ((Usuario) sesion.getAttribute("usuario"))==null) {
 				response.sendRedirect("index.html");
 			}
 			else {
 			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
 			
-			if(usActual.getTipousuario()==Usuario.especialista) {
+			if(usActual.getTipousuario()==2) {
 				
-				String dnipstr = (String) request.getAttribute("dnipaciente");
+				String dnipstr = request.getParameter("dnipaciente");
+				if(dnipstr==null) {
+					servlet.NotificarMensaje(response, "index.html", "Es null dnipaciente");
+				}
+				PacienteDatos pd = new PacienteDatos();
 				int dnipac = Integer.parseInt(dnipstr);
-				CtrlUsuario ctrp = new CtrlUsuario();
-				Usuario pac = ctrp.getOne(dnipac);
+				
+				Paciente pac = pd.getPaciente(dnipac);
+				sesion.setAttribute("pacseleccionado", pac);
 				request.getRequestDispatcher("WEB-INF/esp_detallePaciente.jsp").forward(request, response);
 			}
 			}}
 		catch(Exception e) {
-			servlet.NotificarMensaje(response,"","Se ha producido un error "+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

@@ -398,11 +398,14 @@ $(document).ready(function(){
                 for(Usuario pac : pacientes){
                 %>
                   <tr>
+                  <form action="detallePaciente" method="get">
                     <td><%=pac.getNombre() + " " + pac.getApellido() %></td>
                     <td><%=pac.getDni() %></td>
                     <td>31</td>
                     <td><%=pac.getFechanacimiento() %></td>
-                    <td><a href="detallePaciente?dnipaciente=<%=pac.getDni() %>" class="btn btn-default btn-block"> <span>Ver detalle</span></a></td>
+                    <input type="hidden" name="dnipaciente" value="<%=pac.getDni() %>"/>
+                    <td><input type="submit" class="btn btn-default btn-block"> <span>Ver detalle</span></a></td>
+                  </form>
                   </tr>
                  <%} %>
                 </tbody>

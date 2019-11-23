@@ -69,12 +69,14 @@
                     </tr>
                      <tr>
                         <td>Observacion</td>
-                        <%if(turno.getEstado()==6) {%><td><%=turno.getObservacion() %></td><%}
+                        <%if(turno.getEstado()==6 || turno.getEstado()==3) {%><td><%=turno.getObservacion() %></td><%}
                         if(turno.getEstado()==2){%> <td>--</td><%}%>
+                        
+                        
                     </tr>
                      <tr>
                         <td>Estado</td>
-                        <%if(turno.getEstado()==6) {%><td>Finalizado</td><%}
+                        <%if(turno.getEstado()==3) {%><td>Finalizado</td><%}
                         if(turno.getEstado()==2){%><td>Reservado</td><%}%>
                     </tr>
                     <%Paciente paci = (Paciente)(turno.getPaciente()); 
