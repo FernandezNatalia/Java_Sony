@@ -186,7 +186,7 @@ function ObtenerIDTurno(idDeTurno)
 </script>
 </head>
 <body>
-	    <% 		
+<% 		
 			Usuario us= (Usuario)session.getAttribute("usuario");
 			CtrlTurno turLog = new CtrlTurno();	
 			CtrlEspecialista eLog = new CtrlEspecialista();
@@ -194,7 +194,8 @@ function ObtenerIDTurno(idDeTurno)
 			
 			SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm"); 		
 	   		SimpleDateFormat formatoyymmaa = new SimpleDateFormat("yyyy-MM-dd");
-	     %>  
+%>  
+	     
 <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
