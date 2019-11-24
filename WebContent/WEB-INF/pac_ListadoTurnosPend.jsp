@@ -11,6 +11,7 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <title>Turnos</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 <style>
@@ -202,7 +203,10 @@ function ObtenerIDTurno(idDeTurno)
                 <div class="row">
                     <div class="col-sm-6">
 						<h2>Mis turnos pendientes</h2>												
-					</div>					
+					</div>	
+					<div class="col-sm-6">	
+						<a href="#" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
+					</div>				
                 </div>
             </div>                
     <div class="container">

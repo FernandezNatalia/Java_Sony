@@ -65,14 +65,9 @@ public class servletPaciente extends HttpServlet {
 			case "/verTurnos": 	
 				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
 				break;
-			case "/cancelarTurno": 				
-				//cancelarTurno(request,response);  
-				break;
 			case "/solicitarTurno": 
-				solicitarTurno(request,response);  
-				break;
-			case "/planes": 
-				//planes(request,response); 
+				//solicitarTurno(request,response);  
+				request.getRequestDispatcher("/WEB-INF/pac_SolicitarTurno.jsp").forward(request, response);
 				break;
 			case "/configuracion": 	
 				response.sendRedirect("/TurnosWeb/configuracionPersonal");
