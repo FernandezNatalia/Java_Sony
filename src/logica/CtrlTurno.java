@@ -3,6 +3,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import datos.ConsultorioDatos;
 import datos.TurnoDatos;
 import datos.UsuarioDatos;
 import entidades.*;
@@ -34,8 +35,9 @@ public class CtrlTurno {
 		if(ValidacionNegocio.ValidarFecha(strFechaHora) && ValidacionNegocio.ValidarInteger(strConsultorio)) {
 			
 			java.util.Date fecha = Conversion.ConvertirStringAFechaHora(strFechaHora);
-			int idConsultorio = Conversion.ConvertirStringAInteger(strConsultorio);			
-			
+			int idConsultorio = Conversion.ConvertirStringAInteger(strConsultorio);	
+			java.sql.Date fec = new java.sql.Date(fecha.getTime());
+			if(this.VerificarDisponibilidadConsultorio(idConsultorio, fec)) {
 			try {
 				turnoData.AgregarNuevoTurno(fecha,idConsultorio,dniEspecialista);
 				return true;
@@ -43,7 +45,10 @@ public class CtrlTurno {
 			} catch (SQLException e) {	
 				return false;
 			}
-		}		
+		}else {		
+			return false;
+		}
+		}
 		return false;			
 	}
 		
@@ -93,6 +98,18 @@ public class CtrlTurno {
 	}
 	public ArrayList<Turno> getAtencionesPaciente(Usuario pac, Usuario esp) throws SQLException{
 		return turnoData.getTurnosPaciente(pac,esp);
+	}
+	public boolean VerificarDisponibilidadConsultorio(int idConsultorio, Date fechayhora) {
+		//Por una cuestion de que no se sabe las practicas que tendra un turno al crearse, todos los turnos
+		//tienen una duracion de media hora
+		ConsultorioDatos cd = new ConsultorioDatos();
+		try {
+			return cd.ComprobarDisponibilidadConsultorio(idConsultorio, fechayhora);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
