@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import entidades.Consultorio;
@@ -84,7 +85,7 @@ public class ConsultorioDatos extends Conexion{
 		
 		return consultorios;
 	}	
-	public boolean ComprobarDisponibilidadConsultorio(int idConsultorio, Date fechayhora) throws SQLException {
+	public boolean ComprobarDisponibilidadConsultorio(int idConsultorio, java.util.Date fechayhora) throws Exception {
 		boolean disponible = true;
 		PreparedStatement stm = null;
 		ResultSet rs = null;
@@ -94,14 +95,16 @@ public class ConsultorioDatos extends Conexion{
 			
 			String consulta = "SELECT * FROM turnos WHERE fecha_hora<=? AND fecha_hora>DATE_SUB(?, Interval 30 minute) AND id_consultorio=?;";
 			stm = miCon.prepareStatement(consulta);
-			stm.setDate(1, fechayhora);
-			stm.setDate(2, fechayhora);
+			stm.setTimestamp(1, new java.sql.Timestamp(fechayhora.getTime()));
+			stm.setTimestamp(2, new java.sql.Timestamp(fechayhora.getTime()));
 			stm.setInt(3, idConsultorio);
 			rs = stm.executeQuery(); 			
 
 			if(rs.next())
 			{
 	            disponible=false;
+				throw new Exception();
+				
 			}
 			
 			rs.close();

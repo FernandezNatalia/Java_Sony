@@ -56,15 +56,22 @@ public class servletCrearTurno extends HttpServlet {
 			//Hay que verificar si esta en turnos disponibles o reservados
 			//para redirigirlo a la pag correcta
 			if(estado == 1){
-			servlet.RedirigirUrl(request, response, "sevletEspecialistaTurnosDisponibles");
+				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);
 			}
 			if(estado == 2){
 				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 				}
 			
 		}else {
+			java.util.Date fecha = Conversion.ConvertirStringAFechaHora(strFechaHora);
+			int idConsultorio = Conversion.ConvertirStringAInteger(strConsultorio);	
 			
+			if(controlador.VerificarDisponibilidadConsultorio(idConsultorio, fecha)==false) {
+			servlet.NotificarMensaje(response,"sevletEspecialistaTurnosDisponibles","El consultorio esta ocupado en ese horario");
+			}
+			else {
 			servlet.NotificarMensaje(response,"sevletVerTurnosPendientesEsp","No se ha podido crear un turno");
+			}
 		}		
 	}
 
