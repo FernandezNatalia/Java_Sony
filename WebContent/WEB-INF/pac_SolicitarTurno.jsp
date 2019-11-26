@@ -3,13 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidades.*"%>
+<%@page import="logica.*"%>
+<%@page import="java.util.*"%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Solicitar turno</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+
+
+
 <link rel="stylesheet" type="text/css" href="css/pac_SolicitarTurno.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
 
@@ -18,7 +28,7 @@
 html, body{
 	margin: 0;
 	padding: 0;
-	background-color: #bfefbb;
+	background-color: #bdbdbd;
 }
 body {
   font-family: 'Open Sans', sans-serif;
@@ -36,13 +46,13 @@ body {
 }
 
 .card {
-  width: 80px;                 /* Set width of cards */
+  width: 90px;                 /* Set width of cards */
   display: flex;                /* Children use Flexbox */
   flex-direction: column;       /* Rotate Axis */
   border: 2px solid #3cb371;    /* Set up Border CAMBIO EL BORDE========================*/
   border-radius: 4px;           /* Slightly Curve edges */
   overflow: hidden;             /* Fixes the corners */
-  margin: 4px;                  /* Add space between cards */
+  margin: 5px;                  /* Add space between cards */
   
   background-color:#bfefbb;
  
@@ -278,125 +288,170 @@ table.table .avatar {
 					</div>				
                 </div>
             </div>   
-    <!-- ELECCION DE ESPECIALISTA -->        
-         
- 	          
+            <br></br>
             
-					
-							
+	<!-- SELECCION DE ITEMS -->
+	
+	<div class="text-center">
+	<div class="panel panel-success"> 
+     	<div class="alert alert-info alert-dismissible" role="alert">
+  			<strong>Elija sus preferencias!</strong> Seleccione la especialidad y el especialista que desee.
+		</div>   
+		<br></br>  
+          
+    <!-- ELECCION DE ESPECIALIDADES -->   
+        
+            <div class="row">
+            <div class="form-group" style="width:400px;">
+            <label>ESPECIALIDAD: </label>
+            <select name="productoId" id="productoId" required="true" class="form-control input-sm" placeholder="Producto">
+            <option value=""></option>
+            <% 	
+            	CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
+            	ArrayList<Especialidad> especialidades = controlador.getAllEspecialidades();
+            	
+            	for(Especialidad e : especialidades){           	
+            %>    			
+			<option value="<%=e.getCodEspecialidad()%>"><%=e.getNombre() %></option>	
+  			<%} %>					
+    		</select>
+    		</div>
+            </div>
+     <br>   
+     
+     <!-- ELECCION DE ESPECIALISTAS -->   
+       
+            <div class="row">
+            <div class="form-group" style="width:400px;">
+            <label>ESPECIALISTA: </label>
+	            <select name="productoId" id="productoId" required="true" class="form-control input-sm" placeholder="Producto">
+				<option value="0">Sin preferencias</option>
+     			<option value="1">Fernandez Natalia</option>
+				<option value="2">Maria Lopez</option>
+				<option value="3">Matias Recarto</option>
+    		</select>
+    		</div>
+            </div>
+     	<br></br> 
 
-            
-            
-            
-            
-            
-            
-   <!-- VISTA DE LA SEMANA DE TURNOS  -->                          	
-	    	<div class="text-center">
- 				<div class="row">	    	
-					<div class="custom-select">
-						<select name="cons">
-							<option value="0" disabled="disabled">________________________________________</option>
-							<option value="1">Fernandez Natalia</option>
-							<option value="2">Maria Lopez</option>
-							<option value="3">Matias Recarto</option>
-						</select>
-					</div> 	    	
-				</div>    	
-	    	
-	    	<br></br>
-	    	
-			  <div class="row">
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Lunes</div>
+	<!-- BOTON PARA ABRIR EL MODAL -->
+	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Calendario">
+  		Buscar turno
+	</button>
+	<br></br>
+
+	<!-- VENTANA MODAL CON EL CALENDARIO  -->
+	
+	<div class="modal fade" id="Calendario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <div class="alert alert-info alert-dismissible" role="alert">
+		  			<strong>Elija su cita!</strong> Seleccione la fecha en la que desea asistir a su turno.
+				</div> 
+	      </div>
+	      <div class="modal-body">
+	      
+	      
+	 	<!-- VISTA DE DIAS TURNO  -->  
+	   		<div class="text-center">
+	            <div class="row">    	
+				<div class="btn-group-justified" role="group" >
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Lunes</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Martes</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Miercoles</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Jueves</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Viernes</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Sabado</button>
+				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Domingo</button>
 				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Martes</div>
 				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Miercoles</div>
-				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Jueves</div>
-				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Viernes</div>
-				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Sabado</div>
-				</div>
-				<div class="card" id="wt-border">
-				<div class="card-header" id="wt-header">Domingo</div>
-				</div>
-			 </div>    
-		<br>
-			<div class="row">
-		        <!-- CARD DISPONIBLE -->
-		        <div class="card">
-		          <div class="card-header">20</div>
-		          <div class="card-main">
-		            <a href="#" class="main-description">Disponible</a>
-		          </div>
-		        </div>        
-		        <!-- CARD NO HABILITADO -->   
-		        <div class="card" id="or-border">
-		          <div class="card-header" id="or-header">21</div>
-		          <div class="card-main">
-		            <div class="main-description" id="or-color">Inhabilitado</div>
-		          </div>
-		        </div>       
-		        <!-- CARD OCUPADO -->
-		        <div class="card" id="red-border">
-		          <div class="card-header" id="red-header">22</div>
-		          <div class="card-main">
-		            <div class="main-description" id="red-color">Ocupado</div>
-		          </div>
-		        </div>
-		         <!-- CARD OCUPADO -->
-		        <div class="card" id="red-border">
-		          <div class="card-header" id="red-header">22</div>
-		          <div class="card-main">
-		            <div class="main-description" id="red-color">Ocupado</div>
-		          </div>
-		        </div>
-		         <!-- CARD OCUPADO -->
-		        <div class="card" id="red-border">
-		          <div class="card-header" id="red-header">22</div>
-		          <div class="card-main">
-		            <div class="main-description" id="red-color">Ocupado</div>
-		          </div>
-		        </div>
-		         <!-- CARD OCUPADO -->
-		        <div class="card" id="red-border">
-		          <div class="card-header" id="red-header">22</div>
-		          <div class="card-main">
-		            <div class="main-description" id="red-color">Ocupado</div>
-		          </div>
-		        </div>
-		         <!-- CARD OCUPADO -->
-		        <div class="card" id="red-border">
-		          <div class="card-header" id="red-header">22</div>
-		          <div class="card-main">
-		            <div class="main-description" id="red-color">Ocupado</div>
-		          </div>
-		        </div>
-			</div>
-		  <br>
-		<!-- PAGINACION -->
-		 		<div class="text-center">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled"><a href="#"><i class="fa fa-long-arrow-left"></i> Anterior</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Siguiente <i class="fa fa-long-arrow-right"></i></a></li>
-                </ul>
-            	</div>  
 				
-		</div>
+			<!-- VISTA DE CUADROS DE SEMANA TURNOS -->
+			
+				<div class="row">
+			        <!-- CARD DISPONIBLE -->
+			        <div class="card">
+			          <div class="card-header">20</div>
+			          <div class="card-main">
+			            <a href="#" class="main-description">Disponible</a>
+			          </div>
+			        </div>        
+			        <!-- CARD NO HABILITADO -->   
+			        <div class="card" id="or-border">
+			          <div class="card-header" id="or-header">21</div>
+			          <div class="card-main">
+			            <div class="main-description" id="or-color">Inhabilitado</div>
+			          </div>
+			        </div>       
+			        <!-- CARD OCUPADO -->
+			        <div class="card" id="red-border">
+			          <div class="card-header" id="red-header">22</div>
+			          <div class="card-main">
+			            <div class="main-description" id="red-color">Ocupado</div>
+			          </div>
+			        </div>
+			         <!-- CARD OCUPADO -->
+			        <div class="card" id="red-border">
+			          <div class="card-header" id="red-header">22</div>
+			          <div class="card-main">
+			            <div class="main-description" id="red-color">Ocupado</div>
+			          </div>
+			        </div>
+			         <!-- CARD OCUPADO -->
+			        <div class="card" id="red-border">
+			          <div class="card-header" id="red-header">22</div>
+			          <div class="card-main">
+			            <div class="main-description" id="red-color">Ocupado</div>
+			          </div>
+			        </div>
+			          <!-- CARD NO HABILITADO -->   
+			        <div class="card" id="or-border">
+			          <div class="card-header" id="or-header">21</div>
+			          <div class="card-main">
+			            <div class="main-description" id="or-color">Inhabilitado</div>
+			          </div>
+			        </div> 
+			          <!-- CARD NO HABILITADO -->   
+			        <div class="card" id="or-border">
+			          <div class="card-header" id="or-header">21</div>
+			          <div class="card-main">
+			            <div class="main-description" id="or-color">Inhabilitado</div>
+			          </div>
+			        </div> 
+				</div>
+			  <br>	  
+			  	
+					<!-- PAGINACION -->		
+			 		<div class="text-center">
+	                <ul class="pagination justify-content-center">
+	                    <li class="page-item disabled"><a href="#"><i class="fa fa-long-arrow-left"></i> Anterior</a></li>
+	                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+	                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+	                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+	                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+	                    <li class="page-item"><a href="#" class="page-link">Siguiente <i class="fa fa-long-arrow-right"></i></a></li>
+	                </ul>
+	            	</div>  
+	            	<br>			
+			</div>      
+			
+	      <!-- PIE DE LA VENTANA MODAL --> 
+	      
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        <button type="button" class="btn btn-primary">Solicitar turno</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+   <!-- FIN DE LA VENTANA MODAL -->
+	</div>
  	</div>
+ </div>
  </div>
 </body>
 </html>
