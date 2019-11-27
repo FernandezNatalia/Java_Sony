@@ -1,7 +1,12 @@
 package entidades;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
+import logica.Conversion;
 
 public class Turno {
 	
@@ -75,9 +80,51 @@ public class Turno {
 	public void setFechahora(Date fechahora) {
 		this.fechahora = fechahora;
 	}
-	
-	
-	
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fechahora == null) ? 0 : fechahora.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		
+   		
+   		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Turno other = (Turno) obj;
+		if (fechahora == null) {
+			if (other.fechahora != null) {
+				return false;
+			}
+		} else {
+			
+			SimpleDateFormat formatohhmm = new SimpleDateFormat("dd/MM/yyyy",  new Locale("ES", "ES"));
+			
+			String d1 = formatohhmm.format(other.fechahora);
+	   		String d2 = formatohhmm.format(fechahora);
+
+	   		try {
+	   			Date date1 = Conversion.formatter1ddmmyy.parse(d1);
+				Date date2 = Conversion.formatter1ddmmyy.parse(d2);
+				
+				if (!date2.equals(date1)) {
+					return false;
+				}
+			} catch (ParseException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

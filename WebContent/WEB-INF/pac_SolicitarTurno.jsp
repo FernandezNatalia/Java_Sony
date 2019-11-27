@@ -6,6 +6,7 @@
 <%@page import="entidades.*"%>
 <%@page import="logica.*"%>
 <%@page import="java.util.*"%>
+<%@page import="java.text.*"%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Solicitar turno</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -44,93 +45,6 @@ body {
   align-items: center;
   padding: 0 25px;
 }
-
-.card {
-  width: 90px;                 /* Set width of cards */
-  display: flex;                /* Children use Flexbox */
-  flex-direction: column;       /* Rotate Axis */
-  border: 2px solid #3cb371;    /* Set up Border CAMBIO EL BORDE========================*/
-  border-radius: 4px;           /* Slightly Curve edges */
-  overflow: hidden;             /* Fixes the corners */
-  margin: 5px;                  /* Add space between cards */
-  
-  background-color:#bfefbb;
- 
-}
-.card-header {
-  color: #1e5b3a; /*LETRA CABECERA*/
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  border-bottom: 2px solid #3cb371;/*RENGLON DE ABAJO*/
-  background-color: #3cb371; /*CAMBIADO POR VERDE CABECERA =====================*/
-  padding: 3px 10px;
-}
-
-.card-main {
-  display: flex;              /* Children use Flexbox */
-  flex-direction: column;     /* Rotate Axis to Vertical */
-  justify-content: center;    /* Group Children in Center */
-  align-items: center;        /* Group Children in Center (on cross axis) */
-  padding: 15px 0;            /* Add padding to the top/bottom */
-}
-
-.main-description {
-  color: #18a40f; /*CAMBIO COLOR TEXTO "DIPOSNIBLE""============================*/
-  font-size: 12px;
-  text-align: center;
-  font-weight: 700;
-}
-
-/* IDs for additional colors*/
-/* Colors from Google Material Design: https://material.io/guidelines/style/color.html*/
-
-#or-border {
-  border-color: #969696;
-  background-color:#d3d3d3;
-}
-
-#or-header {
-  background-color: #969696;
-  border-color: #969696;
-  color: #626262;
-}
-
-#or-color {
-  color: #969696;
-}
-
-#red-border {
-  border-color: #cb3234;
-  background-color:#ea899a;
-}
-
-#red-header {
-  background-color: #cb3234;
-  border-color: #cb3234;
-  color: #800000;
-}
-
-#red-color {
-  color: #D32F2F;
-}
-#wt-border {
-  border-color: #505050;
-  background-color: #FFFFFF;
-  
-  border: 1px solid #505050; 
-  border-bottom: 1px solid #FFFFFF;/*RENGLON DE ABAJO*/
-}
-
-#wt-header {
-
-
-  background-color: #FFFFFF;
-  border-color: #505050;
-}
-
-
-
 
 /*Estilos sacados del menu paciente*/
 .table-wrapper {
@@ -233,46 +147,6 @@ table.table .avatar {
 }
 
 
-
-
-
-
-
- .pagination {
-        margin: 10px 0 5px;
-    }
-    .pagination li a {
-        border: none;
-        min-width: 30px;
-        min-height: 30px;
-        color: #999;
-        margin: 0 2px;
-        line-height: 30px;
-        border-radius: 4px !important;
-        text-align: center;
-        padding: 0;
-    }
-    .pagination li a:hover {
-        color: #666;
-    }
-    .pagination li.active a, .pagination li.active a.page-link {
-        background: #59bdb3;
-    }
-    .pagination li.active a:hover {        
-        background: #45aba0;
-    }
-    .pagination li:first-child a, .pagination li:last-child a {
-        padding: 0 10px;
-    }
-    .pagination li.disabled a {
-        color: #ccc;
-    }
-    .pagination li i {
-        font-size: 17px;
-        position: relative;
-        top: 1px;
-        margin: 0 2px;
-    }
 </style>
 </head>
 <body>
@@ -304,17 +178,17 @@ table.table .avatar {
             <div class="row">
             <div class="form-group" style="width:400px;">
             <label>ESPECIALIDAD: </label>
-            <select name="productoId" id="productoId" required="true" class="form-control input-sm" placeholder="Producto">
-            <option value=""></option>
-            <% 	
-            	CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
-            	ArrayList<Especialidad> especialidades = controlador.getAllEspecialidades();
-            	
-            	for(Especialidad e : especialidades){           	
-            %>    			
-			<option value="<%=e.getCodEspecialidad()%>"><%=e.getNombre() %></option>	
-  			<%} %>					
-    		</select>
+	            <select name="opcionesEspecid" id="opcionesEspecid" required="true" class="form-control input-sm">
+	            <option value=""></option>
+	            <% 	
+	            	CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
+	            	ArrayList<Especialidad> especialidades = controlador.getAllEspecialidades();
+	            	
+	            	for(Especialidad e : especialidades){           	
+	            %>    			
+				<option value="<%=e.getCodEspecialidad()%>"><%=e.getNombre() %></option>	
+	  			<%} %>					
+	    		</select>
     		</div>
             </div>
      <br>   
@@ -326,7 +200,7 @@ table.table .avatar {
             <label>ESPECIALISTA: </label>
 	            <select name="productoId" id="productoId" required="true" class="form-control input-sm" placeholder="Producto">
 				<option value="0">Sin preferencias</option>
-     			<option value="1">Fernandez Natalia</option>
+     			<option value="1">Huerma Alfonsina</option>
 				<option value="2">Maria Lopez</option>
 				<option value="3">Matias Recarto</option>
     		</select>
@@ -334,121 +208,14 @@ table.table .avatar {
             </div>
      	<br></br> 
 
-	<!-- BOTON PARA ABRIR EL MODAL -->
-	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#Calendario">
-  		Buscar turno
-	</button>
+	<!-- BOTON PARA VER CALENDARIO -->
+	
+		<form action="servletVerSemanas" method="post">
+			<button type="submit" class="btn btn-info">
+		  		Buscar turno
+			</button>
+		</form>	
 	<br></br>
-
-	<!-- VENTANA MODAL CON EL CALENDARIO  -->
-	
-	<div class="modal fade" id="Calendario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog modal-lg" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <div class="alert alert-info alert-dismissible" role="alert">
-		  			<strong>Elija su cita!</strong> Seleccione la fecha en la que desea asistir a su turno.
-				</div> 
-	      </div>
-	      <div class="modal-body">
-	      
-	      
-	 	<!-- VISTA DE DIAS TURNO  -->  
-	   		<div class="text-center">
-	            <div class="row">    	
-				<div class="btn-group-justified" role="group" >
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Lunes</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Martes</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Miercoles</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Jueves</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Viernes</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Sabado</button>
-				  <button type="button" class="btn btn-default" style="width:90px; margin:5px;">Domingo</button>
-				</div>
-				</div>
-				
-			<!-- VISTA DE CUADROS DE SEMANA TURNOS -->
-			
-				<div class="row">
-			        <!-- CARD DISPONIBLE -->
-			        <div class="card">
-			          <div class="card-header">20</div>
-			          <div class="card-main">
-			            <a href="#" class="main-description">Disponible</a>
-			          </div>
-			        </div>        
-			        <!-- CARD NO HABILITADO -->   
-			        <div class="card" id="or-border">
-			          <div class="card-header" id="or-header">21</div>
-			          <div class="card-main">
-			            <div class="main-description" id="or-color">Inhabilitado</div>
-			          </div>
-			        </div>       
-			        <!-- CARD OCUPADO -->
-			        <div class="card" id="red-border">
-			          <div class="card-header" id="red-header">22</div>
-			          <div class="card-main">
-			            <div class="main-description" id="red-color">Ocupado</div>
-			          </div>
-			        </div>
-			         <!-- CARD OCUPADO -->
-			        <div class="card" id="red-border">
-			          <div class="card-header" id="red-header">22</div>
-			          <div class="card-main">
-			            <div class="main-description" id="red-color">Ocupado</div>
-			          </div>
-			        </div>
-			         <!-- CARD OCUPADO -->
-			        <div class="card" id="red-border">
-			          <div class="card-header" id="red-header">22</div>
-			          <div class="card-main">
-			            <div class="main-description" id="red-color">Ocupado</div>
-			          </div>
-			        </div>
-			          <!-- CARD NO HABILITADO -->   
-			        <div class="card" id="or-border">
-			          <div class="card-header" id="or-header">21</div>
-			          <div class="card-main">
-			            <div class="main-description" id="or-color">Inhabilitado</div>
-			          </div>
-			        </div> 
-			          <!-- CARD NO HABILITADO -->   
-			        <div class="card" id="or-border">
-			          <div class="card-header" id="or-header">21</div>
-			          <div class="card-main">
-			            <div class="main-description" id="or-color">Inhabilitado</div>
-			          </div>
-			        </div> 
-				</div>
-			  <br>	  
-			  	
-					<!-- PAGINACION -->		
-			 		<div class="text-center">
-	                <ul class="pagination justify-content-center">
-	                    <li class="page-item disabled"><a href="#"><i class="fa fa-long-arrow-left"></i> Anterior</a></li>
-	                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-	                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-	                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-	                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-	                    <li class="page-item"><a href="#" class="page-link">Siguiente <i class="fa fa-long-arrow-right"></i></a></li>
-	                </ul>
-	            	</div>  
-	            	<br>			
-			</div>      
-			
-	      <!-- PIE DE LA VENTANA MODAL --> 
-	      
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-	        <button type="button" class="btn btn-primary">Solicitar turno</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
-   <!-- FIN DE LA VENTANA MODAL -->
 	</div>
  	</div>
  </div>

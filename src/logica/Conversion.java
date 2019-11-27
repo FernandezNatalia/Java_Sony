@@ -7,6 +7,7 @@ import java.util.Date;
 public class Conversion {
 	public static SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat formatoddmmyyhhss = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy");
 	
 	public static Integer ConvertirStringAInteger(String entero) {
 		return Integer.parseInt(entero);

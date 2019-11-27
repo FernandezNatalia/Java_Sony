@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import datos.EspecialidadDatos;
 import entidades.Especialidad;
+import entidades.Turno;
 
 public class CtrlSolicitarTurno {
 
@@ -18,5 +19,21 @@ public class CtrlSolicitarTurno {
 		return espDat.getAll();
 	}
 	
+	public static boolean contieneFechaTurno(ArrayList<Turno> turnos, Turno tu) {
+		
+		for(Turno t : turnos) {
+			if(t.equals(tu)) return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean existenTurnoDisponible(ArrayList<Turno> turnos,Turno tu) {
+		
+		for(Turno t : turnos) {
+			if(t.equals(tu) && t.getEstado()==Turno.disponible) return true;
+		}	
+		return false;
+	}
 	
 }

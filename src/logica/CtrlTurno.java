@@ -25,6 +25,10 @@ public class CtrlTurno {
 		return turnoData.getProximosDeEspecialista(especialista,fecha,estado);
 	}
 
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha) throws SQLException{		
+		
+		return turnoData.getProximosDeEspecialista(especialista,fecha);
+	}
 	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
 		
 		return turnoData.getTurnosPendientesPaciente(paciente);

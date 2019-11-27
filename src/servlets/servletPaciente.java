@@ -62,7 +62,7 @@ public class servletPaciente extends HttpServlet {
 		user = (Usuario)sesion.getAttribute("usuario");
 		switch(path)
 		{
-			case "/verTurnos": 	
+			case "/verTurnos":
 				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
 				break;
 			case "/solicitarTurno": 
