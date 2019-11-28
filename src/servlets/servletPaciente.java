@@ -91,13 +91,13 @@ public class servletPaciente extends HttpServlet {
 		//4) Planes
 	}
 
-	public void reservarTurno(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void reservarTurno(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		request.getRequestDispatcher("/WEB-INF/pac_TurnoReservado.jsp").forward(request, response);
 	}
 
-	public void confirmarHorario(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void confirmarHorario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		int idTurno = Integer.parseInt(request.getParameter("idTurnoHorario"));
 		
 		CtrlTurno controlador = new CtrlTurno();
@@ -119,8 +119,7 @@ public class servletPaciente extends HttpServlet {
 		}
 	}
 
-	public void verOtroMes(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void verOtroMes(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		
 		HttpSession sesion = request.getSession(false);
@@ -175,6 +174,7 @@ public class servletPaciente extends HttpServlet {
 
 	public void verHorarios(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		String fechaReserva = request.getParameter("Reserva");
 		
 		HttpSession sesion = request.getSession(false);
@@ -210,7 +210,6 @@ public class servletPaciente extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
 	}
 
-
 	public void agregarPlan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
@@ -238,7 +237,6 @@ public class servletPaciente extends HttpServlet {
 			servlet.NotificarMensaje(response,"configuracionPersonal","Se ha producido un error: "+ne.getMessage());
 		}
 	}
-
 
 	public void eliminarPlan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			

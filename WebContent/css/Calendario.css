@@ -1,0 +1,80 @@
+@charset "ISO-8859-1";
+.card {
+  width: 90px;                 /* Ancho de las tarjetas */
+  display: flex;                
+  flex-direction: column;       
+  border: 2px solid #3cb371;    /*=========CAMBIO EL BORDE===========*/
+  border-radius: 4px;          
+  overflow: hidden;             
+  margin: 5px;                  /* Espacio entre las cartas */
+  
+  background-color:#bfefbb;
+ 
+}
+.card-header {
+  color: #1e5b3a; /*LETRA CABECERA*/
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 2px solid #3cb371;/*RENGLON DE ABAJO*/
+  background-color: #3cb371; /*=======CAMBIADO POR VERDE CABECERA ==========*/
+  padding: 3px 10px;
+}
+
+.card-main {
+  display: flex;              
+  flex-direction: column;    
+  justify-content: center; 
+  align-items: center;     
+  padding: 15px 0;         
+}
+
+.main-description {
+  color: #18a40f; /*=======CAMBIO COLOR TEXTO "DIPOSNIBLE""====*/
+  font-size: 12px;
+  text-align: center;
+  font-weight: 700;
+}
+
+#or-border {
+  border-color: #969696;
+  background-color:#d3d3d3;
+}
+
+#or-header {
+  background-color: #969696;
+  border-color: #969696;
+  color: #626262;
+}
+
+#or-color {
+  color: #969696;
+}
+
+#red-border {
+  border-color: #cb3234;
+  background-color:#ea899a;
+}
+
+#red-header {
+  background-color: #cb3234;
+  border-color: #cb3234;
+  color: #800000;
+}
+
+#red-color {
+  color: #D32F2F;
+}
+#wt-border {
+  border-color: #505050;
+  background-color: #FFFFFF;
+  
+  border: 1px solid #505050; 
+  border-bottom: 1px solid #FFFFFF;/*RENGLON DE ABAJO*/
+}
+
+#wt-header {
+
+  background-color: #FFFFFF;
+  border-color: #505050;
+}
