@@ -26,10 +26,10 @@
    					</div>
                 </div>
             </div>          
-			<form name="myForm" action="" method="post">
-				<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" onclick="javascript: submitForm('paciente/verTurnos')">Mis turnos</button>
-    			<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" onclick="javascript: submitForm('paciente/solicitarTurno')">Solicitar turno</button>   	
-				<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" onclick="javascript: submitForm('paciente/configuracion')">Configuracion personal</button>   				
+			<form action="paciente" method="post">
+				<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" name="opcion" value="misTurnos">Mis turnos</button>
+    			<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" name="opcion" value="SolicitarTurno">Solicitar turno</button>   	
+				<button style="width: 350px; margin: 11px;" class="btn btn-default" data-dismiss="modal" name="opcion" value="ConfiguracionPersonal">Configuracion personal</button>   				
 			</form>			
 			<div class="table-footer">
 				<div class="row">

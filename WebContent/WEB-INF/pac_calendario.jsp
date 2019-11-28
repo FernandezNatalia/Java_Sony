@@ -15,14 +15,11 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
 
 
-
 <link rel="stylesheet" type="text/css" href="css/pac_SolicitarTurno.css">
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
 
 
 <style type="text/css">
@@ -47,13 +44,13 @@ body {
 }
 
 .card {
-  width: 90px;                 /* Set width of cards */
-  display: flex;                /* Children use Flexbox */
-  flex-direction: column;       /* Rotate Axis */
-  border: 2px solid #3cb371;    /* Set up Border CAMBIO EL BORDE========================*/
-  border-radius: 4px;           /* Slightly Curve edges */
-  overflow: hidden;             /* Fixes the corners */
-  margin: 5px;                  /* Add space between cards */
+  width: 90px;                 /* Ancho de las tarjetas */
+  display: flex;                
+  flex-direction: column;       
+  border: 2px solid #3cb371;    /*=========CAMBIO EL BORDE===========*/
+  border-radius: 4px;          
+  overflow: hidden;             
+  margin: 5px;                  /* Espacio entre las cartas */
   
   background-color:#bfefbb;
  
@@ -64,27 +61,24 @@ body {
   font-size: 12px;
   font-weight: 600;
   border-bottom: 2px solid #3cb371;/*RENGLON DE ABAJO*/
-  background-color: #3cb371; /*CAMBIADO POR VERDE CABECERA =====================*/
+  background-color: #3cb371; /*=======CAMBIADO POR VERDE CABECERA ==========*/
   padding: 3px 10px;
 }
 
 .card-main {
-  display: flex;              /* Children use Flexbox */
-  flex-direction: column;     /* Rotate Axis to Vertical */
-  justify-content: center;    /* Group Children in Center */
-  align-items: center;        /* Group Children in Center (on cross axis) */
-  padding: 15px 0;            /* Add padding to the top/bottom */
+  display: flex;              
+  flex-direction: column;    
+  justify-content: center; 
+  align-items: center;     
+  padding: 15px 0;         
 }
 
 .main-description {
-  color: #18a40f; /*CAMBIO COLOR TEXTO "DIPOSNIBLE""============================*/
+  color: #18a40f; /*=======CAMBIO COLOR TEXTO "DIPOSNIBLE""====*/
   font-size: 12px;
   text-align: center;
   font-weight: 700;
 }
-
-/* IDs for additional colors*/
-/* Colors from Google Material Design: https://material.io/guidelines/style/color.html*/
 
 #or-border {
   border-color: #969696;
@@ -125,12 +119,9 @@ body {
 
 #wt-header {
 
-
   background-color: #FFFFFF;
   border-color: #505050;
 }
-
-
 
 
 /*Estilos sacados del menu paciente*/
@@ -232,48 +223,6 @@ table.table .avatar {
 	vertical-align: middle;
 	margin-right: 10px;
 }
-
-
-
-
-
-
-
- .pagination {
-        margin: 10px 0 5px;
-    }
-    .pagination li a {
-        border: none;
-        min-width: 30px;
-        min-height: 30px;
-        color: #999;
-        margin: 0 2px;
-        line-height: 30px;
-        border-radius: 4px !important;
-        text-align: center;
-        padding: 0;
-    }
-    .pagination li a:hover {
-        color: #666;
-    }
-    .pagination li.active a, .pagination li.active a.page-link {
-        background: #59bdb3;
-    }
-    .pagination li.active a:hover {        
-        background: #45aba0;
-    }
-    .pagination li:first-child a, .pagination li:last-child a {
-        padding: 0 10px;
-    }
-    .pagination li.disabled a {
-        color: #ccc;
-    }
-    .pagination li i {
-        font-size: 17px;
-        position: relative;
-        top: 1px;
-        margin: 0 2px;
-    }
 </style>
 </head>
 <body>
@@ -285,7 +234,10 @@ table.table .avatar {
 						<h2>Solicitar turno</h2>												
 					</div>	
 					<div class="col-sm-6">	
-						<a href="#" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
+						<form action="servletPrincipal" method="get">
+							<button type="submit" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span>
+							</button>
+						</form>	
 					</div>				
                 </div>
             </div>   
@@ -297,8 +249,21 @@ table.table .avatar {
 	<div class="panel panel-success"> 
 	<div class="alert alert-info alert-dismissible" role="alert">
 		<strong>Elija su cita!</strong> Seleccione la fecha en la que desea asistir a su turno.
-	</div><br></br>
+	</div><br>
 	
+<!-- NOMBRE DEL MES -->
+
+<%
+
+	Usuario us = (Usuario)session.getAttribute("Especialista");
+	int MESActual = (Integer)session.getAttribute("mes");
+	int ANIOActual = (Integer)session.getAttribute("anio");
+			
+	//Pongo la primer letra en mayusucula, y obtengo el nombre del mes
+	String MESNombre = (Conversion.NombreDeMes(MESActual)).substring(0, 1).toUpperCase() + (Conversion.NombreDeMes(MESActual)).substring(1);;
+%>
+<h3><%=MESNombre %></h3>
+
 <!-- VISTA DE DIAS TURNO  -->  
 	            <div class="row">    	
 				<div class="btn-group-justified" role="group" >
@@ -319,12 +284,7 @@ table.table .avatar {
 			<!-- CALCULO EL DIA EN EL QUE EMPIEZA -->
 			<!-- BUSCO LA CANTIDAD DE DIAS PARAR RECORRER -->
 			<% 
-			
-       		Usuario us = (Usuario)session.getAttribute("Especialista");
-			int MESActual = (Integer)session.getAttribute("mes");
-       		int ANIOActual = (Integer)session.getAttribute("anio");
-       		
-       		
+
 			//BUSCO LOS TURNOS DEL ESPECIALISTA A PARTIR DE LA FECHA ACTUAL
 			CtrlTurno controladorTurno = new CtrlTurno();
 			java.sql.Date fechaVista = new java.sql.Date(new Date().getTime());
@@ -336,7 +296,7 @@ table.table .avatar {
        		//CANTIDAD de dias a recorrer
 			int CANTdiasMES= ValidacionNegocio.numeroDeDiasMes(MESActual);
 			%>
-
+			
 		<div class="row">
 			<table>
 			<tr>
@@ -391,7 +351,8 @@ table.table .avatar {
 
 						<% 
 						Turno t = new Turno();
-						t.setFechahora(Conversion.formatter1ddmmyy.parse(dateSTRING));
+						Date turFecha = Conversion.formatter1ddmmyy.parse(dateSTRING);
+						t.setFechahora(turFecha);
 						
 						if(!CtrlSolicitarTurno.contieneFechaTurno(turnosOcuDispo, t)){%>					
 						
@@ -406,12 +367,17 @@ table.table .avatar {
 						
 						<%} else{							
 							if(CtrlSolicitarTurno.existenTurnoDisponible(turnosOcuDispo, t)){
+								String fechaDisponible = ANIOActual+"-"+MESActual+"-"+i;
 								%>
 								
 								<!-- CARD DISPONIBLE -->
 						        <div class="card">
 						          <div class="card-header"><%=i %></div>
 						          <div class="card-main">
+						          	<form action="paciente" method="post">
+						          		<input type="hidden" name="opcion" value="SelectFecha"></input>
+		    							<button type="submit" name="Reserva" value="<%=fechaDisponible %>" class="main-description">Disponible</button>
+		    						</form>
 						            <a href="#" class="main-description">Disponible</a>
 						          </div>
 						        </div>
@@ -422,7 +388,7 @@ table.table .avatar {
 								
 								 <!-- CARD OCUPADO -->
 						        <div class="card" id="red-border">
-						          <div class="card-header" id="red-header">22</div>
+						          <div class="card-header" id="red-header"><%=i %></div>
 						          <div class="card-main">
 						            <div class="main-description" id="red-color">Ocupado</div>
 						          </div>
@@ -441,7 +407,8 @@ table.table .avatar {
 	
 	<!-- BOTONES ANTERIOR - SIGUIENTE -->		
 		<div class="text-center">
-			<form action="servletVerOtroMes" method="post">
+			<form action="paciente" method="post">
+			<input type="hidden" name="opcion" value="VerOtroMes"></input>
 		    	<button type="submit" name="act" value="anterior" class="btn btn-outline-secondary">Anterior</button>
 		    	<button type="submit" name="act" value="siguiente" class="btn btn-outline-secondary">Siguiente</button>
 		    </form>

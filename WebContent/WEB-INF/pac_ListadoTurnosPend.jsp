@@ -205,7 +205,10 @@ function ObtenerIDTurno(idDeTurno)
 						<h2>Mis turnos pendientes</h2>												
 					</div>	
 					<div class="col-sm-6">	
-						<a href="#" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
+						<form action="servletPrincipal" method="get">
+							<button type="submit" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span>
+							</button>
+						</form>	
 					</div>				
                 </div>
             </div>                

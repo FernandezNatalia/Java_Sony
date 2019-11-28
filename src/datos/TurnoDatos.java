@@ -60,7 +60,41 @@ public class TurnoDatos extends Conexion {
 	 }
 		return turno;
 	}	
-	
+	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario especialista,java.sql.Date fechaDate) throws SQLException{
+		ArrayList<Turno> turnos = new ArrayList<Turno>();		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String cadena="";
+		
+		cadena = "SELECT * FROM turnos WHERE dni_especialista = ? AND date(fecha_hora) = ? AND estado = 1 ORDER BY fecha_hora";
+		
+		getConnection();
+		
+		try {			
+			pst = miCon.prepareStatement(cadena);
+			
+			pst.setInt(1,especialista.getDni());
+			pst.setDate(2,fechaDate); 
+			
+			rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+	            turnos.add(readTurno(rs));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			if(rs != null) rs.close();
+			if(pst != null) pst.close();
+			if(miCon != null) closeConnection();
+		}
+		
+		return turnos;
+	}
 	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,java.sql.Date fechaDate) throws SQLException{
 		
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
@@ -237,7 +271,7 @@ public ArrayList<Turno> getTurnosPaciente(Usuario paciente, Usuario especialista
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 3 AND turnos.dni_paciente = ? AND turnos.dni_especialista=? ORDER BY fecha_hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 3 AND turnos.dni_paciente = ? AND turnos.dni_especialista=? AND fecha_hora > current_date() ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			

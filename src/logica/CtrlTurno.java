@@ -16,8 +16,12 @@ public class CtrlTurno {
 		turnoData = new TurnoDatos();
 	}
 	
-	public Turno getOne(int idTurno) throws SQLException {
-		return turnoData.getOne(idTurno);
+	public Turno getOne(int idTurno) {
+		try {
+			return turnoData.getOne(idTurno);
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 	
 	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha,int estado) throws SQLException{		
@@ -33,7 +37,9 @@ public class CtrlTurno {
 		
 		return turnoData.getTurnosPendientesPaciente(paciente);
 	}
-	
+	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario us,Date sqlFechaDispo) throws SQLException{
+		return turnoData.getTurnosDisponiblesAFecha(us,sqlFechaDispo);
+	}
 	public boolean AgregarNuevoTurno(String strFechaHora,String strConsultorio,int dniEspecialista) {
 		
 		if(ValidacionNegocio.ValidarFecha(strFechaHora) && ValidacionNegocio.ValidarInteger(strConsultorio)) {

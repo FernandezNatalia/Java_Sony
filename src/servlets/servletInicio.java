@@ -20,7 +20,6 @@ public class servletInicio extends HttpServlet {
     public servletInicio() {
         super();
     }
-
     HttpSession sesion;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 
@@ -48,13 +47,13 @@ public class servletInicio extends HttpServlet {
 			int dni = Conversion.ConvertirStringAInteger(strdni);
 			if(usLog.Autenticacion(dni,pass))
 			{
-				Usuario usActual = usLog.getOne(dni);
-				sesion = request.getSession();					
+				Usuario usActual = usLog.getOne(dni);	
+				sesion = request.getSession();
 				sesion.setAttribute("usuario",usActual);
 
 				doGet(request, response);
 			}else
-				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");;
+				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");
 		}
 		else {
 			servlet.NotificarMensaje(response,"index.html","Datos ingresados incorrectos");

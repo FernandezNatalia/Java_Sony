@@ -413,7 +413,7 @@
 	<div id="agregarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletAgregarPlan" method="post">
+				<form action="paciente" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Añadir plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -440,7 +440,7 @@
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-						<input type="submit" class="btn btn-success" value="Agregar">
+						<input type="submit" class="btn btn-success" name="opcion" value="Agregar">
 					</div>
 				</form>
 			</div>
@@ -509,7 +509,7 @@
 	<div id="borrarPlanModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletEliminarPlan" method="post">
+				<form action="paciente" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Eliminar plan</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -520,7 +520,7 @@
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-						<input type="submit" class="btn btn-danger" value="Eliminar">
+						<input type="submit" class="btn btn-danger" name="opcion" value="Eliminar">
 					</div>
 				</form>
 			</div>
