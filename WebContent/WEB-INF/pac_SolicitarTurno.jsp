@@ -38,21 +38,30 @@
                 </div>
             </div>   
             <br></br>
-            
+
+ <%
+ 
+ String camino = (String)session.getAttribute("camino");
+ boolean boleano = false;
+ if(camino == "especialista") {boleano = true;}
+ 
+ %>              
 	<!-- SELECCION DE ITEMS -->
 	
 	<div class="text-center">
 	<div class="panel panel-success"> 
      	<div class="alert alert-info alert-dismissible" role="alert">
-  			<strong>Elija sus preferencias!</strong> Seleccione la especialidad y el especialista que desee.
+  			<strong>Elija sus preferencias!</strong> Seleccione <%if(!boleano){ %>la especialidad<%}else{ %>el especialista<%} %> que desee.
 		</div>   
 		<br></br>  
-          
+ 
+ <%if(!boleano) {%>      
     <!-- ELECCION DE ESPECIALIDADES -->   
         
             <div class="row">
             <div class="form-group" style="width:400px;">
             <label>ESPECIALIDAD: </label>
+            <form action="paciente" method="post">
 	            <select name="opcionesEspecid" id="opcionesEspecid" required="true" class="form-control input-sm">
 	            <option value=""></option>
 	            <% 	
@@ -67,29 +76,42 @@
     		</div>
             </div>
      <br>   
+     <!-- BOTON PARA VER ESPECIALISTAS -->	
+			<button type="submit" class="btn btn-info" name="opcion" value="verEspecialistas">
+		  		Buscar
+			</button>
+		</form>	
      
+ <%}else{ 
+ 
+Especialidad eActual = (Especialidad)session.getAttribute("espeSeleccionada");
+CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
+
+ArrayList<Especialista> especs = controlador.getAllEspecialistas(eActual);
+ %>    
      <!-- ELECCION DE ESPECIALISTAS -->   
        
             <div class="row">
             <div class="form-group" style="width:400px;">
             <label>ESPECIALISTA: </label>
-	            <select name="productoId" id="productoId" required="true" class="form-control input-sm" placeholder="Producto">
-				<option value="0">Sin preferencias</option>
-     			<option value="1">Huerma Alfonsina</option>
-				<option value="2">Maria Lopez</option>
-				<option value="3">Matias Recarto</option>
-    		</select>
+            <form action="paciente" method="post">
+	            <select name="opEspecialistas" id="opEspecialistas" required="true" class="form-control input-sm">
+	            <option value=""></option>
+	            <% 	
+	            	for(Especialista e : especs){           	
+	            %>    			
+				<option value="<%=e.getDni()%>"><%=e.getNombre()+" "+e.getApellido() %></option>	
+	  			<%} %>					
+	    		</select>
     		</div>
             </div>
      	<br></br> 
-
 	<!-- BOTON PARA VER CALENDARIO -->
-	
-		<form action="paciente" method="post">
 			<button type="submit" class="btn btn-info" name="opcion" value="verCalendario">
 		  		Buscar turno
 			</button>
 		</form>	
+<%} %>
 	<br></br>
 	</div>
  	</div>

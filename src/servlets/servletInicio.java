@@ -23,13 +23,20 @@ public class servletInicio extends HttpServlet {
     HttpSession sesion;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 
-		servlet.VerificarSesion(request, response);
+		try {
+			servlet.VerificarSesion(request, response);
+			
+			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
+			
+			servlet.VerificarSesionYUsuario(request, response,usActual.getTipousuario());
+			
+			CtrlUsuario usLogi = new CtrlUsuario();
+			String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
+			request.getRequestDispatcher(path).forward(request, response);
 		
-		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-		CtrlUsuario usLogi = new CtrlUsuario();
-		String path = usLogi.getPathMenuUsuario(usActual);//.getTipousuario());
-		request.getRequestDispatcher(path).forward(request, response);
-		
+		}catch(java.lang.NullPointerException e) {
+			servlet.NotificarMensaje(response,"index.html","Ingreso incorrecto");
+		}
 	}
 
 	/**
@@ -61,7 +68,8 @@ public class servletInicio extends HttpServlet {
 		}
 		catch(NumberFormatException ne){		
 			servlet.NotificarMensaje(response,"index.html","Algun/os campos se encuentran vacios o son incorrectos");
-	}
+		}
+		
 	}
 
 }

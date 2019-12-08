@@ -4,6 +4,7 @@ package datos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entidades.Especialista;
 import entidades.Paciente;
@@ -43,7 +44,43 @@ public class EspecialistaDatos extends Conexion{
 	    return espe;
 	}
 	
-	
+	public ArrayList<Especialista> getAllPorEspecialidad(int cod_espe) throws SQLException{
+		
+		ArrayList<Especialista> especialistas = new ArrayList<Especialista>();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String cadena = "select u.dni,u.nombre,u.apellido,u.fecha_nacimiento,u.tipo_usuario,u.password,u.email,u.cod_especialidad from usuarios u " + 
+				"where u.cod_especialidad=?";		
+	    try {
+	    	getConnection();
+	        pst = miCon.prepareStatement(cadena);
+	        pst.setInt(1, cod_espe);
+	        rs = pst.executeQuery();
+	        
+	        while(rs.next())
+	        {
+	        	Usuario espe = null;
+	    		PracticaDatos practicas = new PracticaDatos();       	
+	        	UsuarioDatos udat = new UsuarioDatos();
+		    	espe = new Especialista();
+		    	udat.readUsuario(rs,espe);
+	        	
+	        	((Especialista)espe).setCodEspecialidad(rs.getInt("cod_especialidad"));
+	        	((Especialista)espe).setPracticas(practicas.getPracticasDeEspecialista(espe.getDni()));
+	        
+	        	especialistas.add(((Especialista)espe));
+	        }
+	        
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    finally {
+	    	if(rs!=null) rs.close();
+			if(pst!=null) pst.close();
+			if(miCon!=null)closeConnection();
+	    }
+	    return especialistas;
+	}
 	
 	public Especialista getEspecialista(int dni) throws SQLException {
 

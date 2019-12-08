@@ -174,9 +174,8 @@
 						          <div class="card-main">
 						          	<form action="paciente" method="post">
 						          		<input type="hidden" name="opcion" value="SelectFecha"></input>
-		    							<button type="submit" name="Reserva" value="<%=fechaDisponible %>" class="main-description">Disponible</button>
-		    						</form>
-						            <a href="#" class="main-description">Disponible</a>
+		    							<button type="submit" name="Reserva" value="<%=fechaDisponible %>" class="btn-disponible">Disponible</button>
+									</form>
 						          </div>
 						        </div>
 

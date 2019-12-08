@@ -1,6 +1,9 @@
 package logica;
 
+import java.sql.SQLException;
+
 import datos.EspecialistaDatos;
+import entidades.Especialista;
 
 public class CtrlEspecialista {
 
@@ -14,5 +17,8 @@ public class CtrlEspecialista {
 		return espDat.getEspecialidad(dni);
 	}
 	
+	public Especialista getOneEspecialista(int dni) throws SQLException {
+		return espDat.getEspecialista(dni);
+	}
 	
 }

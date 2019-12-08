@@ -14,7 +14,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.*;
 import entidades.*;
-
+//Menu paciente
+		//0) Ver turnos reservados
+			//Listar Turnos
+		//1) Cancelar turno
+			//Listar turnos
+			//Elegir uno - cambiar el estado
+			//Recibe mail
+		//2) Solicitar turno
+			//Listar turnos - Elige turno
+			//Ingresa Practica que desea
+			//Elige plan de la obra social
+			//Mostrar costo
+			//Confirmar turno
+			//Recibe mail
+		//3)Configuracion Personal
+		//4) Planes
 /**
  * Servlet implementation class servletPaciente
  */
@@ -34,27 +49,80 @@ public class servletPaciente extends HttpServlet {
 	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	try {
+		String op = request.getParameter("opcion");		
+		switchPaciente(op, request, response);
+		
+	}catch(java.lang.NullPointerException e) {
+		
+		request.getRequestDispatcher("/err.html").forward(request, response);
+	}
+	
+	}
 
-		String op = request.getParameter("opcion");
-		switch(op)
-		{		
+	public void switchPaciente(String opcion, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		switch(opcion)
+		{	
+		case "menuPaciente":
+			request.getRequestDispatcher("WEB-INF/menuPaciente.jsp").forward(request, response);
+			break;
+			
+		//Opciones base del menu
 		case "misTurnos":
 			request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
 			break;
 		case "SolicitarTurno":
+			
+			HttpSession sesion = request.getSession(false);
+			sesion.setAttribute("camino","especialidad");
+
 			request.getRequestDispatcher("/WEB-INF/pac_SolicitarTurno.jsp").forward(request, response);
+			
 			break;
 		case "ConfiguracionPersonal":
 			response.sendRedirect("/TurnosWeb/configuracionPersonal");
-			break;
+			break;		
+		//Opciones que pertenecen a alguna opcion del menu
 		case "Eliminar":
 			eliminarPlan(request, response);
 			break;
 		case "Agregar":
 			agregarPlan(request, response);
 			break;
+		case "verEspecialistas":
+			
+			//Validar que haya una opcion seleccionada
+			//Obtener la especialidad seleccionada
+			//Mostrar todos los especialistas de esa especialidad
+			
+			
+			int codEspecialidad = Integer.parseInt(request.getParameter("opcionesEspecid"));				
+			CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
+			
+			Especialidad e = controlador.getOneEspecialidad(codEspecialidad);
+			
+			
+			//======================================
+			if(e == null) 
+				{
+				request.getRequestDispatcher("/err.html").forward(request, response);
+				}
+			//======================================
+			
+			
+			HttpSession s = request.getSession(false);
+			s.setAttribute("espeSeleccionada", e);
+			s.setAttribute("camino","especialista");
+
+			request.getRequestDispatcher("/WEB-INF/pac_SolicitarTurno.jsp").forward(request, response);
+			
+			
+			
+			break;
 		case "verCalendario":
 			verCalendario(request, response);
+			opcion = "";
 			break;
 		case "SelectFecha":
 			verHorarios(request, response);
@@ -69,31 +137,29 @@ public class servletPaciente extends HttpServlet {
 			reservarTurno(request, response);
 			break;
 		default: 
-			request.getRequestDispatcher("/err.html").forward(request, response);
-			//REDIRECCIONAR MENSAJE ERROR 
+			switchPaciente("menuPaciente", request, response);
 			break;
 		}
-		//Menu paciente
-		//0) Ver turnos reservados
-			//Listar Turnos
-		//1) Cancelar turno
-			//Listar turnos
-			//Elegir uno - cambiar el estado
-			//Recibe mail
-		//2) Solicitar turno
-			//Listar turnos - Elige turno
-			//Ingresa Practica que desea
-			//Elige plan de la obra social
-			//Mostrar costo
-			//Confirmar turno
-			//Recibe mail
-		//3)Configuracion Personal
-		//4) Planes
 	}
 
 	public void reservarTurno(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
+		
+		HttpSession sesion = request.getSession(false);
+		Turno t = (Turno)sesion.getAttribute("TurnoNuevo");
+		
+		CtrlSolicitarTurno ctST = new CtrlSolicitarTurno();
+		boolean exito = ctST.reservarTurno(t);
+		
+		if(exito)
 		request.getRequestDispatcher("/WEB-INF/pac_TurnoReservado.jsp").forward(request, response);
+		else
+			//===============================
+			request.getRequestDispatcher("/err.html").forward(request, response);
+		//===============================
+		//===============================
+		//===============================
+		
 	}
 
 	public void confirmarHorario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -187,12 +253,24 @@ public class servletPaciente extends HttpServlet {
 			throws ServletException, IOException {
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 
-
-		//DATOS JARKODEADOS
-		Usuario us = new Usuario();
-		us.setDni(40100300);
 		
+		int dniEspe = Integer.parseInt(request.getParameter("opEspecialistas"));				
+		CtrlEspecialista ctrEsp = new CtrlEspecialista();
+		try {
+			
+			
+			Usuario us = (Usuario)ctrEsp.getOneEspecialista(dniEspe);
 
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		java.sql.Date fechaVista = new java.sql.Date(new Date().getTime());
 		
 		//convierto la fecha al mes actual	
@@ -208,6 +286,15 @@ public class servletPaciente extends HttpServlet {
 		sesion.setAttribute("Especialista", us);
 		
 		request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
+		
+		
+		
+		
+		} catch (SQLException e) {
+			//===========================================
+			e.printStackTrace();
+			//===========================================
+		}
 	}
 
 	public void agregarPlan(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

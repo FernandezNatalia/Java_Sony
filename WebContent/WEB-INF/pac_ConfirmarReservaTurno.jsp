@@ -46,16 +46,20 @@
 			<div class="alert alert-warning alert-dismissible" role="alert">
 				<strong>Reserva de turno:</strong> Verifique que los datos seleccionados son correctos.
 			</div><br>
+<%
 
+Especialista e = (Especialista)session.getAttribute("Especialista");
+Turno t = (Turno)session.getAttribute("TurnoNuevo");
+%>
 			<!-- CARD del turno -->
 			<div class="login-form">    
 			    <form action="paciente" method="post">
 					<div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
-			    	<h4 class="modal-title" style="text-decoration: underline;">Endocrinologia</h4>
+			    	<h4 class="modal-title" style="text-decoration: underline;"><%=e.getEspecialidad() %></h4>
 			    	<div style="text-align:left;" >
-			    	<p>Especialista: Juan Fogliato </p>
-			    	<p>Fecha: 34/12/12 </p>
-			    	<p>Hora: 15:05</p> 
+			    	<p>Especialista: <%=e.getNombre()+" "+e.getApellido() %> </p>
+			    	<p>Fecha: <%=Conversion.formatter1ddmmyy.format(t.getFechahora()) %> </p>
+			    	<p>Hora: <%=t.getFechahora().getHours()+":"+Conversion.convertirMinutosConCero(t.getFechahora().getMinutes()) %></p> 
 			    	</div>
 			    	<br>
 			    	<button type="submit" class="btn btn-info" name="opcion" value="ReservarTurno">
