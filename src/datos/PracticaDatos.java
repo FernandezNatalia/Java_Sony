@@ -16,7 +16,7 @@ public class PracticaDatos extends Conexion{
 		
 		PreparedStatement pst = null; 
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM practicas WHERE cod_practica = ?";
+		String cadena = "select cod_practica, descripcion, getValorActualPractica(cod_practica) as costo from practicas where cod_practica = ?";
 		
 	    try {
 	    	getConnection();
@@ -48,8 +48,8 @@ public class PracticaDatos extends Conexion{
 		
 		PreparedStatement pst = null; 
 		ResultSet rs = null;
-		String cadena = "SELECT tp.cod_practica, descripcion, costo FROM turnos_practicas tp INNER JOIN "
-				+ "practicas p ON tp.cod_practica = p.cod_practica WHERE tp.id_turno = ?";
+		String cadena = "SELECT tp.cod_practica, descripcion, getValorActualPractica(tp.cod_practica) as costo " + 
+				"FROM turnos_practicas tp INNER JOIN practicas p ON tp.cod_practica = p.cod_practica WHERE tp.id_turno = ?";
 		
 	    try {
 	    	getConnection();
@@ -84,8 +84,8 @@ public class PracticaDatos extends Conexion{
 		
 		PreparedStatement pst = null; 
 		ResultSet rs = null;
-		String cadena = "SELECT p.cod_practica, p.descripcion, p.costo from usuarios u " + 
-				"inner join especialidades_practicas ep on ep.cod_especialidad = u.cod_especialidad " + 
+		String cadena = "SELECT p.cod_practica, p.descripcion, getValorActualPractica(p.cod_practica) as costo " + 
+				"from usuarios u inner join especialidades_practicas ep on ep.cod_especialidad = u.cod_especialidad " + 
 				"inner join practicas p on p.cod_practica = ep.cod_practica where u.dni = ?";
 		
 	    try {
@@ -118,7 +118,8 @@ public class PracticaDatos extends Conexion{
 	
 	public double getValorPractica(int idPractica,int idPlan) {
 		
-		String consulta = "SELECT descuento FROM practicas_planes where id_plan = ? and cod_practica=?";
+		String consulta = "SELECT distinct getValorActualPlanPractica(cod_practica,id_plan) as descuento " + 
+				"FROM practicas_planes where id_plan = ? and cod_practica= ?";
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		double valor = 0;

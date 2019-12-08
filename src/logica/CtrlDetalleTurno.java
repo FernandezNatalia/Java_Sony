@@ -28,7 +28,7 @@ public class CtrlDetalleTurno {
 		//Calculo el valor de la practica restandole el porcentaje que cubre la Obra Social.
 		
 		double porcentaje = pracDat.getValorPractica(pr.getId(),p.getId());
-		double valor = pr.getValor() - (porcentaje*100);
+		double valor = porcentaje*pr.getValor();
 		return valor;
 	}
 	
