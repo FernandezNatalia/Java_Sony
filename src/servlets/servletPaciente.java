@@ -123,6 +123,9 @@ public class servletPaciente extends HttpServlet {
 			verCalendario(request, response);
 			opcion = "";
 			break;
+		case "volverAlCalendario":
+			request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
+			break;
 		case "SelectFecha":
 			verHorarios(request, response);
 			break;

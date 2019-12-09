@@ -81,7 +81,7 @@ ArrayList<Turno> turnosHorariosDispo = controladorTurno.getTurnosDisponiblesAFec
 			</div>
 			<br></br>
 			<form action="paciente" method="post">
-				<button type="submit" class="btn btn-info" name="opcion" value="verCalendario">
+				<button type="submit" class="btn btn-info" name="opcion" value="volverAlCalendario">
 			  		Volver al calendario
 				</button>
 			</form>	
