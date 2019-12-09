@@ -253,7 +253,7 @@ public class servletPaciente extends HttpServlet {
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
 		
 		//Si es verdadero significa que esta eligiendo los horarios y que no es la primera vez que carga la pagina
-		if (us != null) request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
+		//if (us != null) request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
 		
 		try {
 			int dniEspe = Integer.parseInt(request.getParameter("opEspecialistas"));				

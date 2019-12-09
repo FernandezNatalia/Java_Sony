@@ -49,15 +49,14 @@
 	<!-- SELECCION DE ITEMS -->
 	
 	<div class="text-center">
-	<div class="panel panel-success"> 
+	
+ 	<%if(!boleano) {%>      
+    <!-- ELECCION DE ESPECIALIDADES -->   
+    <div class="panel panel-success"> 
      	<div class="alert alert-info alert-dismissible" role="alert">
-  			<strong>Elija sus preferencias!</strong> Seleccione <%if(!boleano){ %>la especialidad<%}else{ %>el especialista<%} %> que desee.
+  			<strong>Elija sus preferencias!</strong> Seleccione la especialidad que desee.
 		</div>   
 		<br></br>  
- 
- <%if(!boleano) {%>      
-    <!-- ELECCION DE ESPECIALIDADES -->   
-        
             <div class="row">
             <div class="form-group" style="width:400px;">
             <label>ESPECIALIDAD: </label>
@@ -88,9 +87,15 @@ Especialidad eActual = (Especialidad)session.getAttribute("espeSeleccionada");
 CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
 
 ArrayList<Especialista> especs = controlador.getAllEspecialistas(eActual);
+
+if(especs.size() != 0){
  %>    
      <!-- ELECCION DE ESPECIALISTAS -->   
-       
+     <div class="panel panel-success"> 
+     	<div class="alert alert-info alert-dismissible" role="alert">
+  			<strong>Elija sus preferencias!</strong> Seleccione el especialista que desee.
+		</div>   
+		<br></br>  
             <div class="row">
             <div class="form-group" style="width:400px;">
             <label>ESPECIALISTA: </label>
@@ -111,6 +116,18 @@ ArrayList<Especialista> especs = controlador.getAllEspecialistas(eActual);
 		  		Buscar turno
 			</button>
 		</form>	
+	<%} else{ %>
+	<br>
+     	<div class="alert alert-danger alert-dismissible" role="alert">
+  			<strong>Lo sentimos.</strong> No se han encontrado especialistas disponibles para la especialidad: <strong><%=eActual.getNombre() %></strong>
+		</div>
+	<!-- BOTON PARA VOLVER ATRAS PORQUE NO HAY ESPECIALISTAS -->
+	<form action="paciente" method="post">
+		<button type="submit" class="btn btn-info" name="opcion" value="SolicitarTurno">
+		  	Volver atrás
+		</button>
+	</form>		    
+	<%} %>
 <%} %>
 	<br></br>
 	</div>
