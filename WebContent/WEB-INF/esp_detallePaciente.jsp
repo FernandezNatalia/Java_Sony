@@ -46,7 +46,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Detalles del turno</h2>
+						<h2>Detalles del paciente</h2>
 					</div>
 					<div class="col-sm-6">
 						
@@ -96,7 +96,7 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Practicas del turno</h2>
+						<h2>Historial de turnos</h2>
 					</div>
 					<div class="col-sm-6">
 	
@@ -125,7 +125,7 @@
                 <tfoot>
                   <tr>
                     <th>Fecha y hora</th>
-                    <th>Plan</th>
+                    
                     <th>Consultorio</th>
                     <th>Observación</th>
                     <th>Detalle</th>
@@ -141,7 +141,7 @@
                  %>
                     <tr>
                     	<td><%=turno.getFechahora() %></td>                                                                   
-                        <td><%=paciente.getPlan().getNomplan() + " " +paciente.getPlan().getObs().getRazonSocial() %></td>
+                        
                         <td><%=turno.getConsultorio().getDesc() %></td>
                         <td><%=turno.getObservacion() %>
 						<td><a href="detallesTurno?idturno=<%=turno.getIdturno() %>" class="btn btn-default" data-toggle="modal">Ver detalle</a></td>

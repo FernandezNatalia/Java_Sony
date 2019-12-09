@@ -271,7 +271,7 @@ public ArrayList<Turno> getTurnosPaciente(Usuario paciente, Usuario especialista
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 3 AND turnos.dni_paciente = ? AND turnos.dni_especialista=? AND fecha_hora > current_date() ORDER BY fecha_hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 3 AND turnos.dni_paciente = ? AND turnos.dni_especialista=? AND fecha_hora < current_date() ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			

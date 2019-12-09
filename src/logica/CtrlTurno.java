@@ -97,6 +97,7 @@ public class CtrlTurno {
 			
 			//Actualizo la BD poniendole al turno el estado "cancelado"
 			//Despues agrego un nuevo turno para ese mismo horario
+			//PERO SI ESTO YA ESTABA COMO STORED PROCEDURE EN LA BASE DE DATOS
 			
 			turnoData.UpdateTurno(t);			
 			turnoData.AgregarNuevoTurno(t.getFechahora(),t.getConsultorio().getIdconsultorio(),t.getEspecialista().getDni());	

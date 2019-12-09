@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import entidades.Turno;
 import entidades.Usuario;
 import logica.Conversion;
 import logica.CtrlTurno;
+import util.Emailer;
 /**
  * Servlet implementation class servletCancelarTurno
  */
@@ -38,8 +41,13 @@ public class servletCancelarTurno extends HttpServlet {
 		if(controlador.CancelarTurno(IDTurno))
 			
 			
-			if(us.getTipousuario() == Usuario.especialista)			
+			if(us.getTipousuario() == Usuario.especialista){
+				Emailer em = new Emailer();
+				CtrlTurno ctr = new CtrlTurno();
+				Turno turno = ctr.getOne(IDTurno);
+				em.send(turno.getPaciente().getEmail(), "Turno cancelado", "Su turno ha sido cancelado");
 				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
+			}
 			if(us.getTipousuario() == Usuario.paciente)
 				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
 		else {	
