@@ -104,10 +104,9 @@ public class servletPaciente extends HttpServlet {
 			
 			
 			//======================================
-			if(e == null) 
-				{
+			if(e == null) {
 				request.getRequestDispatcher("/err.html").forward(request, response);
-				}
+			}
 			//======================================
 			
 			
@@ -248,51 +247,43 @@ public class servletPaciente extends HttpServlet {
 		
 		request.getRequestDispatcher("/WEB-INF/pac_VerHorarios.jsp").forward(request, response);
 	}
-
-	public void verCalendario(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	Usuario us;
+	public void verCalendario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		
 		servlet.VerificarSesionYUsuario(request, response,Usuario.paciente);
-
 		
-		int dniEspe = Integer.parseInt(request.getParameter("opEspecialistas"));				
-		CtrlEspecialista ctrEsp = new CtrlEspecialista();
+		//Si es verdadero significa que esta eligiendo los horarios y que no es la primera vez que carga la pagina
+		if (us != null) request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
+		
 		try {
-			
-			
-			Usuario us = (Usuario)ctrEsp.getOneEspecialista(dniEspe);
+			int dniEspe = Integer.parseInt(request.getParameter("opEspecialistas"));				
+			CtrlEspecialista ctrEsp = new CtrlEspecialista();
 
+			us = (Usuario)ctrEsp.getOneEspecialista(dniEspe);
 			
+			java.sql.Date fechaVista = new java.sql.Date(new Date().getTime());
 			
+			//convierto la fecha al mes actual	
+			int MES = Conversion.getNroDelMes(fechaVista);
 			
+			//convierto la fecha al anio actual		
+			int ANIO = Conversion.getNroAnio(fechaVista);
 			
+			//los agrego a la sesion
+			HttpSession sesion = request.getSession(false);
+			sesion.setAttribute("mes", MES);
+			sesion.setAttribute("anio", ANIO);
+			sesion.setAttribute("Especialista", us);
 			
+			request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
 			
-			
-			
-			
-			
-		java.sql.Date fechaVista = new java.sql.Date(new Date().getTime());
-		
-		//convierto la fecha al mes actual	
-		int MES = Conversion.getNroDelMes(fechaVista);
-		
-		//convierto la fecha al anio actual		
-		int ANIO = Conversion.getNroAnio(fechaVista);
-		
-		//los agrego a la sesion
-		HttpSession sesion = request.getSession(false);
-		sesion.setAttribute("mes", MES);
-		sesion.setAttribute("anio", ANIO);
-		sesion.setAttribute("Especialista", us);
-		
-		request.getRequestDispatcher("/WEB-INF/pac_calendario.jsp").forward(request, response);
-		
-		
-		
-		
 		} catch (SQLException e) {
 			//===========================================
-			e.printStackTrace();
+			request.getRequestDispatcher("/err.html").forward(request, response); //e.printStackTrace();
+			//===========================================
+		}catch (NumberFormatException et) {
+			//===========================================
+			request.getRequestDispatcher("/err.html").forward(request, response);//e.printStackTrace();
 			//===========================================
 		}
 	}

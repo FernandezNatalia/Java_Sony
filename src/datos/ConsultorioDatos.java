@@ -19,7 +19,7 @@ public class ConsultorioDatos extends Conexion{
 		Consultorio con = new Consultorio();				
 		con.setIdconsultorio(rs.getInt("id"));
 		con.setDesc(rs.getString("descripcion"));
-		con.setDireccion(rs.getString("direccion"));		
+		//con.setDireccion(rs.getString("direccion"));		
 		return con;
 		
 	}
