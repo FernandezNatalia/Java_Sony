@@ -318,9 +318,10 @@
                     <div class="col-sm-6">
 						<h2>Configuracion personal</h2>
 					</div>
-					<div class="col-sm-6">	
-						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
-					</div>
+					<form action="servletPrincipal" method="get">
+							<button type="submit" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span>
+							</button>
+					</form>	
                 </div>
             </div>
             <table class="table table-striped table-hover">
