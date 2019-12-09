@@ -179,7 +179,7 @@ public class TurnoDatos extends Conexion {
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_paciente = ? ORDER BY fecha_hora";
+		String cadena = "SELECT * FROM turnos WHERE turnos.estado = 2 AND turnos.dni_paciente = ? AND fecha_hora >= current_date() ORDER BY fecha_hora";
 		getConnection();
 		
 		try {			
