@@ -44,7 +44,7 @@ public static Emailer instance;
 		  });
 
 		try {
-
+			System.out.println("Enviando mail...");
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(props.getProperty("mail.username")));
 			message.setRecipients(Message.RecipientType.TO,

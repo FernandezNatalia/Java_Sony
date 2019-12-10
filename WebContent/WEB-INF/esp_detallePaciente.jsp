@@ -85,8 +85,12 @@
                         <td>Plan</td>                       
                         <td><%=paciente.getPlan().getNomplan()+" "+paciente.getPlan().getObs().getRazonSocial() %></td>
                     </tr>
+                    <%} else{%>
+                    <tr>
+                        <td>Plan</td>                       
+                        <td>Sin obra social/Particular</td>
+                    </tr>
                     <%} %>
-                    
                 </tbody>
             </table>			
     </div>
@@ -116,7 +120,7 @@
                 <thead>
                   <tr>
                     <th>Fecha y hora</th>
-                    <th>Plan</th>
+                    
                     <th>Consultorio</th>
                     <th>Observación</th>
                     <th>Detalle</th>
