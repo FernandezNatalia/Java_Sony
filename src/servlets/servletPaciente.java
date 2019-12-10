@@ -300,8 +300,7 @@ public class servletPaciente extends HttpServlet {
 			int dniEspe = Integer.parseInt(request.getParameter("opEspecialistas"));				
 			CtrlEspecialista ctrEsp = new CtrlEspecialista();
 
-			Usuario us = (Usuario)ctrEsp.getOneEspecialista(dniEspe);
-			
+			Usuario us = (Usuario)ctrEsp.getOneEspecialista(dniEspe);		
 			java.sql.Date fechaVista = new java.sql.Date(new Date().getTime());
 			
 			//convierto la fecha al mes actual	
