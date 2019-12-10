@@ -12,8 +12,7 @@ import entidades.Usuario;
 
 public class servlet {
 	
-public static void NotificarMensaje(HttpServletResponse response,String  pagRedireccionada,String mensaje) throws IOException {		
-		
+public static void NotificarMensaje(HttpServletResponse response,String  pagRedireccionada,String mensaje) throws IOException {			
 		response.setContentType("text/html"); 
 		PrintWriter out = response.getWriter();
 		out.println("<html>");
@@ -22,8 +21,6 @@ public static void NotificarMensaje(HttpServletResponse response,String  pagRedi
 		out.println("window.location.replace(\""+pagRedireccionada+"\");");
 		out.println("</script>");
 		out.println("</html>");
-		
-		
 	}
 
 public static void ErrorPaciente(String direcFallo, String mensaje, HttpServletResponse response) throws ServletException {
