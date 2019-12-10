@@ -60,7 +60,7 @@ public class UsuarioDatos extends Conexion {
 	public boolean Autenticacion(int dni,String pass){
 		PreparedStatement pst = null;
 		ResultSet rs = null;		
-		String consulta = "SELECT * FROM Usuarios WHERE dni = ? AND password = ?";
+		String consulta = "SELECT * FROM usuarios WHERE dni = ? AND password = ?";
 		
 		try {	
 			getConnection();			
