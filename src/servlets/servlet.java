@@ -13,6 +13,7 @@ import entidades.Usuario;
 public class servlet {
 	
 public static void NotificarMensaje(HttpServletResponse response,String  pagRedireccionada,String mensaje) throws IOException {			
+		
 		response.setContentType("text/html"); 
 		PrintWriter out = response.getWriter();
 		out.println("<html>");
