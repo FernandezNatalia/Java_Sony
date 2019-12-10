@@ -49,10 +49,13 @@ public class servletPaciente extends HttpServlet {
 	 * @throws ServletException 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-
+    private static Usuario pacActual;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {	
 			servlet.VerificarSesionYUsuario(request, response, Usuario.paciente);
+			
+			HttpSession sesion = request.getSession();	
+			pacActual = (Usuario)sesion.getAttribute("usuario");		
 			
 			String op = request.getParameter("opcion");		
 			switchPaciente(op, request, response);
@@ -136,22 +139,38 @@ public class servletPaciente extends HttpServlet {
 			
 			if(e == null) servlet.ErrorPaciente("SolicitarTurno","No se ha podido recuperar la especialidad", response);
 
-			HttpSession s = request.getSession(false);
-			s.setAttribute("espeSeleccionada", e);
-			s.setAttribute("camino","especialista");
+			request.setAttribute("camino","especialista");
+			
+			ArrayList<Especialista> especs = controlador.getAllEspecialistas(e);
+			
+			request.setAttribute("ListaEspecialistas", especs);
+			
+			//Si la coleccion esta vacia significa que no existen especialistas con esa especialidad
+			if(especs.size() == 0) request.setAttribute("Especialidad", e.getNombre());	
+			
 			
 			opMenuSolicitarTurno(request, response);
 			
 		}catch(NumberFormatException | ServletException ne) {
 			servlet.ErrorPaciente("SolicitarTurno","Por favor seleccione una opcion.", response);
+		} catch (SQLException e1) {
+			servlet.ErrorPaciente("SolicitarTurno","Ha ocurrido un error al intentar recuperar los especialistas. Causa: "+e1.getMessage(), response);
 		}
 	}
 
 	public void solicitarTurno(HttpServletRequest request, HttpServletResponse response) throws ServletException{
-		HttpSession sesion = request.getSession(false);
-		sesion.setAttribute("camino","especialidad");
 		
-		opMenuSolicitarTurno(request, response);
+		try {
+			request.setAttribute("camino","especialidad");
+		
+			CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
+    	
+			request.setAttribute("listadoEspecialidades",controlador.getAllEspecialidades());
+			
+			opMenuSolicitarTurno(request, response);
+		} catch (SQLException e) {
+			opMenuSolicitarTurno(request, response);
+		}
 	}
 	
 	public void reservarTurno(HttpServletRequest request, HttpServletResponse response) throws ServletException{
@@ -189,7 +208,6 @@ public class servletPaciente extends HttpServlet {
 				tActual.setPaciente(usActual);
 
 				sesion.setAttribute("TurnoNuevo",tActual);
-				
 				request.getRequestDispatcher("/WEB-INF/pac_ConfirmarReservaTurno.jsp").forward(request, response);	
 			}
 		}catch (IOException | NumberFormatException e) {
@@ -249,12 +267,32 @@ public class servletPaciente extends HttpServlet {
 	}
 	public void verHorarios(HttpServletRequest request, HttpServletResponse response) throws ServletException{
 
-		String fechaReserva = request.getParameter("Reserva");
+		try {
+			String fechaReserva = request.getParameter("Reserva");
+			
+			HttpSession sesion = request.getSession(false);
+			
+			
+			//====================================================
+			//VVER SI QUEDA
+			sesion.setAttribute("fechaReserva", fechaReserva);
+			//====================================================
+			
+			Usuario e = (Usuario)sesion.getAttribute("Especialista");
+	
+			CtrlTurno controladorTurno = new CtrlTurno();
+			java.sql.Date sqlFechaDispo = Conversion.ConvertirStringAFechaSql(fechaReserva);
+	
+			
+			ArrayList<Turno> turnosHorariosDispo = controladorTurno.getTurnosDisponiblesAFecha(e,sqlFechaDispo);
 		
-		HttpSession sesion = request.getSession(false);
-		sesion.setAttribute("fechaReserva", fechaReserva);
-		
-		opVerHorarios(request, response);
+			request.setAttribute("turnosConHorariosDispo", turnosHorariosDispo);
+			request.getRequestDispatcher("/WEB-INF/pac_VerHorarios.jsp").forward(request, response);
+				
+			
+		} catch (SQLException | IOException e1) {			
+				this.opVerCalendario(request, response);
+		}
 	}
 	public void verCalendario(HttpServletRequest request, HttpServletResponse response)throws ServletException {
 		
@@ -324,15 +362,6 @@ public class servletPaciente extends HttpServlet {
 			servlet.ErrorPaciente("ConfiguracionPersonal","No se ha podido eliminar el plan", response);
 		}
 	}
-
-	public void opVerHorarios(HttpServletRequest request, HttpServletResponse response)throws ServletException{
-		try {			
-			request.getRequestDispatcher("/WEB-INF/pac_VerHorarios.jsp").forward(request, response);
-			
-		} catch (IOException e) {			
-			this.opVerCalendario(request, response);
-		}
-	}
 	public void opVerCalendario(HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		try {
 			
@@ -343,11 +372,18 @@ public class servletPaciente extends HttpServlet {
 			servlet.ErrorPaciente("verEspecialistas","Se ha producido un error. Causa: "+e.getMessage(), response);
 		}
 	}
-	public void opMenuListaTurnos(HttpServletRequest request, HttpServletResponse response)throws ServletException{
-		try {
+	public static void opMenuListaTurnos(HttpServletRequest request, HttpServletResponse response)throws ServletException{
+		try {		
+			CtrlTurno turLog = new CtrlTurno();	
+				
+			ArrayList<Turno> turnos = turLog.getTurnosPendientesPaciente(pacActual);
+			request.setAttribute("ListadoTurnos",turnos);
+
 			request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
-		} catch (IOException e) {
-			servlet.ErrorPaciente("menuPaciente","Se ha producido un error al intentar redireccionar la pagina. Causa: "+e.getMessage(), response);
+			
+		} catch (SQLException|IOException e) {
+			
+			servlet.ErrorPaciente("menuPaciente","Se ha producido un error al intentar recuperar los turnos. Causa: "+e.getMessage(), response);
 		}
 	}
 	public void opMenuSolicitarTurno(HttpServletRequest request, HttpServletResponse response) throws ServletException{	

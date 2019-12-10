@@ -19,26 +19,10 @@
 
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+<script type="text/javascript" src="js/modalObtenerID.js"></script>
 
-
-<script>
-function ObtenerIDTurno(idDeTurno)
-{
-	document.getElementById("IDTURNO").value=idDeTurno; 
-}
-</script>
 </head>
-<body>
-<% 		
-			Usuario us= (Usuario)session.getAttribute("usuario");
-			CtrlTurno turLog = new CtrlTurno();	
-			CtrlEspecialista eLog = new CtrlEspecialista();
-			ArrayList<Turno> turnos = turLog.getTurnosPendientesPaciente(us);
-			
-			SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm"); 		
-	   		SimpleDateFormat formatoyymmaa = new SimpleDateFormat("yyyy-MM-dd");
-%>  
-	     
+<body>     
 <div class="container">
         <div class="table-wrapper">
             <div class="table-title">
@@ -57,13 +41,16 @@ function ObtenerIDTurno(idDeTurno)
     <div class="container">
     <table class="table table-striped table-hover">
     	<thead>
-       <% for (Turno tur : turnos) {%>
+     <% 
+       ArrayList<Turno> turnos = (ArrayList<Turno>)request.getAttribute("ListadoTurnos");
+       for (Turno tur : turnos) {       
+     %>
         <div class="card">
         	<br>
-            <h4><%=eLog.getEspecialidad(tur.getEspecialista().getDni())%></h4>
+            <h4><%=((Especialista)tur.getEspecialista()).getEspecialidad() %></h4>
             <p align="left">
-            	Fecha: <%=formatoyymmaa.format(tur.getFechahora())%> <br>
-            	Hora: <%=formatohhmm.format(tur.getFechahora())%> <br><br>
+            	Fecha: <%=Conversion.formatoddmmyy.format(tur.getFechahora())%> <br>
+            	Hora: <%=Conversion.formatohhmm.format(tur.getFechahora())%> <br><br>
            		Especialista: <%=tur.getEspecialista().getNombre()+" "+tur.getEspecialista().getApellido()%> <br>
             	Consultorio: <%=tur.getConsultorio().getDesc()%></p>
             <br>	

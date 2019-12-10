@@ -10,6 +10,7 @@ public class Conversion {
 	public static SimpleDateFormat formatoddmmyyhhss = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy");
 	public static SimpleDateFormat formatterNroAMes =  new SimpleDateFormat("MMMM",  new Locale("ES", "ES"));
+	public static SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
 	
 	public static Integer ConvertirStringAInteger(String entero) {
 		return Integer.parseInt(entero);

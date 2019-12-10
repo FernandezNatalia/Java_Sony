@@ -41,7 +41,7 @@
 
  <%
  
- String camino = (String)session.getAttribute("camino");
+ String camino = (String)request.getAttribute("camino");
  boolean boleano = false;
  if(camino == "especialista") {boleano = true;}
  
@@ -64,13 +64,11 @@
 	            <select name="opcionesEspecid" id="opcionesEspecid" required="true" class="form-control input-sm">
 	            <option value=""></option>
 	            <% 	
-	            	CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
-	            	ArrayList<Especialidad> especialidades = controlador.getAllEspecialidades();
-	            	
+	            	ArrayList<Especialidad> especialidades = (ArrayList<Especialidad>)request.getAttribute("listadoEspecialidades");            	
 	            	for(Especialidad e : especialidades){           	
 	            %>    			
-				<option value="<%=e.getCodEspecialidad()%>"><%=e.getNombre() %></option>	
-	  			<%} %>					
+					<option value="<%=e.getCodEspecialidad()%>"><%=e.getNombre() %></option>	
+	  				<%} %>					
 	    		</select>
     		</div>
             </div>
@@ -83,11 +81,7 @@
      
  <%}else{ 
  
-Especialidad eActual = (Especialidad)session.getAttribute("espeSeleccionada");
-CtrlSolicitarTurno controlador = new CtrlSolicitarTurno();
-
-ArrayList<Especialista> especs = controlador.getAllEspecialistas(eActual);
-
+ArrayList<Especialista> especs = (ArrayList<Especialista>)request.getAttribute("ListaEspecialistas");
 if(especs.size() != 0){
  %>    
      <!-- ELECCION DE ESPECIALISTAS -->   
@@ -119,7 +113,7 @@ if(especs.size() != 0){
 	<%} else{ %>
 	<br>
      	<div class="alert alert-danger alert-dismissible" role="alert">
-  			<strong>Lo sentimos.</strong> No se han encontrado especialistas disponibles para la especialidad: <strong><%=eActual.getNombre() %></strong>
+  			<strong>Lo sentimos.</strong> No se han encontrado especialistas disponibles para la especialidad: <strong><%=(String)request.getAttribute("Especialidad") %></strong>
 		</div>
 	<!-- BOTON PARA VOLVER ATRAS PORQUE NO HAY ESPECIALISTAS -->
 	<form action="paciente" method="post">

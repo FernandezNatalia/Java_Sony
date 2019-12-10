@@ -22,7 +22,6 @@
 <link rel="stylesheet" type="text/css" href="css/menuPaciente.css">
 <link rel="stylesheet" type="text/css" href="css/baseSolicitarTurno.css">
 
-
 </head>
 <body>
 <div class="container">
@@ -43,17 +42,6 @@
             <br></br>
             
 <!-- LISTADO DE HORARIOS -->
-<%
-
-Usuario us = (Usuario)session.getAttribute("Especialista");
-
-CtrlTurno controladorTurno = new CtrlTurno();
-String strFecha = (String)session.getAttribute("fechaReserva");
-java.sql.Date sqlFechaDispo = Conversion.ConvertirStringAFechaSql(strFecha);
-
-ArrayList<Turno> turnosHorariosDispo = controladorTurno.getTurnosDisponiblesAFecha(us,sqlFechaDispo); 
-
-%>
 	<div class="text-center">
 		<div class="panel panel-success"> 
 			<div class="alert alert-info alert-dismissible" role="alert">
@@ -65,7 +53,10 @@ ArrayList<Turno> turnosHorariosDispo = controladorTurno.getTurnosDisponiblesAFec
 				  <a href="#" class="list-group-item list-group-item-action active">Horarios disponibles</a>
 				  
 				  <!-- Listo cada horario con disponibilidad -->
-				  <% for(Turno t : turnosHorariosDispo){
+				  <% 
+				  ArrayList<Turno> turnosHorariosDispo = (ArrayList<Turno>)request.getAttribute("turnosConHorariosDispo");
+				  
+				  for(Turno t : turnosHorariosDispo){
 					  String mins = Conversion.convertirMinutosConCero(t.getFechahora().getMinutes());
 				  %>
 				  	<form action="paciente" method="post">

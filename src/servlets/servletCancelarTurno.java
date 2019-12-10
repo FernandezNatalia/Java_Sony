@@ -38,8 +38,7 @@ public class servletCancelarTurno extends HttpServlet {
 	
 		//Llamo al controlador, se elimina el turno y se redirecciona al listado.		
 		CtrlTurno controlador = new CtrlTurno();			
-		if(controlador.CancelarTurno(IDTurno))
-			
+		if(controlador.CancelarTurno(IDTurno)) {		
 			
 			if(us.getTipousuario() == Usuario.especialista){
 				Emailer em = new Emailer();
@@ -49,8 +48,9 @@ public class servletCancelarTurno extends HttpServlet {
 				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
 			}
 			if(us.getTipousuario() == Usuario.paciente)
-				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);
-		else {	
+				servletPaciente.opMenuListaTurnos(request, response);
+			
+		}else {	
 			if(us.getTipousuario() == Usuario.especialista)			
 				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");	
 			if(us.getTipousuario() == Usuario.paciente)
