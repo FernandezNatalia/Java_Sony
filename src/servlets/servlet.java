@@ -26,6 +26,23 @@ public static void NotificarMensaje(HttpServletResponse response,String  pagRedi
 		
 	}
 
+public static void ErrorPaciente(String direcFallo, String mensaje, HttpServletResponse response) throws ServletException {
+
+	try {
+		response.setContentType("text/html"); 
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('"+mensaje+"');");
+		out.println("window.location.replace(\"paciente?opcion="+direcFallo+"\");");
+		out.println("</script>");
+		out.println("</html>");
+		
+	} catch (IOException e) {		
+		throw new ServletException(e);		
+	}
+}
+
 public static void VerificarSesion(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
 	//Si el Usuario no tiene una sesion se lo manda a la pagina de inicio.
 	
