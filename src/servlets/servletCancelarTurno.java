@@ -12,7 +12,7 @@ import entidades.Turno;
 import entidades.Usuario;
 import logica.Conversion;
 import logica.CtrlTurno;
-import util.Emailer;
+import logica.Emailer;
 /**
  * Servlet implementation class servletCancelarTurno
  */
@@ -45,14 +45,14 @@ public class servletCancelarTurno extends HttpServlet {
 				CtrlTurno ctr = new CtrlTurno();
 				Turno turno = ctr.getOne(IDTurno);
 				em.send(turno.getPaciente().getEmail(), "Turno cancelado", "Su turno ha sido cancelado");
-				servlet.RedirigirUrl(request, response, "servletVerTurnosPendientesEsp");
+				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);	
 			}
 			if(us.getTipousuario() == Usuario.paciente)
 				servletPaciente.opMenuListaTurnos(request, response);
 			
 		}else {	
 			if(us.getTipousuario() == Usuario.especialista)			
-				servlet.NotificarMensaje(response,"servletVerTurnosPendientesEsp","No se ha podido cancelar el turno");	
+				servlet.ErrorEspListado("No se ha podido cancelar el turno", response);
 			if(us.getTipousuario() == Usuario.paciente)
 				request.getRequestDispatcher("/WEB-INF/pac_ListadoTurnosPend.jsp").forward(request, response);		
 		}						

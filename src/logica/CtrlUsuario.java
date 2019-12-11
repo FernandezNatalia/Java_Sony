@@ -29,12 +29,8 @@ public class CtrlUsuario {
 		if(us.getTipousuario() == Usuario.paciente) {
 			return "WEB-INF/menuPaciente.jsp";
 		}
-		if (us.getTipousuario() == Usuario.admin) {
-			
-			return "WEB-INF/menuAdmin.html";
-		}
 		
-		return "err.html"; //Pagina de error CON PARAMETROS
+		return "error.jsp";
 	}	
 	public boolean RegistrarNuevoUsuario(Usuario us) {
 		

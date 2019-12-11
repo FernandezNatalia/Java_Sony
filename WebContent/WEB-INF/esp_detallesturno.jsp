@@ -42,7 +42,7 @@
 						<%
 						if(volvercommand.equals("listadopendesp")){
 						%>
-						<a href="servletVerTurnosPendientesEsp" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
+						<a href="MisTurnos?opcion=verListado" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
 						<%} else{%>
 						<a href="javascript:history.back()" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
 						<%} %>
@@ -102,7 +102,6 @@
 						<h2>Practicas del turno</h2>
 					</div>
 					<div class="col-sm-6">
-	
 						<a href="#addPracticaModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">playlist_add</i> <span>Añadir práctica</span></a>	
 					</div>
                 </div>
@@ -140,10 +139,11 @@
 							<div id="borrarPracticaModal<%=prac.getId() %>" class="modal fade">
 								<div class="modal-dialog">
 									<div class="modal-content">
-										<form action="servletQuitarPracticaTurno" method="post">
+										<form action="MisTurnos" method="post">
 											<div class="modal-header">						
 												<h4 class="modal-title">Eliminar práctica</h4>
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<input type="hidden" name="opcion" value="BorrarPracticaTurno">
 											</div>
 											<div class="modal-body">					
 												<p>Esta seguro de que desea eliminar esta práctica del turno?</p>
@@ -179,7 +179,7 @@
 	<div id="addPracticaModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletAgregarPracticaTurno" method="post">
+				<form action="MisTurnos" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Añadir práctica</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -204,6 +204,7 @@
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-success" value="Agregar">
+						<input type="hidden" name="opcion" value="AgregarPracticaTurno">
 					</div>
 				</form>
 			</div>

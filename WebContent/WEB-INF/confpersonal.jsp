@@ -35,10 +35,11 @@
                     <div class="col-sm-6">
 						<h2>Configuracion personal</h2>
 					</div>
-					<form action="servletPrincipal" method="get">
-							<button type="submit" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span>
-							</button>
-					</form>	
+					<% if(usActual.getTipousuario() == Usuario.especialista) {%>
+					<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+					<%}if (usActual.getTipousuario() == Usuario.paciente){ %>
+					<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+					<%} %>
                 </div>
             </div>
             <table class="table table-striped table-hover">
@@ -168,7 +169,7 @@
 	<div id="cambiarMailModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="cambiaremail" method="post">
+				<form action="configuracionPersonal" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Cambiar Email</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -184,6 +185,7 @@
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Guardar">
+						<input type="hidden" name="opcion" value="cambiarMail">
 					</div>
 				</form>
 			</div>
@@ -194,7 +196,7 @@
 	<div id="cambiarClaveModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="cambiarclave" method="post">
+				<form action="configuracionPersonal" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Cambiar contraseña</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -218,6 +220,7 @@
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Cambiar contraseña">
+						<input type="hidden" name="opcion" value="cambiarClave">
 					</div>
 				</form>
 			</div>
@@ -239,22 +242,6 @@
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-danger" name="opcion" value="Eliminar">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Delete Modal HTML -->
-	<div id="saliendoModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="servletAgregarPlan" method="post">
-					<div class="modal-header">						
-						<h4 class="modal-title">Volviendo al menu...</h4>						
-					</div>
-					<div class="modal-body">										
-					</div>
-					<div class="modal-footer">						
 					</div>
 				</form>
 			</div>

@@ -50,7 +50,7 @@
 					</div>
 					<div class="col-sm-6">
 						
-						<a href="gestionarPacientes" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
+						<a href="especialista?opcion=Gestionar pacientes" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
 						
 
 					</div>
@@ -148,7 +148,7 @@
                         
                         <td><%=turno.getConsultorio().getDesc() %></td>
                         <td><%=turno.getObservacion() %>
-						<td><a href="detallesTurno?idturno=<%=turno.getIdturno() %>" class="btn btn-default" data-toggle="modal">Ver detalle</a></td>
+						<td><a href="MisTurnos?opcion=detallesTurno&idturno=<%=turno.getIdturno() %>" class="btn btn-default" data-toggle="modal">Ver detalle</a></td>
                     </tr>
 						
                <%} %>

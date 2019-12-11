@@ -40,33 +40,27 @@ public class detallePaciente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doPost(request,response);
-		try {
+
+		servlet.VerificarSesionYUsuario(request, response, Usuario.especialista);
+		
+		try {	
+			String dnipstr = request.getParameter("dnipaciente");
 			
+			if(dnipstr==null) {
+				servlet.NotificarMensaje(response, "index.html", "Es null dnipaciente");
+			}
+					
+			int dnipac = Integer.parseInt(dnipstr);
+					
+			CtrlConfiguracion controlador = new CtrlConfiguracion();
+			Paciente pac = controlador.getPaciente(dnipac);
+				
 			HttpSession sesion = request.getSession(false);
-			if(sesion==null || ((Usuario) sesion.getAttribute("usuario"))==null) {
-				response.sendRedirect("index.html");
-			}
-			else {
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-			
-			if(usActual.getTipousuario()==2) {
-				
-				String dnipstr = request.getParameter("dnipaciente");
-				if(dnipstr==null) {
-					servlet.NotificarMensaje(response, "index.html", "Es null dnipaciente");
-				}
-				PacienteDatos pd = new PacienteDatos();
-				int dnipac = Integer.parseInt(dnipstr);
-				
-				Paciente pac = pd.getPaciente(dnipac);
-				sesion.setAttribute("pacseleccionado", pac);
-				request.getRequestDispatcher("WEB-INF/esp_detallePaciente.jsp").forward(request, response);
-			}
-			}}
-		catch(Exception e) {
-			e.printStackTrace();
+			sesion.setAttribute("pacseleccionado", pac);
+			request.getRequestDispatcher("WEB-INF/esp_detallePaciente.jsp").forward(request, response);
+
+		}catch(Exception e) {
+			servlet.ErrorEsp("Gestionar pacientes", "Ha ocurrido un errror", response);
 		}
 	}
 
@@ -74,15 +68,7 @@ public class detallePaciente extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
-		
-		
-		
-			
-	
-	
-		
 	}
 }
 

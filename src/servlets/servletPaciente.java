@@ -86,7 +86,7 @@ public class servletPaciente extends HttpServlet {
 				solicitarTurno(request, response);			
 				break;
 			case "ConfiguracionPersonal":
-				response.sendRedirect("/TurnosWeb/configuracionPersonal");
+				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
 				break;		
 			case "Eliminar":
 				eliminarPlan(request, response);
@@ -117,12 +117,13 @@ public class servletPaciente extends HttpServlet {
 				reservarTurno(request, response);
 				break;
 			default: 
-				switchPaciente("menuPaciente", request, response);
+				response.sendRedirect("error404.jsp");
 				break;
 			}
 		}catch(NumberFormatException | ServletException | IOException ne) {
-
 			servlet.ErrorPaciente(direcFallo, mensaje, response);		
+		}catch(Exception e) {
+			servlet.ErrorPaciente(direcFallo, mensaje, response);
 		}
 	}
 

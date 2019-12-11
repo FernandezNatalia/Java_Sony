@@ -1,7 +1,5 @@
-package util;
+package logica;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -19,11 +17,8 @@ public static Emailer instance;
 	}
 	
 	public Emailer() {
-		
-		
-		props = new Properties();
-		
-		
+
+		 props = new Properties();		
 		 props.put("mail.smtp.auth", "true");
 		 props.put("mail.smtp.starttls.enable", "true");
 		 props.put("mail.smtp.host", "smtp.gmail.com");
@@ -38,7 +33,6 @@ public static Emailer instance;
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				//return new PasswordAuthentication(username, password);
 				return new PasswordAuthentication(props.getProperty("mail.username"), props.getProperty("mail.password"));
 			}
 		  });

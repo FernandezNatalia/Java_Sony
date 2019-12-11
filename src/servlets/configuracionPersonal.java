@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidades.Usuario;
+import logica.CtrlConfiguracion;
 
 /**
  * Servlet implementation class configuracionPersonal
@@ -22,15 +23,13 @@ public class configuracionPersonal extends HttpServlet {
      */
     public configuracionPersonal() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
+
 		doPost(request,response);
 	}
 
@@ -38,22 +37,60 @@ public class configuracionPersonal extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
-		try {
+		
+		servlet.VerificarSesion(request, response);
+		
+		String opcion = request.getParameter("opcion");
+		switch(opcion) {
+		case "configuracion":
+			request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
+			break;
+		case "cambiarMail":
+			cambiarMail(request, response);	
+			break;
+		case "cambiarClave":
+			cambiarClave(request, response);	
+			break;
+		default:
+			request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
+			break;
+		}
+	}
+
+	public void cambiarClave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession sesion = request.getSession(false);
+		
+		String oldpass = request.getParameter("oldpass");
+		String newpass = request.getParameter("newpass");
+		String repnewpass = request.getParameter("rnewpass");
 			
-			HttpSession sesion = request.getSession(false);
+		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
 			
-			if(sesion==null) {
+			
+		CtrlConfiguracion controlador = new CtrlConfiguracion();
+		if(controlador.CambioClave(oldpass,newpass,repnewpass,usActual)) {
 				
-				response.sendRedirect("index.html");
+			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 				
-			}else {
-				request.getRequestDispatcher("WEB-INF/confpersonal.jsp").forward(request, response);
-			}
+		}else {
+			servlet.ErrorConfiguracion("No se ha podido cambiar la clave",response);
+		}
+	}
+
+	public void cambiarMail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		HttpSession sesion = request.getSession(false);
+		Usuario usActual = (Usuario) sesion.getAttribute("usuario");
 			
-		}catch(Exception e) {
-			servlet.NotificarMensaje(response,"configuracionPersonal","Se ha producido un error "+e.getMessage());
+		String newmail = request.getParameter("mail");			
+		CtrlConfiguracion controlador = new CtrlConfiguracion();
+			
+		if(controlador.CambioMail(newmail,usActual)) {
+				
+			request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
+		}else {
+			servlet.ErrorConfiguracion("No se ha podido cambiar el email.",response);
 		}
 	}
 }

@@ -40,6 +40,70 @@ public static void ErrorPaciente(String direcFallo, String mensaje, HttpServletR
 		throw new ServletException(e);		
 	}
 }
+public static void ErrorConfiguracion(String mensaje, HttpServletResponse response) throws ServletException {
+
+	try {
+		response.setContentType("text/html"); 
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('"+mensaje+"');");
+		out.println("window.location.replace(\"configuracionPersonal?opcion=configuracion\");");
+		out.println("</script>");
+		out.println("</html>");
+		
+	} catch (IOException e) {		
+		throw new ServletException(e);		
+	}
+}
+public static void ErrorEspListado(String mensaje, HttpServletResponse response) throws ServletException {
+
+	try {
+		response.setContentType("text/html"); 
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('"+mensaje+"');");
+		out.println("window.location.replace(\"MisTurnos?opcion=EspecialistaTurnosDisponibles\");");
+		out.println("</script>");
+		out.println("</html>");
+		
+	} catch (IOException e) {		
+		throw new ServletException(e);		
+	}
+}
+public static void ErrorEspMisTurnos(String opcion,String mensaje, HttpServletResponse response) throws ServletException {
+
+	try {
+		response.setContentType("text/html"); 
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('"+mensaje+"');");
+		out.println("window.location.replace(\"MisTurnos?opcion="+opcion+"\");");
+		out.println("</script>");
+		out.println("</html>");
+		
+	} catch (IOException e) {		
+		throw new ServletException(e);		
+	}
+}
+public static void ErrorEsp(String direcFallo, String mensaje, HttpServletResponse response) throws ServletException {
+
+	try {
+		response.setContentType("text/html"); 
+		PrintWriter out = response.getWriter();
+		out.println("<html>");
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('"+mensaje+"');");
+		out.println("window.location.replace(\"especialista?opcion="+direcFallo+"\");");
+		out.println("</script>");
+		out.println("</html>");
+		
+	} catch (IOException e) {		
+		throw new ServletException(e);		
+	}
+}
 
 public static void VerificarSesion(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
 	//Si el Usuario no tiene una sesion se lo manda a la pagina de inicio.
@@ -70,6 +134,7 @@ public static void VerificarSesionYUsuario(HttpServletRequest request, HttpServl
 	VerificarSesion(request, response);
 	VerificarUsuario(request, response, tipoUsuario);
 	}
+
 public static void RedirigirUrl(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
 	response.setContentType("text/html"); 
 	PrintWriter out = response.getWriter();

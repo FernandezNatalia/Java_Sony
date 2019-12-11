@@ -49,7 +49,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					</div>
 					<div class="col-sm-6">
 						
-						<a href="servletPrincipal" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+						<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
 						
 					</div>
@@ -90,7 +90,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
                         <td>Ocupado</td>
                         <td>
                             <a href="#finTurnoModal<%=tur.getIdturno()%>" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Finalizar turno">check_circle</i></a>
-                            <a href="detallesTurno?idturno=<%=tur.getIdturno() %>" class="more" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Mas información">more_horiz</i></a>
+                            <a href="MisTurnos?opcion=detallesTurno&idturno=<%=tur.getIdturno() %>" class="more" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Mas información">more_horiz</i></a>
                             <a href="#cancelarTurnoModal<%=tur.getIdturno()%>" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Cancelar">&#xE872;</i></a>
                         <%}if (tur.getEstado() == Turno.disponible) {%>
                         <td>Disponible</td>
@@ -105,14 +105,14 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
                 </tbody>
             </table>
 			<a href="#verSemanaTurno" class="btn btn-success" data-toggle="modal"><span>Ver hasta fecha</span></a>
-			<a href="sevletEspecialistaTurnosDisponibles" class="btn btn-success"><span><%=(String)session.getAttribute("botonEstado") %></span></a>
+			<a href="MisTurnos?opcion=EspecialistaTurnosDisponibles" class="btn btn-success"><span><%=(String)session.getAttribute("botonEstado") %></span></a>
         </div>
     </div>
 	<!-- Edit Modal HTML -->
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletCrearTurno" method = "post">
+				<form action="MisTurnos" method = "post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Nuevo turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -152,6 +152,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-success" value="Agregar">
+						<input type="hidden" name="opcion" value="crearTurno">
 					</div>
 				</form>
 			</div>
@@ -164,7 +165,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 	<div id="finTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletFinalizarTurno" method="post">
+				<form action="MisTurnos" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Finalizar turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -184,7 +185,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Guardar">
-
+						<input type="hidden" name="opcion" value="finalizarTurno">
 					</div>
 				</form>
 			</div>
@@ -219,7 +220,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 	<div id="eliminarTurnoModal<%=tur.getIdturno()%>" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletEliminarTurno" method="post">
+				<form action="MisTurnos" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Eliminar turno</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -232,6 +233,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-danger" value="Eliminar">
+						<input type="hidden" name="opcion" value="eliminarTurno">
 					</div>
 				</form>
 			</div>
@@ -244,7 +246,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 	<div id="verSemanaTurno" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form action="servletEspecialistaCambioFecha" method="post">
+				<form action="MisTurnos" method="post">
 					<div class="modal-header">						
 						<h4 class="modal-title">Ver hasta la fecha</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -262,6 +264,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 						<input type="submit" class="btn btn-info" value="Aceptar">
+						<input type="hidden" name="opcion" value="EspecialistaCambioFecha">
 					</div>
 				</form>
 			</div>
