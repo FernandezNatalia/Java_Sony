@@ -40,7 +40,8 @@ public class UsuarioDatos extends Conexion {
 	        if(rs.next())
 	        {
 	        	us = new Usuario();
-		    	readUsuario(rs,us);               
+		    	readUsuario(rs,us);
+	                        
 	        }	 
 	        
 	    } catch (SQLException ex) {
@@ -132,9 +133,11 @@ public class UsuarioDatos extends Conexion {
 		}finally {
 			
 			if(pst!=null)pst.close();
-			if(miCon!= null) miCon.close();		
+			if(miCon!= null) miCon.close();
+			
 		}		
 	}
+	
 	
 	public void CambioClave(String newpass,int dni) throws SQLException {
 		
@@ -188,6 +191,11 @@ public class UsuarioDatos extends Conexion {
 				
 				} catch (SQLException e) { e.printStackTrace();}			
 		}
-		return pac;		
+		return pac;
+		
 	}
+	
+	
+	
+	
 }

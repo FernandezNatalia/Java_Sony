@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,7 +47,14 @@ public class servletCancelarTurno extends HttpServlet {
 				Emailer em = new Emailer();
 				CtrlTurno ctr = new CtrlTurno();
 				Turno turno = ctr.getOne(IDTurno);
-				em.send(turno.getPaciente().getEmail(), "Turno cancelado", "Su turno ha sido cancelado");
+				//Pongo la fecha mas presentable antes de meterla en el cuerpo del mail
+				String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
+	            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
+	            String fechayhoramin = formato.format(turno.getFechahora());
+	            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
+				String cuerpomail = "Su turno con el especialita " + turno.getEspecialista().getNombre() + " " + turno.getEspecialista().getApellido() + ", reservado para el dia " + fechayhora + " ha sido cancelado por el especialista";
+				System.out.println(cuerpomail);
+				em.send(turno.getPaciente().getEmail(), "Turno cancelado", cuerpomail);
 				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);	
 			}
 			if(us.getTipousuario() == Usuario.paciente)
