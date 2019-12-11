@@ -1,7 +1,6 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,22 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.*;
 import entidades.*;
-//Menu paciente
-		//0) Ver turnos reservados
-			//Listar Turnos
-		//1) Cancelar turno
-			//Listar turnos
-			//Elegir uno - cambiar el estado
-			//Recibe mail
-		//2) Solicitar turno
-			//Listar turnos - Elige turno
-			//Ingresa Practica que desea
-			//Elige plan de la obra social
-			//Mostrar costo
-			//Confirmar turno
-			//Recibe mail
-		//3)Configuracion Personal
-		//4) Planes
+
 /**
  * Servlet implementation class servletPaciente
  */
@@ -272,12 +256,7 @@ public class servletPaciente extends HttpServlet {
 			String fechaReserva = request.getParameter("Reserva");
 			
 			HttpSession sesion = request.getSession(false);
-			
-			
-			//====================================================
-			//VVER SI QUEDA
 			sesion.setAttribute("fechaReserva", fechaReserva);
-			//====================================================
 			
 			Usuario e = (Usuario)sesion.getAttribute("Especialista");
 	

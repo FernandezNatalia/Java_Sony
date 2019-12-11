@@ -59,6 +59,4 @@ public class CtrlSolicitarTurno {
 		}	
 		return false;
 	}
-	
-	
 }

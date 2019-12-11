@@ -196,9 +196,6 @@ public class ValidacionNegocio {
             if(date1.before(date2)){
                 return true; //ES MENOR A LA FECHA ACTUAL
             }
-
-            
-            
         return false;
     }
 	

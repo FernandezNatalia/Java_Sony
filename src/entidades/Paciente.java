@@ -5,7 +5,6 @@ public class Paciente extends Usuario{
 	private String nroAfiliado;
 	private Plan plan;
 	
-	
 	public String getNroAfiliado() {
 		return nroAfiliado;
 	}

@@ -20,5 +20,4 @@ public class CtrlEspecialista {
 	public Especialista getOneEspecialista(int dni) throws SQLException {
 		return espDat.getEspecialista(dni);
 	}
-	
 }

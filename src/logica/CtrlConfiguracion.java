@@ -66,12 +66,10 @@ public class CtrlConfiguracion {
 				
 			} catch (SQLException e) {
 				return false;
-			}
-			
+			}			
 			return true;
 		}else {
 			return false;
 		}
 	}
-	
 }

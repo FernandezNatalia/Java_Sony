@@ -65,15 +65,4 @@ public class CtrlDetalleTurno {
 			}				
 		return true;		
 	}
-	
-	
-	/*public ArrayList<Practica> getPracticasDeEspecialista(int dni){
-		return pracDat.getPracticasDeEspecialista(dni);
-	}
-	
-	public ArrayList<Practica> getPracticasDeTurno(Turno t) throws SQLException{
-		return pracDat.getPracticasDeTurno(t.getIdturno());
-	}
-	*/
-	
 }

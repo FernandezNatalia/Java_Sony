@@ -33,7 +33,6 @@ public class detallePaciente extends HttpServlet {
      */
     public detallePaciente() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

@@ -25,7 +25,6 @@ public class Turno {
 	private Consultorio consultorio;
 	private ArrayList<Practica> Practicas;
 	
-	
 	public int getIdturno() {
 		return idturno;
 	}
@@ -90,8 +89,6 @@ public class Turno {
 	@Override
 	public boolean equals(Object obj) {
 		
-   		
-   		
 		if (this == obj) {
 			return true;
 		}
@@ -126,5 +123,4 @@ public class Turno {
 		}
 		return true;
 	}
-
 }

@@ -26,7 +26,6 @@ public class servletRegistro extends HttpServlet {
      */
     public servletRegistro() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

@@ -6,7 +6,6 @@ public class Plan {
 	private ObraSocial obs;	
 	private String nomplan;
 	
-	
 	public int getId() {
 		return id;
 	}

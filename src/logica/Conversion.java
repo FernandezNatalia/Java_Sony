@@ -47,11 +47,9 @@ public class Conversion {
 	public static String NombreDeMes(int nroMes) throws ParseException{
 		
 		String strfecha = "01/"+nroMes+"/2019";
-		Date date = formatter1ddmmyy.parse(strfecha);
-					
+		Date date = formatter1ddmmyy.parse(strfecha);					
 	   	String MESActual = formatterNroAMes.format(date);
-		
-		
+
 		return MESActual;
 	}
 	
