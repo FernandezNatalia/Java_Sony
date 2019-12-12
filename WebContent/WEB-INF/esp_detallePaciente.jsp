@@ -70,12 +70,16 @@
                     </tr>
                     <tr>
                         <td>Fecha de nacimiento</td>
-                        <%SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm EEEEE dd 'de' MMMMM yyyy"); %>
+                        <%SimpleDateFormat formatohhmm = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy"); %>
                         <td><%=formatohhmm.format(paciente.getFechanacimiento()) %></td>
                     </tr>
                      <tr>
                         <td>DNI</td>
                         <td><%=paciente.getDni() %></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><%=paciente.getEmail() %></td>
                     </tr>
                      <tr>
                      

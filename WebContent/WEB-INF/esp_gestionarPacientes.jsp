@@ -372,9 +372,8 @@ $(document).ready(function(){
                   <tr>
                     <th>Nombre y apellido</th>
                     <th>DNI</th>
-                    <th>Edad</th>
+                    <th>Email</th>
                     <th>Fecha de nacimiento</th>
-                    
                     <th>Detalle</th>
                   </tr>
                 </thead>
@@ -382,7 +381,7 @@ $(document).ready(function(){
                   <tr>
                     <th>Nombre y apellido</th>
                     <th>DNI</th>
-                    <th>Edad</th>
+                    <th>Email</th>
                     <th>Fecha de nacimiento</th>
                     <th>Detalle</th>
                   </tr>
@@ -395,7 +394,7 @@ $(document).ready(function(){
                   <form action="detallePaciente" method="get">
                     <td><%=pac.getNombre() + " " + pac.getApellido() %></td>
                     <td><%=pac.getDni() %></td>
-                    <td>31</td>
+                    <td><%=pac.getEmail() %></td>
                     <td><%=pac.getFechanacimiento() %></td>
                     <input type="hidden" name="dnipaciente" value="<%=pac.getDni() %>"/>
                     <td><input type="submit" class="btn btn-default btn-block" value="Ver detalle"/></td>
