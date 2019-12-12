@@ -36,9 +36,9 @@
 						<h2>Configuracion personal</h2>
 					</div>
 					<% if(usActual.getTipousuario() == Usuario.especialista) {%>
-					<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+					<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					<%}if (usActual.getTipousuario() == Usuario.paciente){ %>
-					<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+					<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					<%} %>
                 </div>
             </div>

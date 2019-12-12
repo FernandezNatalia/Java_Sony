@@ -31,7 +31,7 @@
 						<h2>Mis turnos pendientes</h2>												
 					</div>	
 					<div class="col-sm-6">	
-						<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+						<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					</div>				
                 </div>
             </div>                

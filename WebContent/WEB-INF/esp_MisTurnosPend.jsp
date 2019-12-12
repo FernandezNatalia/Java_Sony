@@ -49,7 +49,7 @@ session.setAttribute("detallesturnobotonvolver", "listadopendesp");
 					</div>
 					<div class="col-sm-6">
 						
-						<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+						<a href="especialista?opcion=MenuEsp" class="btn btn-info" ><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Agregar nuevo turno</span></a>
 						
 					</div>

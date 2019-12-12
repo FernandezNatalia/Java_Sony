@@ -33,7 +33,7 @@
 						<h2>Solicitar turno</h2>												
 					</div>	
 					<div class="col-sm-6">	
-						<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menú</span></a>
+						<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					</div>				
                 </div>
             </div>   
@@ -56,6 +56,7 @@
 			    	<p>Especialista: <%=e.getNombre()+" "+e.getApellido() %> </p>
 			    	<p>Fecha: <%=Conversion.formatter1ddmmyy.format(t.getFechahora()) %> </p>
 			    	<p>Hora: <%=t.getFechahora().getHours()+":"+Conversion.convertirMinutosConCero(t.getFechahora().getMinutes()) %></p> 
+			    	<p>Direccion: <%=t.getConsultorio().getDireccion() %></p>
 			    	</div>
 			    	<br>
 			    	<button type="submit" class="btn btn-info" name="opcion" value="ReservarTurno">
