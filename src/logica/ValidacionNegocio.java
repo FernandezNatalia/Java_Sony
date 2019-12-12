@@ -145,7 +145,7 @@ public class ValidacionNegocio {
 	        case "martes":
 	        	numeroDias = 1;
 	            break;
-	        case "miÈrcoles":
+	        case "mi√©rcoles":
 	        	numeroDias = 2;
 	            break;
 	        case "jueves":
@@ -154,7 +154,7 @@ public class ValidacionNegocio {
 	        case "viernes":
 	        	numeroDias = 4;
 	            break;
-	        case "s·bado":
+	        case "s√°bado":
 	        	numeroDias = 5;
 	            break;
 	        case "domingo":
