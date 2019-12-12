@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -281,18 +284,11 @@ public class TurnosEspecialista extends HttpServlet {
 				}
 				
 			}else {
-				java.util.Date fecha = Conversion.ConvertirStringAFechaHora(strFechaHora);
-				int idConsultorio = Conversion.ConvertirStringAInteger(strConsultorio);	
 				
-				if(controlador.VerificarDisponibilidadConsultorio(idConsultorio, fecha)==false) {
-					servlet.ErrorEspListado("El consultorio esta ocupado en ese horario", response);
-				}
-				else {
-					servlet.ErrorEspListado("No se ha podido crear un turno", response);
-				}
+				servlet.ErrorEspListado("El consultorio esta ocupado en ese horario", response);
 			}
-		}catch(IOException e) {
-			servlet.ErrorEspListado("No se ha podido crear un turno", response);
+		}catch(IOException | ParseException | SQLException e) {
+			servlet.ErrorEspListado("No se ha podido crear un turno. Causa: "+e.getMessage(), response);
 		}
 	}
 

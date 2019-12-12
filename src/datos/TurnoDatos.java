@@ -60,6 +60,40 @@ public class TurnoDatos extends Conexion {
 	 }
 		return turno;
 	}	
+	public ArrayList<Turno> getAllDispOcup(int idConsultorio,java.sql.Date fechaDate) throws SQLException{
+		ArrayList<Turno> turnos = new ArrayList<Turno>();		
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String cadena="";
+		
+		cadena = "SELECT * FROM turnos WHERE date(fecha_hora) = date(?) AND (estado = 1 OR estado = 2) AND id_consultorio=? ORDER BY fecha_hora";
+		getConnection();
+		
+		try {			
+			pst = miCon.prepareStatement(cadena);
+			
+			pst.setDate(1,fechaDate); 
+			pst.setInt(2, idConsultorio);
+			
+			rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+	            turnos.add(readTurno(rs));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		finally {
+			if(rs != null) rs.close();
+			if(pst != null) pst.close();
+			if(miCon != null) closeConnection();
+		}
+		
+		return turnos;
+	}
 	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario especialista,java.sql.Date fechaDate) throws SQLException{
 		ArrayList<Turno> turnos = new ArrayList<Turno>();		
 		PreparedStatement pst = null;

@@ -64,7 +64,7 @@ public static void ErrorEspListado(String mensaje, HttpServletResponse response)
 		out.println("<html>");
 		out.println("<script type=\"text/javascript\">");
 		out.println("alert('"+mensaje+"');");
-		out.println("window.location.replace(\"MisTurnos?opcion=EspecialistaTurnosDisponibles\");");
+		out.println("window.location.replace(\"MisTurnos?opcion=verListado\");");
 		out.println("</script>");
 		out.println("</html>");
 		

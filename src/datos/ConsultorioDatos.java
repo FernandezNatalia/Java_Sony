@@ -84,7 +84,8 @@ public class ConsultorioDatos extends Conexion{
 		
 		return consultorios;
 	}	
-	public boolean ComprobarDisponibilidadConsultorio(int idConsultorio, java.util.Date fechayhora) throws Exception {
+
+	/*public boolean ComprobarDisponibilidadConsultorio(int idConsultorio, java.util.Date fechayhora) throws Exception {
 		boolean disponible = true;
 		PreparedStatement stm = null;
 		ResultSet rs = null;
@@ -119,5 +120,5 @@ public class ConsultorioDatos extends Conexion{
 			if(miCon!=null)closeConnection();
 		}
 		return disponible;
-	}
+	}*/
 }
