@@ -49,7 +49,7 @@ public class servletInicio extends HttpServlet {
 
 		CtrlUsuario usLog = new CtrlUsuario();
 
-		if(ValidacionNegocio.ValidarInteger(strdni) && ValidacionNegocio.ValidarInteger(pass))
+		if(ValidacionNegocio.ValidarInteger(strdni))
 		{
 			int dni = Conversion.ConvertirStringAInteger(strdni);
 			if(usLog.Autenticacion(dni,pass))
@@ -60,7 +60,7 @@ public class servletInicio extends HttpServlet {
 
 				doGet(request, response);
 			}else
-				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");
+				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseï¿½a incorrectos");
 		}
 		else {
 			servlet.NotificarMensaje(response,"index.html","Datos ingresados incorrectos");
