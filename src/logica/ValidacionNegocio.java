@@ -94,7 +94,7 @@ public class ValidacionNegocio {
 	 
 	    return numeroDias;
 	}
-	public static int numeroDeDiasMes(int mes) {		 
+	public static int numeroDeDiasMes(int mes, int anioActual) {		 
 		int numeroDias=-1;
 		 
         switch(mes){
@@ -115,8 +115,8 @@ public class ValidacionNegocio {
                 break;
             case 2:
  
-                Date anioActual=new Date();
-                if(esBisiesto(1900 + anioActual.getYear())){
+                //Date anioActual=new Date();
+                if(esBisiesto(1900 + anioActual)) {//.getYear())){
                     numeroDias=29;
                 }else{
                     numeroDias=28;
@@ -145,7 +145,7 @@ public class ValidacionNegocio {
 	        case "martes":
 	        	numeroDias = 1;
 	            break;
-	        case "miercoles":
+	        case "miércoles":
 	        	numeroDias = 2;
 	            break;
 	        case "jueves":
@@ -154,7 +154,7 @@ public class ValidacionNegocio {
 	        case "viernes":
 	        	numeroDias = 4;
 	            break;
-	        case "sabado":
+	        case "sábado":
 	        	numeroDias = 5;
 	            break;
 	        case "domingo":

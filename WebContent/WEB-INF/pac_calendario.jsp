@@ -89,7 +89,7 @@
        		int DIASvacios=ValidacionNegocio.primerDia(MESActual, ANIOActual);
        	
        		//CANTIDAD de dias a recorrer
-			int CANTdiasMES= ValidacionNegocio.numeroDeDiasMes(MESActual);
+			int CANTdiasMES= ValidacionNegocio.numeroDeDiasMes(MESActual, ANIOActual);
 			%>
 			
 		<div class="row">
