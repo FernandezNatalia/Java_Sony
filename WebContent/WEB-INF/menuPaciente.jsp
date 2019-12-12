@@ -149,6 +149,38 @@ table.table tr th, table.table tr td {
   	text-align: center;
   	font-weight: 700;
 }
+/* Modal styles */
+.modal .modal-dialog {
+	max-width: 400px;
+}
+.modal .modal-header, .modal .modal-body, .modal .modal-footer {
+	padding: 20px 30px;
+}
+.modal .modal-content {
+	border-radius: 3px;
+}
+.modal .modal-footer {
+	background: #ecf0f1;
+	border-radius: 0 0 3px 3px;
+}
+.modal .modal-title {
+	display: inline-block;
+}
+.modal .form-control {
+	border-radius: 2px;
+	box-shadow: none;
+	border-color: #dddddd;
+}
+.modal textarea.form-control {
+	resize: vertical;
+}
+.modal .btn {
+	border-radius: 2px;
+	min-width: 100px;
+}
+.modal form label {
+	font-weight: normal;
+}
 
 </style>
 </head>
@@ -174,7 +206,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-tasks" aria-hidden="true"></i><br>		
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="misTurnos">Mis Turnos pendientes</button>	
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="misTurnos">Mis Turnos pendientes</button>	
 					</div>
 				</div>
 				<div class="dashbord dashbord-orange">
@@ -182,7 +214,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-bell" aria-hidden="true"></i><br>
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="SolicitarTurno">Solicitar turno</button> 
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="SolicitarTurno">Solicitar turno</button> 
 					</div>
 				</div>
 				<div class="dashbord dashbord-red">
@@ -190,7 +222,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-users" aria-hidden="true"></i><br>			
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="ConfiguracionPersonal">Configuracion personal</button>
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="ConfiguracionPersonal">Configuracion personal</button>
 					</div>
 				</div>
 			</form>

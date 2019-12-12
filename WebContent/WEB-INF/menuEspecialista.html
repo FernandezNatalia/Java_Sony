@@ -150,6 +150,38 @@ table.table tr th, table.table tr td {
   	text-align: center;
   	font-weight: 700;
 }
+/* Modal styles */
+.modal .modal-dialog {
+	max-width: 400px;
+}
+.modal .modal-header, .modal .modal-body, .modal .modal-footer {
+	padding: 20px 30px;
+}
+.modal .modal-content {
+	border-radius: 3px;
+}
+.modal .modal-footer {
+	background: #ecf0f1;
+	border-radius: 0 0 3px 3px;
+}
+.modal .modal-title {
+	display: inline-block;
+}
+.modal .form-control {
+	border-radius: 2px;
+	box-shadow: none;
+	border-color: #dddddd;
+}
+.modal textarea.form-control {
+	resize: vertical;
+}
+.modal .btn {
+	border-radius: 2px;
+	min-width: 100px;
+}
+.modal form label {
+	font-weight: normal;
+}
 
 </style>
 </head>
@@ -175,7 +207,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-tasks" aria-hidden="true"></i><br>		
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="Turnos pendientes">Turnos pendientes</button>	
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="Turnos pendientes">Turnos pendientes</button>	
 					</div>
 				</div>
 				<div class="dashbord dashbord-orange">
@@ -183,7 +215,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-comments" aria-hidden="true"></i><br>
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="Gestionar pacientes">Gestionar pacientes</button> 
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="Gestionar pacientes">Gestionar pacientes</button> 
 					</div>
 				</div>
 				<div class="dashbord dashbord-red">
@@ -191,7 +223,7 @@ table.table tr th, table.table tr td {
 						<i class="fa fa-users" aria-hidden="true"></i><br>			
 					</div>
 					<div class="detail-section">
-						<button type="submit" class="btn-opciones" name="opcion" value="Configuracion personal">Configuracion personal</button>
+						<button type="submit" class="btn-opciones btn-block" name="opcion" value="Configuracion personal">Configuracion personal</button>
 					</div>
 				</div>
 			</form>
@@ -210,7 +242,7 @@ table.table tr th, table.table tr td {
 	</div>
 	<br>
 <!-- Cerrar sesion -->
-	<div id="saliendoModal" class="modal fade">
+<div id="saliendoModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form action="servletCerrarSesion" method="post">
@@ -219,7 +251,8 @@ table.table tr th, table.table tr td {
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<p>Esta seguro de que desea cerrar la sesión?</p>						
+						<p>Esta seguro de que desea cerrar la sesión?</p>
+						
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
