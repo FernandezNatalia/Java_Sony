@@ -1,5 +1,8 @@
 package logica;
 
+import java.text.Collator;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -138,14 +141,18 @@ public class ValidacionNegocio {
 	}
 	public static int diasDiferencia(String DIA) {
 		int numeroDias = -1;
-	    switch (DIA.toLowerCase().trim()) {
+		
+		//Elimino el acento de las palabras miercoles y sabado
+		String DIAsinAcento = Normalizer.normalize(DIA, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+         
+	    switch (DIAsinAcento.toLowerCase().trim()) {
 	        case "lunes":
 	        	numeroDias = 0;
 	            break;
 	        case "martes":
 	        	numeroDias = 1;
 	            break;
-	        case "miércoles":
+	        case "miercoles":
 	        	numeroDias = 2;
 	            break;
 	        case "jueves":
@@ -154,7 +161,7 @@ public class ValidacionNegocio {
 	        case "viernes":
 	        	numeroDias = 4;
 	            break;
-	        case "sábado":
+	        case "sabado":
 	        	numeroDias = 5;
 	            break;
 	        case "domingo":
