@@ -11,6 +11,7 @@ public class Conversion {
 	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy");
 	public static SimpleDateFormat formatterNroAMes =  new SimpleDateFormat("MMMM",  new Locale("ES", "ES"));
 	public static SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
+	public static SimpleDateFormat formatoEEEEdeMMMMyyyyHHmm = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy HH:mm",  new Locale("ES", "ES"));
 	
 	public static Integer ConvertirStringAInteger(String entero) {
 		return Integer.parseInt(entero);

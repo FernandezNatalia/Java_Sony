@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entidades.Especialista;
 import entidades.Turno;
 import entidades.Usuario;
 import logica.Conversion;
@@ -42,23 +43,33 @@ public class servletCancelarTurno extends HttpServlet {
 		//Llamo al controlador, se elimina el turno y se redirecciona al listado.		
 		CtrlTurno controlador = new CtrlTurno();			
 		if(controlador.CancelarTurno(IDTurno)) {		
+			Emailer em = new Emailer();
+			Turno turno = controlador.getOne(IDTurno);
 			
+			//Pongo la fecha mas presentable antes de meterla en el cuerpo del mail
+			//Formateo la fecha del turno
+			String fechayhoramin = Conversion.formatoEEEEdeMMMMyyyyHHmm.format(turno.getFechahora());
+            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
+            
 			if(us.getTipousuario() == Usuario.especialista){
-				Emailer em = new Emailer();
-				CtrlTurno ctr = new CtrlTurno();
-				Turno turno = ctr.getOne(IDTurno);
-				//Pongo la fecha mas presentable antes de meterla en el cuerpo del mail
-				String fechabonita = "EEEEE dd 'de' MMMMM yyyy HH:mm";
-	            SimpleDateFormat formato = new SimpleDateFormat(fechabonita,  new Locale("ES", "ES"));
-	            String fechayhoramin = formato.format(turno.getFechahora());
-	            String fechayhora = fechayhoramin.substring(0, 1).toUpperCase() + fechayhoramin.substring(1);
-				String cuerpomail = "Su turno con el especialita " + turno.getEspecialista().getNombre() + " " + turno.getEspecialista().getApellido() + ", reservado para el dia " + fechayhora + " ha sido cancelado por el especialista";
-				System.out.println(cuerpomail);
+				
+				String cuerpomail = "Su turno con el especialita " + turno.getEspecialista().getNombre() + " " 
+									+ turno.getEspecialista().getApellido() + ", reservado para el dia " 
+									+ fechayhora + " ha sido cancelado por el especialista. \n\n Lamentamos las molestias ocasionadas,"
+											+ "\n\n Departamento de "+ ((Especialista)turno.getEspecialista()).getEspecialidad();
+	
+				
 				em.send(turno.getPaciente().getEmail(), "Turno cancelado", cuerpomail);
 				request.getRequestDispatcher("WEB-INF/esp_MisTurnosPend.jsp").forward(request, response);	
 			}
-			if(us.getTipousuario() == Usuario.paciente)
+			if(us.getTipousuario() == Usuario.paciente) {
+				
+				String cuerpomail = "Estimado/a ,\n Su turno con el paciente \n DNI: "+us.getDni()+"\n Nombre y apellido: "+us.getNombre()+" "+us.getApellido()+							
+									"\n Fecha: "+fechayhora+"\n ha sido cancelado.\n\n Lamentamos las molestias ocasionadas.";
+				
+				em.send(turno.getEspecialista().getEmail(), "Turno cancelado", cuerpomail);
 				servletPaciente.opMenuListaTurnos(request, response);
+			}
 			
 		}else {	
 			if(us.getTipousuario() == Usuario.especialista)			
