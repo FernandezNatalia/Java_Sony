@@ -5,10 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import entidades.Especialista;
-import entidades.Paciente;
-import entidades.Plan;
 import entidades.Usuario;
 public class EspecialistaDatos extends Conexion{
 

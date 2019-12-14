@@ -1,6 +1,5 @@
 package logica;
 
-import java.text.Collator;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.text.ParseException;
@@ -92,9 +91,7 @@ public class ValidacionNegocio {
 	                    numeroDias=28;
 	                }
 	                break;
-	 
 	    }
-	 
 	    return numeroDias;
 	}
 	public static int numeroDeDiasMes(int mes, int anioActual) {		 
@@ -117,9 +114,7 @@ public class ValidacionNegocio {
                 numeroDias=30;
                 break;
             case 2:
- 
-                //Date anioActual=new Date();
-                if(esBisiesto(1900 + anioActual)) {//.getYear())){
+                if(esBisiesto(1900 + anioActual)) {
                     numeroDias=29;
                 }else{
                     numeroDias=28;

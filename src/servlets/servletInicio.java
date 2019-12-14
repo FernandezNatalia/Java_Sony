@@ -1,6 +1,5 @@
 package servlets;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +24,7 @@ public class servletInicio extends HttpServlet {
 
 		try {
 			servlet.VerificarSesion(request, response);
-			
-			Usuario usActual = (Usuario) sesion.getAttribute("usuario");
-			
+			Usuario usActual = (Usuario) sesion.getAttribute("usuario");		
 			servlet.VerificarSesionYUsuario(request, response,usActual.getTipousuario());
 			
 			CtrlUsuario usLogi = new CtrlUsuario();

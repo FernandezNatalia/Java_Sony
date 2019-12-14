@@ -17,7 +17,6 @@ public class TurnoDatos extends Conexion {
 		ConsultorioDatos cd = new ConsultorioDatos();
 		PracticaDatos p = new PracticaDatos();	
 		
-		
 		turno.setIdturno(rs.getInt("id_turno"));			
 		turno.setFechahora(rs.getTimestamp("fecha_hora"));
 		turno.setDuracion(rs.getInt("duracion"));			

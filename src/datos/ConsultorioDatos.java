@@ -1,16 +1,11 @@
 package datos;
 
-
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import entidades.Consultorio;
-import entidades.Turno;
 
 public class ConsultorioDatos extends Conexion{
 
@@ -85,41 +80,4 @@ public class ConsultorioDatos extends Conexion{
 		
 		return consultorios;
 	}	
-
-	/*public boolean ComprobarDisponibilidadConsultorio(int idConsultorio, java.util.Date fechayhora) throws Exception {
-		boolean disponible = true;
-		PreparedStatement stm = null;
-		ResultSet rs = null;
-		
-		try {
-			getConnection();
-			
-			String consulta = "SELECT * FROM turnos WHERE fecha_hora<=? AND fecha_hora>DATE_SUB(?, Interval 30 minute) AND id_consultorio=?;";
-			stm = miCon.prepareStatement(consulta);
-			stm.setTimestamp(1, new java.sql.Timestamp(fechayhora.getTime()));
-			stm.setTimestamp(2, new java.sql.Timestamp(fechayhora.getTime()));
-			stm.setInt(3, idConsultorio);
-			rs = stm.executeQuery(); 			
-
-			if(rs.next())
-			{
-	            disponible=false;
-				throw new Exception();
-				
-			}
-			
-			rs.close();
-			stm.close();
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		finally {
-			if(rs!=null) rs.close();
-			if(stm!=null) stm.close();
-			if(miCon!=null)closeConnection();
-		}
-		return disponible;
-	}*/
 }

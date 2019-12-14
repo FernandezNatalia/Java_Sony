@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Conversion {
+	
+///////////////////////////// - TODOS LOS FORMATOS DE FECHA - ////////////////////////////////////////////////////////
 	public static SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat formatoddmmyyhhss = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy", new Locale("ES", "ES"));
@@ -14,7 +16,7 @@ public class Conversion {
 	public static SimpleDateFormat formatoEEEEdeMMMMyyyyHHmm = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy HH:mm",  new Locale("ES", "ES"));
 	public static SimpleDateFormat formatohhmmFechaLarga = new SimpleDateFormat("HH:mm EEEEE dd 'de' MMMMM yyyy",  new Locale("ES", "ES"));
 	public static SimpleDateFormat formatoEEEEdeMMMMyyyy = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy");
-	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static Integer ConvertirStringAInteger(String entero) {
 		return Integer.parseInt(entero);

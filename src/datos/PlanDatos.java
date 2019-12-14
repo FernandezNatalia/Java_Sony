@@ -1,12 +1,9 @@
 package datos;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import entidades.ObraSocial;
 import entidades.Plan;
 
 public class PlanDatos extends Conexion{

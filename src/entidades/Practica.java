@@ -1,5 +1,4 @@
 package entidades;
-import datos.PracticaDatos;
 
 public class Practica {
 

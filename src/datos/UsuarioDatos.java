@@ -1,14 +1,9 @@
 package datos;
 
-import entidades.Paciente;
-import entidades.Plan;
 import entidades.Usuario;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import datos.ConsultorioDatos;
 import datos.TurnoDatos;
-import datos.UsuarioDatos;
 import entidades.*;
 
 public class CtrlTurno {
