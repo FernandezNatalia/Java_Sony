@@ -10,6 +10,7 @@
 <%@page import="java.text.*"%>    
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Turno seleccionado</title>
+<!--===============================================================================================-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,9 +18,10 @@
 <link rel="stylesheet" type="text/css" href="css/menuPaciente.css">
 <link rel="stylesheet" type="text/css" href="css/baseSolicitarTurno.css">
 <link rel="stylesheet" type="text/css" href="css/TurnoReservadoListado.css">
-
+<!--===============================================================================================-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
 </head>
 <body>
 <div class="container">

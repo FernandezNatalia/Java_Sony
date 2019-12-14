@@ -23,6 +23,26 @@ public class CtrlTurno {
 			return null;
 		}
 	}
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha,int estado) throws SQLException{		
+		return turnoData.getProximosDeEspecialista(especialista,fecha,estado);
+	}
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha) throws SQLException{		
+		return turnoData.getProximosDeEspecialista(especialista,fecha);
+	}
+	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
+		return turnoData.getTurnosPendientesPaciente(paciente);
+	}
+	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario us,Date sqlFechaDispo) throws SQLException{
+		return turnoData.getTurnosDisponiblesAFecha(us,sqlFechaDispo);
+	}
+	public ArrayList<Consultorio> getAllConsultorios(){
+		ConsultorioDatos cd = new ConsultorioDatos();		
+		try {
+			return cd.getAll();
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 	public boolean AgregarNuevoTurno(String fecha,String strConsultorio,int dniEspecialista) throws ParseException, SQLException {
 		
 		if(ValidacionNegocio.ValidarFecha(fecha) && ValidacionNegocio.ValidarInteger(strConsultorio)) {
@@ -175,25 +195,4 @@ public class CtrlTurno {
 			}
 		return true;
 		}
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha,int estado) throws SQLException{		
-		return turnoData.getProximosDeEspecialista(especialista,fecha,estado);
-	}
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha) throws SQLException{		
-		return turnoData.getProximosDeEspecialista(especialista,fecha);
-	}
-	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
-		return turnoData.getTurnosPendientesPaciente(paciente);
-	}
-	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario us,Date sqlFechaDispo) throws SQLException{
-		return turnoData.getTurnosDisponiblesAFecha(us,sqlFechaDispo);
-	}
-	public ArrayList<Consultorio> getAllConsultorios(){
-		ConsultorioDatos cd = new ConsultorioDatos();		
-		try {
-			return cd.getAll();
-		} catch (SQLException e) {
-			return null;
-		}
-	}
-
 }

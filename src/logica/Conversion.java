@@ -8,10 +8,13 @@ import java.util.Locale;
 public class Conversion {
 	public static SimpleDateFormat formatoddmmyy = new SimpleDateFormat("yyyy-MM-dd");
 	public static SimpleDateFormat formatoddmmyyhhss = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy");
+	public static SimpleDateFormat formatter1ddmmyy = new SimpleDateFormat("dd/MM/yyyy", new Locale("ES", "ES"));
 	public static SimpleDateFormat formatterNroAMes =  new SimpleDateFormat("MMMM",  new Locale("ES", "ES"));
 	public static SimpleDateFormat formatohhmm = new SimpleDateFormat("HH:mm");
 	public static SimpleDateFormat formatoEEEEdeMMMMyyyyHHmm = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy HH:mm",  new Locale("ES", "ES"));
+	public static SimpleDateFormat formatohhmmFechaLarga = new SimpleDateFormat("HH:mm EEEEE dd 'de' MMMMM yyyy",  new Locale("ES", "ES"));
+	public static SimpleDateFormat formatoEEEEdeMMMMyyyy = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy");
+	
 	
 	public static Integer ConvertirStringAInteger(String entero) {
 		return Integer.parseInt(entero);

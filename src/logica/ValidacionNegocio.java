@@ -186,8 +186,7 @@ public class ValidacionNegocio {
 	public static boolean EsMenorAFechaActual(String d1) throws ParseException
     {
 		java.util.Date fecha = new Date();
-		SimpleDateFormat formatohhmm = new SimpleDateFormat("dd/MM/yyyy",  new Locale("ES", "ES"));
-   		String d2 = formatohhmm.format(fecha);
+   		String d2 = Conversion.formatter1ddmmyy.format(fecha);
 
    		Date date2 = Conversion.formatter1ddmmyy.parse(d2);
         Date date1 = Conversion.formatter1ddmmyy.parse(d1);
@@ -202,6 +201,27 @@ public class ValidacionNegocio {
             
             if(date1.before(date2)){
                 return true; //ES MENOR A LA FECHA ACTUAL
+            }
+        return false;
+    }
+	public static boolean EsMayorAFechaActual(String d1) throws ParseException
+    {
+		java.util.Date fecha = new Date();
+   		String d2 = Conversion.formatter1ddmmyy.format(fecha);
+
+   		Date date2 = Conversion.formatter1ddmmyy.parse(d2);
+        Date date1 = Conversion.formatter1ddmmyy.parse(d1);
+            
+            if(date1.equals(date2)){
+                return false; //SON IGUALES
+            }
+            
+            if(date1.after(date2)){
+                return true; //ES MAYOR A LA FECHA ACTUAL
+            }
+            
+            if(date1.before(date2)){
+                return false; //ES MENOR A LA FECHA ACTUAL
             }
         return false;
     }
