@@ -18,8 +18,7 @@ public class TurnoDatos extends Conexion {
 		PracticaDatos p = new PracticaDatos();	
 		
 		turno.setIdturno(rs.getInt("id_turno"));			
-		turno.setFechahora(rs.getTimestamp("fecha_hora"));
-		turno.setDuracion(rs.getInt("duracion"));			
+		turno.setFechahora(rs.getTimestamp("fecha_hora"));	
 		turno.setEstado(rs.getInt("estado"));				
 		turno.setEspecialista(es.getEspecialista(rs.getInt("dni_especialista")));
 		turno.setPaciente(ud.getPaciente(rs.getInt("dni_paciente")));

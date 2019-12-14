@@ -17,7 +17,6 @@ public class Turno {
 
 	private int idturno;
 	private Date fechahora;
-	private int duracion;
 	private int estado;
 	private Usuario paciente;
 	private Usuario especialista;	
@@ -30,12 +29,6 @@ public class Turno {
 	}
 	public void setIdturno(int idturno) {
 		this.idturno = idturno;
-	}
-	public int getDuracion() {
-		return duracion;
-	}
-	public void setDuracion(int duracion) {
-		this.duracion = duracion;
 	}
 	public int getEstado() {
 		return estado;

@@ -320,7 +320,7 @@ public class servletPaciente extends HttpServlet {
 			
 				request.getRequestDispatcher("/WEB-INF/confpersonal.jsp").forward(request, response);
 			}else {				
-				servlet.ErrorPaciente("ConfiguracionPersonal","Nro de afiliado incorrecto, no debe poseer letras", response);
+				servlet.ErrorPaciente("ConfiguracionPersonal","Nro de afiliado incorrecto: No debe poseer mas de 20 digitos ni letras", response);
 			}			
 		}catch (SQLException |NumberFormatException | IOException e) {
 			servlet.ErrorPaciente("ConfiguracionPersonal","Se ha producido un error", response);

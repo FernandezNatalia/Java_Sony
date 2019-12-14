@@ -147,7 +147,7 @@
 							<%	ArrayList<Plan> planes = controlador.getAllPlanes();
 								for(Plan pa : planes) {
 							%>								
-								<option value="<%=pa.getId()%>"><%=pa.getNomplan()+" "+pa.getObs().getRazonSocial() %></option>	
+								<option value="<%=pa.getId()%>"><%=pa.getObs().getRazonSocial()+" "+pa.getNomplan() %></option>	
   							<%} %>							
 							</select>
 						</div>
