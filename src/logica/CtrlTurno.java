@@ -16,7 +16,6 @@ public class CtrlTurno {
 	{
 		turnoData = new TurnoDatos();
 	}
-	
 	public Turno getOne(int idTurno) {
 		try {
 			return turnoData.getOne(idTurno);
@@ -24,30 +23,10 @@ public class CtrlTurno {
 			return null;
 		}
 	}
-	
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha,int estado) throws SQLException{		
-		
-		return turnoData.getProximosDeEspecialista(especialista,fecha,estado);
-	}
-
-	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha) throws SQLException{		
-		
-		return turnoData.getProximosDeEspecialista(especialista,fecha);
-	}
-	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
-		
-		return turnoData.getTurnosPendientesPaciente(paciente);
-	}
-	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario us,Date sqlFechaDispo) throws SQLException{
-		return turnoData.getTurnosDisponiblesAFecha(us,sqlFechaDispo);
-	}
 	public boolean AgregarNuevoTurno(String fecha,String strConsultorio,int dniEspecialista) throws ParseException, SQLException {
 		
 		if(ValidacionNegocio.ValidarFecha(fecha) && ValidacionNegocio.ValidarInteger(strConsultorio)) {
-			
-			//java.util.Date fecha = Conversion.ConvertirStringAFechaHora(strFechaHora);
-			
-			
+
 			java.util.Date fechaFormateada = Conversion.formatoddmmyyhhss.parse(fecha);
 			java.util.Date parsed = fechaFormateada;
 			java.sql.Date sql = new java.sql.Date(parsed.getTime());
@@ -76,14 +55,12 @@ public class CtrlTurno {
 			Turno t = this.getOne(idTurno);
 			t.setObservacion(observacion);
 			t.setEstado(Turno.terminado);
-			//t.setDuracion(duracion);
 			
 			turnoData.UpdateTurno(t);			
 			
 		} catch (SQLException e) {
 			return false;
 		}
-		
 		return true;
 	}
 	public boolean EliminarTurno(int idTurno){		
@@ -98,14 +75,12 @@ public class CtrlTurno {
 		return true;
 	}
 	public boolean CancelarTurno(int id) {
-
 		try {
 			Turno t = this.getOne(id);
 			t.setEstado(Turno.cancelado);
 			
 			//Actualizo la BD poniendole al turno el estado "cancelado"
-			//Despues agrego un nuevo turno para ese mismo horario
-			//PERO SI ESTO YA ESTABA COMO STORED PROCEDURE EN LA BASE DE DATOS
+			//y despues se agrega un nuevo turno para ese mismo horario
 			
 			turnoData.UpdateTurno(t);			
 			turnoData.AgregarNuevoTurno(t.getFechahora(),t.getConsultorio().getIdconsultorio(),t.getEspecialista().getDni());	
@@ -118,24 +93,11 @@ public class CtrlTurno {
 	public ArrayList<Turno> getAtencionesPaciente(Usuario pac, Usuario esp) throws SQLException{
 		return turnoData.getTurnosPaciente(pac,esp);
 	}
-	/*public boolean VerificarDisponibilidadConsultorio(int idConsultorio, java.util.Date fechayhora) {
-		//Por una cuestion de que no se sabe las practicas que tendra un turno al crearse, todos los turnos
-		//tienen una duracion de media hora
-		ConsultorioDatos cd = new ConsultorioDatos();
-		try {
-			return cd.ComprobarDisponibilidadConsultorio(idConsultorio, fechayhora);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}*/
 	
 	public boolean VerificarDisponibilidadConsultorio(java.util.Date fechayhora, ArrayList<Turno> turnos) {
+		//Este metodo se fija que las horas de dos turnos
+		//para un mismo consultorio en un rango de 30 mins no se superponga
+		
 		try {	
 				for(Turno t : turnos) {
 					int MINturno = t.getFechahora().getMinutes();
@@ -213,5 +175,25 @@ public class CtrlTurno {
 			}
 		return true;
 		}
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha,int estado) throws SQLException{		
+		return turnoData.getProximosDeEspecialista(especialista,fecha,estado);
+	}
+	public ArrayList<Turno> getProximosDeEspecialista(Usuario especialista,Date fecha) throws SQLException{		
+		return turnoData.getProximosDeEspecialista(especialista,fecha);
+	}
+	public ArrayList<Turno> getTurnosPendientesPaciente(Usuario paciente) throws SQLException{		
+		return turnoData.getTurnosPendientesPaciente(paciente);
+	}
+	public ArrayList<Turno> getTurnosDisponiblesAFecha(Usuario us,Date sqlFechaDispo) throws SQLException{
+		return turnoData.getTurnosDisponiblesAFecha(us,sqlFechaDispo);
+	}
+	public ArrayList<Consultorio> getAllConsultorios(){
+		ConsultorioDatos cd = new ConsultorioDatos();		
+		try {
+			return cd.getAll();
+		} catch (SQLException e) {
+			return null;
+		}
+	}
 
 }

@@ -10,18 +10,15 @@
 <%@page import="java.text.*"%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Ver horarios</title>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href="css/menuPaciente.css">
 <link rel="stylesheet" type="text/css" href="css/baseSolicitarTurno.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -36,49 +33,45 @@
 					</div>				
                 </div>
             </div>   
-            <br></br>
-            
-<!-- LISTADO DE HORARIOS -->
-	<div class="text-center">
-		<div class="panel panel-success"> 
-			<div class="alert alert-info alert-dismissible" role="alert">
-				<strong>Ya casi!</strong> Seleccione un horario en el que desee asistir a su turno.
-			</div><br>
-			<div class="row">	
-				<div class="list-group">
-				
-				  <a href="#" class="list-group-item list-group-item-action active">Horarios disponibles</a>
-				  
-				  <!-- Listo cada horario con disponibilidad -->
-				  <% 
-				  ArrayList<Turno> turnosHorariosDispo = (ArrayList<Turno>)request.getAttribute("turnosConHorariosDispo");
-				  
-				  for(Turno t : turnosHorariosDispo){
-					  String mins = Conversion.convertirMinutosConCero(t.getFechahora().getMinutes());
-				  %>
-				  	<form action="paciente" method="post">
-				  	<input type="hidden" name="opcion" value="ConfirmarHorario"></input>
-						<button type="submit" class="list-group-item list-group-item-action" style="text-align:center;"
-								name="idTurnoHorario" value="<%=t.getIdturno() %>">
-					  		<%=t.getFechahora().getHours()+":"+mins %>
-						</button>
-					</form>	
-				  <%}%>
-				  
+            <br></br>          
+			<!-- LISTADO DE HORARIOS -->
+				<div class="text-center">
+					<div class="panel panel-success"> 
+						<div class="alert alert-info alert-dismissible" role="alert">
+							<strong>Ya casi!</strong> Seleccione un horario en el que desee asistir a su turno.
+						</div><br>
+						<div class="row">	
+							<div class="list-group">
+							  <a href="#" class="list-group-item list-group-item-action active">Horarios disponibles</a>
+							  
+							  <!-- Listo cada horario con disponibilidad -->
+							  <% 
+							  ArrayList<Turno> turnosHorariosDispo = (ArrayList<Turno>)request.getAttribute("turnosConHorariosDispo");
+							  
+							  for(Turno t : turnosHorariosDispo){
+								  String mins = Conversion.convertirMinutosConCero(t.getFechahora().getMinutes());
+							  %>
+							  	<form action="paciente" method="post">
+							  	<input type="hidden" name="opcion" value="ConfirmarHorario"></input>
+									<button type="submit" class="list-group-item list-group-item-action" style="text-align:center;"
+											name="idTurnoHorario" value="<%=t.getIdturno() %>">
+								  		<%=t.getFechahora().getHours()+":"+mins %>
+									</button>
+								</form>	
+							  <%}%>
+							  
+							</div>
+						</div>
+						<br></br>
+						<form action="paciente" method="post">
+							<button type="submit" class="btn btn-info" name="opcion" value="volverAlCalendario">
+						  		Volver al calendario
+							</button>
+						</form>	
+						<br></br>
+					</div>
 				</div>
-			</div>
-			<br></br>
-			<form action="paciente" method="post">
-				<button type="submit" class="btn btn-info" name="opcion" value="volverAlCalendario">
-			  		Volver al calendario
-				</button>
-			</form>	
-			<br></br>
 		</div>
-	</div>
 </div>
-</div>
-
-
 </body>
 </html>

@@ -23,11 +23,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jsDetallesTurno.js"></script>
 </head>
-<% 
-   int idturno = (int) session.getAttribute("idturno");
+<%  
    String volvercommand = (String) session.getAttribute("detallesturnobotonvolver");
      
    CtrlDetalleTurno controlador = new CtrlDetalleTurno();
+   int idturno = (int) session.getAttribute("idturno");
    Turno turno = controlador.getOneTurno(idturno);
 %>
 <body>
@@ -71,8 +71,6 @@
                         <td>Observacion</td>
                         <%if(turno.getEstado()==6 || turno.getEstado()==3) {%><td><%=turno.getObservacion() %></td><%}
                         if(turno.getEstado()==2){%> <td>--</td><%}%>
-                        
-                        
                     </tr>
                      <tr>
                         <td>Estado</td>
@@ -185,7 +183,6 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						
 						<div class="form-group">
 							<label>Práctica</label>
 							<br/>

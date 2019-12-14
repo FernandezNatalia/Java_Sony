@@ -13,15 +13,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-
-
 <link rel="stylesheet" type="text/css" href="css/baseSolicitarTurno.css">
 <link rel="stylesheet" type="text/css" href="css/menuPaciente.css">
 <link rel="stylesheet" type="text/css" href="css/Calendario.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 <div class="container">
@@ -49,7 +46,6 @@
 <!-- NOMBRE DEL MES -->
 
 <%
-
 	Usuario us = (Usuario)session.getAttribute("Especialista");
 	int MESActual = (Integer)session.getAttribute("mes");
 	int ANIOActual = (Integer)session.getAttribute("anio");
@@ -129,8 +125,7 @@
 					          <div class="card-main">
 					            <div class="main-description" id="or-color">Inhabilitado</div>
 					          </div>
-					        </div> 
-						
+					        </div> 						
 							
 						<%} else {%>
 						<!-- VEO SI EXISTEN TURNOS PARA ESA FECHA -->
@@ -158,13 +153,11 @@
 						            <div class="main-description" id="or-color">Inhabilitado</div>
 						          </div>
 						        </div> 
-						
-						
+						        
 						<%} else{							
 							if(CtrlSolicitarTurno.existenTurnoDisponible(turnosOcuDispo, t)){
 								String fechaDisponible = ANIOActual+"-"+MESActual+"-"+i;
-								%>
-								
+								%>	
 								<!-- CARD DISPONIBLE -->
 						        <div class="card">
 						          <div class="card-header"><%=i %></div>
@@ -179,15 +172,13 @@
 								<%
 							}else{
 								%>
-								
 								 <!-- CARD OCUPADO -->
 						        <div class="card" id="red-border">
 						          <div class="card-header" id="red-header"><%=i %></div>
 						          <div class="card-main">
 						            <div class="main-description" id="red-color">Ocupado</div>
 						          </div>
-						        </div>
-						        
+						        </div>						        
 								<%
 							}
 						}

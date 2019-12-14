@@ -23,22 +23,8 @@
 <script type="text/javascript" src="js/jsDetallesTurno.js"></script>
 </head>
 <% 
-   
-     
-   
-   //////////////////
-   
-   
-   PacienteDatos pd = new PacienteDatos();
-   EspecialistaDatos ed = new EspecialistaDatos();
    Paciente paciente = (Paciente) session.getAttribute("pacseleccionado");
    session.setAttribute("detallesturnobotonvolver", "detallePaciente?dnipaciente=" + String.valueOf(paciente.getDni()));
-   
-   Usuario especialistausr = (Usuario) session.getAttribute("usuario");
-   Especialista especialista = ed.getEspecialista(especialistausr.getDni());
-   CtrlTurno ctrltur = new CtrlTurno();
-   ArrayList<Turno> turnospac = ctrltur.getAtencionesPaciente(paciente,especialista);
-   
 %>
 <body>
     <div class="container">
@@ -48,11 +34,8 @@
                     <div class="col-sm-6">
 						<h2>Detalles del paciente</h2>
 					</div>
-					<div class="col-sm-6">
-						
-						<a href="especialista?opcion=Gestionar pacientes" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
-						
-
+					<div class="col-sm-6">						
+						<a href="especialista?opcion=Gestionar pacientes" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>					
 					</div>
                 </div>
             </div>
@@ -70,8 +53,7 @@
                     </tr>
                     <tr>
                         <td>Fecha de nacimiento</td>
-                        <%SimpleDateFormat formatohhmm = new SimpleDateFormat("EEEEE dd 'de' MMMMM yyyy"); %>
-                        <td><%=formatohhmm.format(paciente.getFechanacimiento()) %></td>
+                        <td><%=Conversion.formatoEEEEdeMMMMyyyy.format(paciente.getFechanacimiento()) %></td>
                     </tr>
                      <tr>
                         <td>DNI</td>
@@ -82,9 +64,7 @@
                         <td><%=paciente.getEmail() %></td>
                     </tr>
                      <tr>
-                     
-                    <%
-                    if(paciente.getPlan() != null){%>
+                    <%if(paciente.getPlan() != null){%>
                     <tr>
                         <td>Plan</td>                       
                         <td><%=paciente.getPlan().getNomplan()+" "+paciente.getPlan().getObs().getRazonSocial() %></td>
@@ -107,24 +87,18 @@
 						<h2>Historial de turnos</h2>
 					</div>
 					<div class="col-sm-6">
-	
-						
 					</div>
                 </div>
             </div>
             <div class="card mb-3">
           <div class="card-header">
             </div>
-
           <div class="card-body">
-
             <div class="table-responsive">
-
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>Fecha y hora</th>
-                    
+                    <th>Fecha y hora</th>                  
                     <th>Consultorio</th>
                     <th>Observación</th>
                     <th>Detalle</th>
@@ -132,52 +106,39 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Fecha y hora</th>
-                    
+                    <th>Fecha y hora</th>                
                     <th>Consultorio</th>
                     <th>Observación</th>
                     <th>Detalle</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                <% 
-              	
-            	
-                double total = 0; double valorDescuento = 0; double totalConDesc = 0;
-                for (Turno turno : turnospac) {                	               	
-                	               
-                 %>
+                <%
+                Usuario especialistausr = (Usuario) session.getAttribute("usuario");
+                CtrlEspecialista crl = new CtrlEspecialista();
+                Especialista especialista = crl.getOneEspecialista(especialistausr.getDni());
+                
+                CtrlTurno ctrltur = new CtrlTurno();
+                ArrayList<Turno> turnospac = ctrltur.getAtencionesPaciente(paciente,especialista);
+                
+                for (Turno turno : turnospac) {
+                %>
                     <tr>
-                    	<td><%=turno.getFechahora() %></td>                                                                   
-                        
+                    	<td><%=turno.getFechahora() %></td>                                                                                           
                         <td><%=turno.getConsultorio().getDesc() %></td>
                         <td><%=turno.getObservacion() %>
 						<td><a href="MisTurnos?opcion=detallesTurno&idturno=<%=turno.getIdturno() %>" class="btn btn-default" data-toggle="modal">Ver detalle</a></td>
                     </tr>
-						
                <%} %>
-                
                 </tbody>
             </table>			
     	</div>
     </div>
-
- <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Page level plugin JavaScript-->
   <script src="vendor/datatables/jquery.dataTables.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  
-
-  <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
 </body>
-
 </html>                                		                                                     		                                                  
