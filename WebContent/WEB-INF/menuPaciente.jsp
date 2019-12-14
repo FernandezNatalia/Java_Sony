@@ -74,7 +74,7 @@
 		</div>
 	</div>
 	<br>
-<!-- Cerrar sesion -->
+<!-- Cerrar sesion modal -->
 	<div id="saliendoModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

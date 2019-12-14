@@ -35,17 +35,17 @@
                 </div>
             </div>   
             <br></br>
+<!--===============================================================================================-->
  <%
- 
- String camino = (String)request.getAttribute("camino");
- boolean boleano = false;
- if(camino == "especialista") {boleano = true;}
- 
- %>              
+	 String camino = (String)request.getAttribute("camino");
+	 boolean boleano = false;
+	 if(camino == "especialista") {boleano = true;}
+ %>  
+ <!--===============================================================================================-->     
+        
 <!-- SELECCION DE ITEMS -->
 	
 	<div class="text-center">
-	
 	 <%if(!boleano) {%>    	 	  
 	    <!-- ELECCION DE ESPECIALIDADES -->   
 	    <div class="panel panel-success"> 
@@ -77,10 +77,9 @@
 			</form>	     
 	<%}else{ 
 
-	ArrayList<Especialista> especs = (ArrayList<Especialista>)request.getAttribute("ListaEspecialistas");
-	if(especs.size() != 0){
-	 
-	 %>    
+		ArrayList<Especialista> especs = (ArrayList<Especialista>)request.getAttribute("ListaEspecialistas");
+		if(especs.size() != 0){ %>    
+		
 	     <!-- ELECCION DE ESPECIALISTAS -->   
 	     <div class="panel panel-success"> 
 	     	<div class="alert alert-info alert-dismissible" role="alert">

@@ -24,11 +24,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jsDetallesTurno.js"></script>
 <!--===============================================================================================-->
-</head>
 <% 
    Paciente paciente = (Paciente) session.getAttribute("pacseleccionado");
    session.setAttribute("detallesturnobotonvolver", "detallePaciente?dnipaciente=" + String.valueOf(paciente.getDni()));
 %>
+<!--===============================================================================================-->
+</head>
 <body>
     <div class="container">
         <div class="table-wrapper">
@@ -137,11 +138,13 @@
             </table>			
     	</div>
     </div>
+<!--===============================================================================================-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="vendor/datatables/jquery.dataTables.js"></script>
   <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
   <script src="js/demo/datatables-demo.js"></script>
+<!--===============================================================================================-->
 </body>
 </html>                                		                                                     		                                                  

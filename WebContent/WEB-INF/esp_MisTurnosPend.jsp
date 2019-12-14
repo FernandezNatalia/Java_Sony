@@ -34,6 +34,7 @@
 		java.sql.Date fechaVista = (java.sql.Date) session.getAttribute("fecha");
 		int estado = (Integer)session.getAttribute("estado");
 %>
+<!--===============================================================================================-->
 </head>
 <body>
     <div class="container">
@@ -112,6 +113,11 @@
 			<a href="MisTurnos?opcion=EspecialistaTurnosDisponibles" class="btn btn-success"><span><%=(String)session.getAttribute("botonEstado") %></span></a>
         </div>
     </div>
+    
+<!--===============================================================================================-->
+<!--========================================VENTANAS MODALES ======================================-->
+<!--===============================================================================================-->
+
 <!-- Edit Modal -->
 	<div id="addEmployeeModal" class="modal fade">
 		<div class="modal-dialog">

@@ -24,7 +24,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jsDetallesTurno.js"></script>
 <!--===============================================================================================-->
-</head>
 <%  
    String volvercommand = (String) session.getAttribute("detallesturnobotonvolver");
      
@@ -32,6 +31,8 @@
    int idturno = (int) session.getAttribute("idturno");
    Turno turno = controlador.getOneTurno(idturno);
 %>
+<!--===============================================================================================-->
+</head>
 <body>
     <div class="container">
         <div class="table-wrapper">
@@ -48,7 +49,6 @@
 						<%} else{%>
 						<a href="javascript:history.back()" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al listado</span></a>
 						<%} %>
-
 					</div>
                 </div>
             </div>
@@ -175,7 +175,8 @@
             </table>			
     	</div>
     </div>
-<!-- Agregar Practica HTML -->
+    
+<!-- Agregar Practica modal -->
 	<div id="addPracticaModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

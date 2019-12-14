@@ -42,10 +42,12 @@
 					<div class="alert alert-warning alert-dismissible" role="alert">
 						<strong>Reserva de turno:</strong> Verifique que los datos seleccionados son correctos.
 					</div><br>
+<!--===============================================================================================-->
 <%
 	Especialista e = (Especialista)session.getAttribute("Especialista");
 	Turno t = (Turno)session.getAttribute("TurnoNuevo");
 %>
+<!--===============================================================================================-->
 			<!-- CARD del turno -->
 			<div class="login-form">    
 			    <form action="paciente" method="post">

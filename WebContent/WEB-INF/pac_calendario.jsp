@@ -97,11 +97,10 @@
 			<%
 			int cont = 0;
 			for(int i=1; i<=DIASvacios; i++) {
-			
-			cont = DIASvacios;
-			%>		
-				<td>
-				</td>		
+				
+				cont = DIASvacios;
+				%><td></td>
+				
 			<%}%>
 			
 			<!-- AGREGO TARJETAS EN LOS DIAS DEL MES -->
