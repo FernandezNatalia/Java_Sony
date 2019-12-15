@@ -34,14 +34,15 @@
 						<a href="paciente?opcion=menuPaciente" class="btn btn-info"><i class="material-icons">exit_to_app</i> <span>Volver al menu</span></a>
 					</div>				
                 </div>
-            </div>                
-			    <div class="container">
+            </div>                	    
+			    <% ArrayList<Turno> turnos = (ArrayList<Turno>)request.getAttribute("ListadoTurnos");
+			     	if(turnos.size() != 0){  %>
+			  <div class="container">
 			    <table class="table table-striped table-hover">
 			    	<thead>
-				     <% 
-				       ArrayList<Turno> turnos = (ArrayList<Turno>)request.getAttribute("ListadoTurnos");
-				       for (Turno tur : turnos) {       
-				     %>
+					     <% 
+							for (Turno tur : turnos) {       
+					     %>
 				        <div class="card">
 				        	<br>
 				            <h4><%=((Especialista)tur.getEspecialista()).getEspecialidad() %></h4>
@@ -53,10 +54,16 @@
 				            <br>	
 				            <a href="#cancelarTurnoModal" onclick="ObtenerIDTurno(<%=tur.getIdturno()%>);"class="trigger-btn" data-toggle="modal">Cancelar</a>
 				        </div>
-			        <%} %>
-			      	</thead>
+			        	<%} %>
+			        </thead>
 			    </table>
-			    </div>  
+			    </div>
+			    <% }else{%>
+			    <br>
+				  	<div class="alert alert-info alert-dismissible" role="alert">
+	  					<strong>No existen turnos pendientes.</strong> Vuelva al menu para solicitar un nuevo turno!
+	  				</div>
+			      	<%} %>			      
 			 </div>
 			 </div> 
 <!--  Cancelar turno modal -->
