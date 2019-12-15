@@ -57,7 +57,7 @@ public class servletInicio extends HttpServlet {
 
 				doGet(request, response);
 			}else
-				servlet.NotificarMensaje(response,"index.html","Usuario y/o contrase�a incorrectos");
+				servlet.NotificarMensaje(response,"index.html","Usuario y/o contraseña incorrectos");
 		}
 		else {
 			servlet.NotificarMensaje(response,"index.html","Datos ingresados incorrectos");
