@@ -10,8 +10,8 @@ Integrantes:
 - Juan Fogliato
 - Fernandez Natalia
 
-Profesores: Adrian Meca, Ricardo Tabacman 
-
-Comision 302. Año de cursado 2019
+------------------------------------------------------
+##### Profesores: Adrian Meca, Ricardo Tabacman 
+##### Comision 302. Año de cursado 2019
 
 ------------------------------------------------------
