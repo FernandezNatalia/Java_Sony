@@ -119,9 +119,6 @@ public static void VerificarUsuario(HttpServletRequest request,HttpServletRespon
 	if(((Usuario)(sesion.getAttribute("usuario")))==null) {
 		request.getRequestDispatcher("index.html").forward(request, response);
 	}
-	if(((Usuario)(sesion.getAttribute("usuario"))) == null) {
-		request.getRequestDispatcher("index.html").forward(request, response);
-	}
 	if(tipoUsuario != ((Usuario)(sesion.getAttribute("usuario"))).getTipousuario()) {
 		sesion.invalidate();
 		request.getRequestDispatcher("index.html").forward(request, response);
