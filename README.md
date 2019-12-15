@@ -10,7 +10,5 @@ Integrantes:
 - Juan Fogliato
 - Fernandez Natalia
 
-Comision 302
-
-Año 2019
+Comision 302. Año de cursado 2019
 ## 
